@@ -1,0 +1,32 @@
+.Header {
+  width: 100%;
+  height: 70px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Header h3 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.Header h3 span {
+  color: #0D6EFD;
+}
+
+.Header .Info {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  color: #718096;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.Header .Info span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
