@@ -1,39 +1,3 @@
-.Toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 1.5rem;
-}
-
-.Toolbar .GoBack {
-  display: inline-block;
-  height: 40px;
-  padding: 0px 20px;
-  color: #0D6EFD;
-  border: 1px solid #0D6EFD;
-  border-radius: 5px;
-}
-
-.Toolbar .GoBack span {
-  line-height: 40px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.Toolbar .ActionButtons {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.Toolbar button {
-  height: 40px;
-  font-weight: 600;
-}
-
 .TableContainer {
   background-color: #ffffff;
   padding: 0 1rem;

@@ -20,6 +20,12 @@ a {
   text-decoration: none;
 }
 
+.ant-table-container {
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
 .ant-table-thead .ant-table-cell {
   background-color: transparent !important;
   color: #A0AEC0 !important;
