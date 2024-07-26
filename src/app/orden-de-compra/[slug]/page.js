@@ -4,15 +4,16 @@ import { Drawer, Layout } from 'antd';
 import CustomHeader from '@/components/Header';
 import Toolbar from '@/components/Toolbar';
 import Datatable from '@/components/Datatable';
-import useGlobalContext from '@/hooks/useGlobalContext';
 import OcPDF from '@/components/OcPDF';
+import CustomModal from '@/components/CustomModal';
+import useGlobalContext from '@/hooks/useGlobalContext';
 
 const { Content } = Layout;
 
 const PurchaseOrder = () => {
 	const {
-		drawer: { open, title },
-		onClose,
+		drawer: { drawerOpen, title },
+		hideDrawer,
 	} = useGlobalContext();
 
 	return (
@@ -26,12 +27,13 @@ const PurchaseOrder = () => {
 			</Content>
 			<Drawer
 				title={title}
-				onClose={onClose}
-				open={open}
+				onClose={hideDrawer}
+				open={drawerOpen}
 				style={{ backgroundColor: '#E1E1E2' }}
 			>
 				<OcPDF />
 			</Drawer>
+			<CustomModal />
 		</Layout>
 	);
 };

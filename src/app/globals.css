@@ -49,3 +49,14 @@ a {
 .ant-drawer-header {
   background-color: #fff;
 }
+
+.ant-modal-footer {
+  width: 100%;
+  display: flex;
+  justify-Content: space-between;
+}
+
+.ant-modal-footer button {
+  width: 50%;
+  font-weight: 600;
+}
