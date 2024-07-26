@@ -1,5 +1,14 @@
-.TableContainer {
+.tableContainer {
   background-color: #ffffff;
   padding: 0 1rem;
   border-radius: 15px;
+}
+
+.pdfContainer {
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  background-color: #fff;
 }
