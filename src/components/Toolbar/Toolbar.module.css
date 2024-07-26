@@ -1,11 +1,11 @@
-.Toolbar {
+.toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-bottom: 1.5rem;
 }
 
-.Toolbar .GoBack {
+.toolbar .goBack {
   display: inline-block;
   height: 40px;
   padding: 0px 20px;
@@ -14,7 +14,7 @@
   border-radius: 5px;
 }
 
-.Toolbar .GoBack span {
+.toolbar .goBack span {
   line-height: 40px;
   display: flex;
   align-items: center;
@@ -23,13 +23,13 @@
   font-weight: 600;
 }
 
-.Toolbar .ActionButtons {
+.toolbar .actionButtons {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.Toolbar button {
+.toolbar button {
   height: 40px;
   font-weight: 600;
 }

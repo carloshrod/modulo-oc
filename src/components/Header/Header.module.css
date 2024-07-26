@@ -1,4 +1,4 @@
-.Header {
+.header {
   width: 100%;
   height: 70px;
   margin: auto;
@@ -7,16 +7,16 @@
   align-items: center;
 }
 
-.Header h3 {
+.header h3 {
   font-size: 18px;
   font-weight: 700;
 }
 
-.Header h3 span {
+.header h3 span {
   color: #0D6EFD;
 }
 
-.Header .Info {
+.header .info {
   display: flex;
   align-items: center;
   gap: 18px;
@@ -25,7 +25,7 @@
   font-weight: 600;
 }
 
-.Header .Info span {
+.header .info span {
   display: flex;
   align-items: center;
   gap: 4px;
