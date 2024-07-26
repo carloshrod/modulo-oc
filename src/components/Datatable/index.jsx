@@ -4,7 +4,7 @@ import { SearchFilter } from '../SearchFilter';
 import { Actions } from '../Actions';
 import { data } from '@/utils/consts';
 
-const Datatable = ({ showDrawer }) => {
+const Datatable = () => {
 	const getColumnSearchProps = dataIndex =>
 		SearchFilter({
 			dataIndex,
@@ -107,9 +107,7 @@ const Datatable = ({ showDrawer }) => {
 			title: 'ACCIONES',
 			key: 'actions',
 			className: 'actions',
-			render: (_, record) => (
-				<Actions record={record} showDrawer={showDrawer} />
-			),
+			render: (_, record) => <Actions record={record} />,
 			width: 140,
 		},
 	];

@@ -2,8 +2,11 @@ import { Button, Space, Tooltip } from 'antd';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { TbPencilMinus } from 'react-icons/tb';
 import { AiOutlineDelete } from 'react-icons/ai';
+import useGlobalContext from '@/hooks/useGlobalContext';
 
-export const Actions = ({ record, showDrawer }) => {
+export const Actions = ({ record }) => {
+	const { showDrawer } = useGlobalContext();
+
 	const notDisabled =
 		record.oc_status === 'Rechazada' || record.oc_status === 'Borrador';
 
