@@ -1,13 +1,17 @@
-import styles from "./page.module.css";
-import Link from "next/link";
+'use client';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
-  const obra = "xxx-calle-santa-julia";
+	const router = useRouter();
 
-  return (
-    <main className={styles.main}>
-      <h3>Selecciona una obra:</h3>
-      <Link href={`/orden-de-compra/${obra}`}>XXX Calle Santa Julia</Link>
-    </main>
-  );
+	useEffect(() => {
+		router.push('/orden-de-compra');
+	}, []);
+
+	return (
+		<main style={{ padding: 16 }}>
+			<h3>Home</h3>
+		</main>
+	);
 }

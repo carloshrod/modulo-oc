@@ -3,6 +3,7 @@ import { Badge, Table } from 'antd';
 import { SearchFilter } from '../SearchFilter';
 import { Actions } from '../Actions';
 import { data } from '@/utils/consts';
+import styles from './Datatable.module.css';
 
 const Datatable = () => {
 	const getColumnSearchProps = dataIndex =>
@@ -112,7 +113,11 @@ const Datatable = () => {
 		},
 	];
 
-	return <Table columns={columns} dataSource={data} />;
+	return (
+		<div className={styles.tableContainer}>
+			<Table columns={columns} dataSource={data} />
+		</div>
+	);
 };
 
 export default Datatable;
