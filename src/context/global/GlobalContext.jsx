@@ -12,8 +12,9 @@ const initialDrawer = {
 const initialModal = {
 	modalOpen: false,
 	danger: false,
+	title: null,
+	subtitle: null,
 	okText: undefined,
-	children: null,
 	icon: { bgColor: undefined, component: null },
 	confirmed: false,
 	successText: undefined,
@@ -22,6 +23,7 @@ const initialModal = {
 const GlobalProvider = ({ children }) => {
 	const [drawer, setDrawer] = useState(initialDrawer);
 	const [modal, setModal] = useState(initialModal);
+	const [onConfirm, setOnConfirm] = useState(null);
 
 	const showDrawer = title => {
 		setDrawer({
@@ -34,22 +36,26 @@ const GlobalProvider = ({ children }) => {
 		setDrawer(initialDrawer);
 	};
 
-	const showModalConfirm = ({ danger, okText, children, icon }) => {
+	const showModalConfirm = (
+		onConfirmCallback,
+		{ danger = false, title, subtitle, okText, icon },
+	) => {
 		setModal({
 			...modal,
 			modalOpen: true,
 			danger,
+			title,
+			subtitle,
 			okText,
-			children,
 			icon,
 		});
+		setOnConfirm(() => onConfirmCallback);
 	};
 
-	const showModalNotification = ({ children, successText }) => {
+	const showModalNotification = ({ successText }) => {
 		setModal({
 			...modal,
 			modalOpen: true,
-			children,
 			icon: {
 				bgColor: '#EBF8F1',
 				component: <IoCheckmarkCircleOutline size={38} color='#05A660' />,
@@ -66,6 +72,12 @@ const GlobalProvider = ({ children }) => {
 		setModal(initialModal);
 	};
 
+	const confirmModal = () => {
+		if (onConfirm) {
+			onConfirm();
+		}
+	};
+
 	const data = {
 		drawer,
 		showDrawer,
@@ -74,6 +86,7 @@ const GlobalProvider = ({ children }) => {
 		showModalConfirm,
 		showModalNotification,
 		hideModal,
+		confirmModal,
 	};
 
 	return (

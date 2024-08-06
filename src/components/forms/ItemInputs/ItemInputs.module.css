@@ -1,0 +1,52 @@
+.items .itemsInputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(135px, auto));
+  gap: 0 12px;
+}
+
+.items .itemsInputs .actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.items .inputCalculation input {
+  width: 155px;
+}
+
+@media (min-width: 1024px) {
+  .items .inputCalculation input {
+    width: 140px;
+  }
+}
+
+@media (min-width: 1260px) {
+  .items {
+    margin-right: 80px;
+  }
+
+  .itemsInputs {
+    position: relative;
+    grid-template-columns: repeat(7, minmax(140px, 100%));
+    justify-content: space-between;
+  }
+
+  .itemsInputs .actions {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: -82px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .items .inputCalculation input {
+    width: 166px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .items .inputCalculation input {
+    width: 181px;
+  }
+}

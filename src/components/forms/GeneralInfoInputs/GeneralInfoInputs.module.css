@@ -1,0 +1,18 @@
+.generalInfoInputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(135px, auto));
+  justify-content: space-between;
+  gap: 8px 30px;
+}
+
+@media (min-width: 600px) {
+  .generalInfoInputs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 960px) {
+  .generalInfoInputs {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

@@ -1,0 +1,33 @@
+.main {
+  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 2rem;
+  margin-top: 1.5rem;
+  border-radius: 15px;
+}
+
+.formHeader {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.formHeader .icon {
+  height: 40px;
+  width: 40px;
+  display: grid;
+  place-content: center;
+  background-color: #0D6EFD;
+  border-radius: 8px;
+}
+
+.formHeader .title h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #0D6EFD;
+}
+
+.formHeader .title span {
+  font-size: 12px;
+  color: #A0AEC0;
+}

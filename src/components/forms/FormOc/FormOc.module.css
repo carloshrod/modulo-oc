@@ -1,0 +1,16 @@
+.formWrapper label,
+.formWrapper button {
+  font-weight: 500;
+}
+
+.formWrapper button {
+  height: 38px;
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 15px;
+}
