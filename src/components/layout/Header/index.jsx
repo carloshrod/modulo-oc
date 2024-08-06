@@ -10,7 +10,8 @@ const { Header } = Layout;
 const CustomHeader = () => {
 	const obra = 'XXX Calle Santa Julia';
 	const pathname = usePathname();
-	const hasBreadcrumb = pathname.includes('generar');
+	const hasBreadcrumb =
+		pathname.includes('generar') || pathname.includes('editar');
 	const bcItems = generateBreadcrumbs(pathname);
 
 	return (
@@ -18,25 +19,25 @@ const CustomHeader = () => {
 			style={{
 				height: 70,
 				backgroundColor: 'transparent',
-				padding: '12px 16px 0',
+				padding: '16px 24px 0',
+				display: 'flex',
+				alignItems: 'center',
 			}}
 		>
 			<div className={styles.header}>
 				<div className={styles.title}>
-					{hasBreadcrumb && (
-						<Breadcrumb items={bcItems} style={{ fontSize: 12 }} />
-					)}
+					{hasBreadcrumb && <Breadcrumb items={bcItems} />}
 					<h3>
 						Orden de compra <span>{obra}</span>
 					</h3>
 				</div>
 				<section className={styles.info}>
 					<BiSolidChart size={16} />
-					<span>
+					<span className={styles.constructor}>
 						<PiBuildingsFill size={16} />
 						Contructora Ejemplo
 					</span>
-					<span>
+					<span className={styles.fullName}>
 						<BiSolidUser size={16} />
 						Nombre Apellido
 					</span>
