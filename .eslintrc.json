@@ -20,6 +20,7 @@
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "no-unused-vars": "warn",
-    "space-before-function-paren": "off"
+    "space-before-function-paren": "off",
+    "react-hooks/exhaustive-deps": "off"
   }
 }
