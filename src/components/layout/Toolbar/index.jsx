@@ -16,7 +16,7 @@ const Toolbar = () => {
 				ghost
 				icon={<BiArrowBack size={20} />}
 				iconPosition='start'
-				onClick={() => router.push('/')}
+				onClick={() => router.push('/orden-de-compra')}
 			>
 				Volver a todas las Obras
 			</Button>
@@ -32,7 +32,9 @@ const Toolbar = () => {
 				<Button
 					type='primary'
 					icon={<IoAdd size={24} />}
-					onClick={() => router.push(`/orden-de-compra/${obra}/generar-oc`)}
+					onClick={() =>
+						router.push(`/orden-de-compra/${obra}/generar-orden-de-compra`)
+					}
 				>
 					Generar OC
 				</Button>

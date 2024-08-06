@@ -6,10 +6,31 @@ import useGlobalContext from '@/hooks/useGlobalContext';
 import { HiOutlineTrash } from 'react-icons/hi2';
 
 export const Actions = ({ record }) => {
-	const { showDrawer, showModalConfirm } = useGlobalContext();
+	const { showDrawer, showModalConfirm, showModalNotification } =
+		useGlobalContext();
 
 	const notDisabled =
 		record.oc_status === 'Rechazada' || record.oc_status === 'Borrador';
+
+	const deleteOc = () => {
+		console.log('Eliminando OC');
+		showModalNotification({
+			successText: 'Orden de compra eliminada exitosamente',
+		});
+	};
+
+	const handleDelete = () => {
+		showModalConfirm(() => deleteOc(), {
+			danger: true,
+			title: '¿Deseas eliminar esta Orden de Compra?',
+			subtitle: 'Si eliminas no podrás recuperar los datos',
+			okText: 'Eliminar',
+			icon: {
+				bgColor: '#FFEBEB',
+				component: <HiOutlineTrash size={38} color='#E53535' />,
+			},
+		});
+	};
 
 	return (
 		<Space size='small'>
@@ -41,16 +62,7 @@ export const Actions = ({ record }) => {
 							color={notDisabled ? '#E53535' : '#FCBABA'}
 						/>
 					}
-					onClick={() =>
-						showModalConfirm({
-							danger: true,
-							okText: 'Eliminar',
-							icon: {
-								bgColor: '#FFEBEB',
-								component: <HiOutlineTrash size={38} color='#E53535' />,
-							},
-						})
-					}
+					onClick={handleDelete}
 					disabled={!notDisabled}
 				/>
 			</Tooltip>

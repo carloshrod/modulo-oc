@@ -1,18 +1,25 @@
 .header {
   width: 100%;
-  height: 70px;
   margin: auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.header h3 {
+.header .title {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  line-height: 20px;
+}
+
+.header .title h3 {
+  display: inline-block;
   font-size: 18px;
   font-weight: 700;
 }
 
-.header h3 span {
+.header .title h3 span {
   color: #0D6EFD;
 }
 
