@@ -1,9 +1,9 @@
 'use client';
-import Toolbar from '@/components/layout/Toolbar';
+import { useRouter } from 'next/navigation';
+import Toolbar from '@/components/ui/Toolbar';
 import Datatable from '../Datatable';
 import useTableColumns from '@/hooks/useTableColumns';
 import { ocData } from '@/utils/consts';
-import { useRouter } from 'next/navigation';
 
 const TableOC = () => {
 	const obra = 'xxx-calle-santa-julia';

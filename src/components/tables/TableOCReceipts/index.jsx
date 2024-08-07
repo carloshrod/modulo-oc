@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import Toolbar from '@/components/layout/Toolbar';
+import Toolbar from '@/components/ui/Toolbar';
 import Datatable from '../Datatable';
 import useTableColumns from '@/hooks/useTableColumns';
 import { receiptsData } from '@/utils/consts';
