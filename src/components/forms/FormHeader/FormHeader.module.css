@@ -1,11 +1,3 @@
-.main {
-  min-height: 100vh;
-  background-color: #ffffff;
-  padding: 2rem;
-  margin-top: 1.5rem;
-  border-radius: 15px;
-}
-
 .formHeader {
   display: flex;
   align-items: center;

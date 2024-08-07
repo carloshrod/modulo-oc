@@ -1,13 +1,16 @@
+import { usePathname, useRouter } from 'next/navigation';
 import { Button, Space, Tooltip } from 'antd';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { TbPencilMinus } from 'react-icons/tb';
 import { AiOutlineDelete } from 'react-icons/ai';
-import useGlobalContext from '@/hooks/useGlobalContext';
 import { HiOutlineTrash } from 'react-icons/hi2';
+import useGlobalContext from '@/hooks/useGlobalContext';
 
 export const Actions = ({ record }) => {
 	const { showDrawer, showModalConfirm, showModalNotification } =
 		useGlobalContext();
+	const router = useRouter();
+	const pathname = usePathname();
 
 	const notDisabled =
 		record.oc_status === 'Rechazada' || record.oc_status === 'Borrador';
@@ -49,6 +52,9 @@ export const Actions = ({ record }) => {
 							size={20}
 							color={notDisabled ? '#0D6EFD' : '#A0AEC0'}
 						/>
+					}
+					onClick={() =>
+						router.push(`${pathname}/${record?.oc_number?.toLowerCase()}`)
 					}
 					disabled={!notDisabled}
 				/>

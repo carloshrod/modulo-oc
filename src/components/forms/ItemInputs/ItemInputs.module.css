@@ -25,13 +25,13 @@
     margin-right: 80px;
   }
 
-  .itemsInputs {
+  .items .itemsInputs {
     position: relative;
     grid-template-columns: repeat(7, minmax(140px, 100%));
     justify-content: space-between;
   }
 
-  .itemsInputs .actions {
+  .items .itemsInputs .actions {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);

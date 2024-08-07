@@ -64,3 +64,8 @@ a {
 .ant-form-item.noRequiredMark .ant-form-item-label>label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
   content: "" !important;
 }
+
+.ant-form-item.costAccountSelect .ant-select-selection-item,
+.ant-form-item.costAccountSelect .ant-select-selection-placeholder {
+  color: #0D6EFD !important;
+}

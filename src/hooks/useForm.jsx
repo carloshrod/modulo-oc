@@ -1,5 +1,5 @@
 import { Form } from 'antd';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { IoNotificationsOutline } from 'react-icons/io5';
 import { ITEMS_INPUTS } from '@/utils/consts';
@@ -10,14 +10,21 @@ const useForm = obra => {
 	const [itemError, setItemError] = useState(false);
 	const router = useRouter();
 	const { showModalConfirm, showModalNotification } = useGlobalContext();
+	const params = useParams();
+	console.log(params?.oc_number);
 
 	const onFinish = values => {
 		console.log('Enviando formulario!');
 		verifyItems(values);
+		console.log(values);
 		showModalNotification({
 			successText: 'OC enviada a aprobación exitosamente',
 		});
-		form.resetFields();
+		if (params?.oc_number) {
+			router.push(`/orden-de-compra/${obra}`);
+		} else {
+			form.resetFields();
+		}
 	};
 
 	const onFinishFailed = ({ values }) => {
@@ -65,7 +72,6 @@ const useForm = obra => {
 	};
 
 	const onCancel = () => {
-		form.resetFields();
 		setItemError(false);
 		router.push(`/orden-de-compra/${obra}`);
 	};

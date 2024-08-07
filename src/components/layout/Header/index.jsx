@@ -1,7 +1,7 @@
 import { Breadcrumb, Layout } from 'antd';
 import { BiSolidChart, BiSolidUser } from 'react-icons/bi';
 import { PiBuildingsFill } from 'react-icons/pi';
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { generateBreadcrumbs } from '@/utils/utils';
 import styles from './Header.module.css';
 
@@ -10,8 +10,8 @@ const { Header } = Layout;
 const CustomHeader = () => {
 	const obra = 'XXX Calle Santa Julia';
 	const pathname = usePathname();
-	const hasBreadcrumb =
-		pathname.includes('generar') || pathname.includes('editar');
+	const params = useParams();
+	const hasBreadcrumb = pathname.includes('generar') || params?.oc_number;
 	const bcItems = generateBreadcrumbs(pathname);
 
 	return (

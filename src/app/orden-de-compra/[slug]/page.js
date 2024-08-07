@@ -1,4 +1,3 @@
-'use client';
 import Toolbar from '@/components/layout/Toolbar';
 import Datatable from '@/components/tables/Datatable';
 

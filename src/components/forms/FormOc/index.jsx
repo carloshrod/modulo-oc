@@ -1,11 +1,15 @@
+'use client';
 import { Button, Divider, Form } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 import GeneralInfoInputs from '../GeneralInfoInputs';
 import ItemInputs from '../ItemInputs';
 import useForm from '@/hooks/useForm';
 import styles from './FormOc.module.css';
+import { ocData } from '@/utils/consts';
+import { useEffect } from 'react';
+import moment from 'moment';
 
-const FormOc = () => {
+const FormOc = ({ ocNumber }) => {
 	const obra = 'xxx-calle-santa-julia';
 	const {
 		form,
@@ -16,6 +20,20 @@ const FormOc = () => {
 		saveAsDraft,
 		onCancel,
 	} = useForm(obra);
+
+	useEffect(() => {
+		const foundedOc = ocData.find(el => {
+			return el.oc_number.toLowerCase() === ocNumber;
+		});
+
+		if (foundedOc) {
+			const preparedFields = {
+				...foundedOc,
+				delivery_date: moment(foundedOc.delivery_date),
+			};
+			form.setFieldsValue(preparedFields);
+		}
+	}, [ocNumber]);
 
 	return (
 		<div className={styles.formWrapper}>
@@ -39,7 +57,6 @@ const FormOc = () => {
 							type='primary'
 							style={{ width: 130 }}
 							ghost
-							htmlType='reset'
 							onClick={onCancel}
 						>
 							Cancelar

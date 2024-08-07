@@ -29,7 +29,7 @@ const ItemInputs = ({ form, itemError }) => {
 	const updateCalculations = () => {
 		const items = form.getFieldValue('items') || [];
 		const netTotal = items.reduce(
-			(total, item) => total + (item.subtotal || 0),
+			(total, item) => total + (item?.subtotal || 0),
 			0,
 		);
 		const iva = netTotal * IVA_RATE;
@@ -64,7 +64,7 @@ const ItemInputs = ({ form, itemError }) => {
 															message: '',
 														},
 													]}
-													className='noRequiredMark'
+													className={`noRequiredMark ${input.name === 'cost_account' ? 'costAccountSelect' : ''}`}
 												>
 													{INPUT_TYPES[input.type]({
 														placeholder: input?.placeholder,
