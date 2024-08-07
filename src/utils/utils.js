@@ -19,6 +19,10 @@ export const generateBreadcrumbs = pathname => {
 };
 
 function formatTitle(part) {
+	if (part.includes('oc-')) {
+		return part.replace('oc-', 'Editar OC ');
+	}
+
 	return part
 		.split('-')
 		.map(word => word.charAt(0).toUpperCase() + word.slice(1))
