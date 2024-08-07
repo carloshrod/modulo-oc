@@ -49,6 +49,11 @@
   transform: translateY(-50%);
 }
 
+.goHome button {
+  height: 40px;
+  font-weight: 600;
+}
+
 @media (min-width: 768px) {
   .header .title ol {
     display: flex;

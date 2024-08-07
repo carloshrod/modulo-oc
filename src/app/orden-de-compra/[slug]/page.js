@@ -1,13 +1,22 @@
-import Toolbar from '@/components/layout/Toolbar';
-import Datatable from '@/components/tables/Datatable';
+import { Tabs } from 'antd';
+import TableOC from '@/components/tables/TableOC';
+import TableOCReceipts from '@/components/tables/TableOCReceipts';
 
 const PurchaseOrder = () => {
-	return (
-		<>
-			<Toolbar />
-			<Datatable />
-		</>
-	);
+	const items = [
+		{
+			key: '1',
+			label: 'Órdenes de Compra',
+			children: <TableOC />,
+		},
+		{
+			key: '2',
+			label: 'Recepción de OC',
+			children: <TableOCReceipts />,
+		},
+	];
+
+	return <Tabs defaultActiveKey='1' items={items} />;
 };
 
 export default PurchaseOrder;

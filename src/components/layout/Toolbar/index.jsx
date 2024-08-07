@@ -1,42 +1,35 @@
-'use client';
-import { useRouter } from 'next/navigation';
 import { Button } from 'antd';
-import { BiArrowBack } from 'react-icons/bi';
-import { IoAdd, IoDownloadOutline } from 'react-icons/io5';
+import { IoAdd, IoDownloadOutline, IoArrowBackOutline } from 'react-icons/io5';
 import styles from './Toolbar.module.css';
 
-const Toolbar = () => {
-	const router = useRouter();
-	const obra = 'xxx-calle-santa-julia';
+const Toolbar = ({ table, showTable, onClick }) => {
+	const BTN_LABELS = {
+		oc: 'Generar OC',
+		receipts: 'Recepción OC',
+	};
 
 	return (
 		<section className={styles.toolbar}>
-			<Button
-				type='primary'
-				ghost
-				icon={<BiArrowBack size={20} />}
-				iconPosition='start'
-				onClick={() => router.push('/orden-de-compra')}
-			>
-				Volver a todas las Obras
-			</Button>
 			<div className={styles.actionButtons}>
+				{showTable ? (
+					<Button
+						type='primary'
+						ghost
+						icon={<IoDownloadOutline size={20} />}
+						iconPosition='end'
+						onClick={() => console.log('Descargando excel!')}
+					>
+						Descargar Excel
+					</Button>
+				) : null}
 				<Button
 					type='primary'
-					ghost
-					icon={<IoDownloadOutline size={20} />}
-					iconPosition='end'
-				>
-					Descargar Excel
-				</Button>
-				<Button
-					type='primary'
-					icon={<IoAdd size={24} />}
-					onClick={() =>
-						router.push(`/orden-de-compra/${obra}/generar-orden-de-compra`)
+					icon={
+						showTable ? <IoAdd size={24} /> : <IoArrowBackOutline size={24} />
 					}
+					onClick={onClick}
 				>
-					Generar OC
+					{showTable ? BTN_LABELS[table] : 'Volver'}
 				</Button>
 			</div>
 		</section>
