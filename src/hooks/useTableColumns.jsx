@@ -101,6 +101,43 @@ const useTableColumns = () => {
 		},
 	];
 
+	const infoOcColumns = [
+		{
+			title: 'DETALLE ARTÍCULO',
+			dataIndex: 'sku',
+			key: 'sku',
+			render: (_, record) => (
+				<div>
+					<p style={{ fontSize: 14, color: '#0D6EFD' }}>
+						{record.sku} ({record.measurement_unit})
+					</p>
+					<p>{record.description}</p>
+					<p>{record.gloss}</p>
+					<p>{record.cost_account}</p>
+				</div>
+			),
+		},
+		{
+			title: 'CANTIDAD',
+			dataIndex: 'amount',
+			key: 'amount',
+		},
+		{
+			title: 'PU',
+			dataIndex: 'unit_price',
+			key: 'unit_price',
+			width: 70,
+			render: (_, record) => <p>${record.unit_price}</p>,
+		},
+		{
+			title: 'SUBTOTAL',
+			dataIndex: 'subtotal',
+			key: 'subtotal',
+			width: 100,
+			render: (_, record) => <p>${record.subtotal}</p>,
+		},
+	];
+
 	const receiptsColumns = [
 		{
 			title: 'N° OC',
@@ -187,6 +224,7 @@ const useTableColumns = () => {
 
 	return {
 		ocColumns,
+		infoOcColumns,
 		receiptsColumns,
 	};
 };

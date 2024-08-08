@@ -189,7 +189,7 @@ export const ocApprovalEvents = [
 
 export const receiptsData = [
 	{
-		key: '1',
+		id: '1',
 		oc_number: 'OC-331-5',
 		oc_name: 'Palos',
 		oc_gloss: 'Palos para subnivel',
@@ -204,7 +204,7 @@ export const receiptsData = [
 		creation_date: '06/08/24',
 	},
 	{
-		key: '2',
+		id: '2',
 		oc_number: 'OC-332-3',
 		oc_name: 'Varillas',
 		oc_gloss: 'Varillas para subnivel',
@@ -219,7 +219,7 @@ export const receiptsData = [
 		creation_date: '15/05/24',
 	},
 	{
-		key: '3',
+		id: '3',
 		oc_number: 'OC-335-7',
 		oc_name: 'Pintura',
 		oc_gloss: 'Pintura',
@@ -234,7 +234,7 @@ export const receiptsData = [
 		creation_date: '12/02/24',
 	},
 	{
-		key: '4',
+		id: '4',
 		oc_number: 'OC-335-7',
 		oc_name: 'Tornillos',
 		oc_gloss: 'Tornillos',

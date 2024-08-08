@@ -5,6 +5,7 @@ import useGlobalContext from '@/hooks/useGlobalContext';
 import { ocApprovalEvents, ocData } from '@/utils/consts';
 import DetailOcTotals from '@/components/ui/DetailOcTotals';
 import styles from './InfoOC.module.css';
+import useTableColumns from '@/hooks/useTableColumns';
 
 const InfoOC = () => {
 	const [data, setData] = useState([]);
@@ -15,6 +16,7 @@ const InfoOC = () => {
 		hideDrawer,
 		showModalNotification,
 	} = useGlobalContext();
+	const { infoOcColumns } = useTableColumns();
 
 	useEffect(() => {
 		const foundedOc = ocData.find(el => {
@@ -31,43 +33,6 @@ const InfoOC = () => {
 			setEvents(eventsFounded);
 		}
 	}, [ocNumber]);
-
-	const columns = [
-		{
-			title: 'DETALLE ARTÍCULO',
-			dataIndex: 'sku',
-			key: 'sku',
-			render: (_, record) => (
-				<div>
-					<p style={{ fontSize: 14, color: '#0D6EFD' }}>
-						{record.sku} ({record.measurement_unit})
-					</p>
-					<p>{record.description}</p>
-					<p>{record.gloss}</p>
-					<p>{record.cost_account}</p>
-				</div>
-			),
-		},
-		{
-			title: 'CANTIDAD',
-			dataIndex: 'amount',
-			key: 'amount',
-		},
-		{
-			title: 'PU',
-			dataIndex: 'unit_price',
-			key: 'unit_price',
-			width: 70,
-			render: (_, record) => <p>${record.unit_price}</p>,
-		},
-		{
-			title: 'SUBTOTAL',
-			dataIndex: 'subtotal',
-			key: 'subtotal',
-			width: 100,
-			render: (_, record) => <p>${record.subtotal}</p>,
-		},
-	];
 
 	const EVENT_COLORS = {
 		Aprobada: '#05A660',
@@ -96,7 +61,7 @@ const InfoOC = () => {
 			<Divider orientation='left'>Detalle OC</Divider>
 			<Table
 				rowKey='sku'
-				columns={columns}
+				columns={infoOcColumns}
 				dataSource={data}
 				pagination={false}
 			/>
