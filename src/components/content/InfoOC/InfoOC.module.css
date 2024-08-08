@@ -1,0 +1,15 @@
+.infoOC h3 {
+  font-size: 20px;
+  padding-bottom: 2rem;
+}
+
+.infoOC .buttonsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.infoOC .buttonsContainer button {
+  width: 180px;
+  border-radius: 0;
+}

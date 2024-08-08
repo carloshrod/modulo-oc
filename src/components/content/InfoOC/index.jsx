@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Button, Col, Divider, Row, Table, Timeline } from 'antd';
+import { Button, Divider, Table, Timeline } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
 import useGlobalContext from '@/hooks/useGlobalContext';
-import { ocData } from '@/utils/consts';
+import { ocApprovalEvents, ocData } from '@/utils/consts';
+import DetailOcTotals from '@/components/ui/DetailOcTotals';
+import styles from './InfoOC.module.css';
 
 const InfoOC = () => {
 	const [data, setData] = useState([]);
 	const [oc, setOc] = useState([]);
+	const [events, setEvents] = useState([]);
 	const {
 		drawer: { title: ocNumber },
 		hideDrawer,
@@ -19,8 +22,13 @@ const InfoOC = () => {
 		});
 
 		if (foundedOc) {
+			const eventsFounded = ocApprovalEvents.filter(el => {
+				return el.oc_id === foundedOc.id;
+			});
+
 			setOc(foundedOc);
 			setData(foundedOc.items);
+			setEvents(eventsFounded);
 		}
 	}, [ocNumber]);
 
@@ -61,8 +69,30 @@ const InfoOC = () => {
 		},
 	];
 
+	const EVENT_COLORS = {
+		Aprobada: '#05A660',
+		Rechazada: '#E53535',
+	};
+
+	const items = events.map(event => ({
+		dot:
+			event.event_status === 'Envío a aprobación' ? (
+				<ClockCircleOutlined />
+			) : null,
+		color: EVENT_COLORS[event.event_status] ?? '#899197',
+		children: (
+			<div style={{ fontWeight: 500 }}>
+				<p>{event.event_status}</p>
+				<div style={{ fontSize: 12, color: '#899197' }}>
+					<p>{event.aprobador}</p>
+					<p>{event.event_date}</p>
+				</div>
+			</div>
+		),
+	}));
+
 	return (
-		<section>
+		<section className={styles.infoOC}>
 			<Divider orientation='left'>Detalle OC</Divider>
 			<Table
 				rowKey='sku'
@@ -70,93 +100,37 @@ const InfoOC = () => {
 				dataSource={data}
 				pagination={false}
 			/>
-			<Row justify='end'>
-				<Col style={{ padding: 16, fontSize: 12, fontWeight: 500 }}>
-					Total Neto
-				</Col>
-				<Col style={{ width: 100, padding: 16, fontSize: 12, fontWeight: 500 }}>
-					${oc.net_total}
-				</Col>
-			</Row>
-			<Row justify='end'>
-				<Col style={{ padding: 16, fontSize: 12, fontWeight: 500 }}>IVA</Col>
-				<Col style={{ width: 100, padding: 16, fontSize: 12, fontWeight: 500 }}>
-					${oc.iva}
-				</Col>
-			</Row>
-			<Row justify='end'>
-				<Col style={{ padding: 16, fontSize: 12, fontWeight: 500 }}>Total</Col>
-				<Col style={{ width: 100, padding: 16, fontSize: 12, fontWeight: 500 }}>
-					${oc.total}
-				</Col>
-			</Row>
+			<DetailOcTotals oc={oc} />
 			<Divider orientation='left'>Hilo de Aprobación</Divider>
-			<Timeline
-				items={[
-					{
-						dot: <ClockCircleOutlined className='timeline-clock-icon' />,
-						color: '#899197',
-						children: (
-							<div style={{ fontWeight: 500 }}>
-								<p>Envío a aprobación</p>
-								<div style={{ fontSize: 12, color: '#899197' }}>
-									<p>Nombre Apellido</p>
-									<p>XX/XX/XX</p>
-								</div>
-							</div>
-						),
-					},
-					{
-						color: '#E53535',
-						children: (
-							<div style={{ fontWeight: 500 }}>
-								<p>Rechazada</p>
-								<div style={{ fontSize: 12, color: '#899197' }}>
-									<p>Nombre Apellido</p>
-									<p>XX/XX/XX</p>
-								</div>
-							</div>
-						),
-					},
-					{
-						dot: <ClockCircleOutlined className='timeline-clock-icon' />,
-						color: '#899197',
-						children: (
-							<div style={{ fontWeight: 500 }}>
-								<p>Envío a aprobación</p>
-								<div style={{ fontSize: 12, color: '#899197' }}>
-									<p>Nombre Apellido</p>
-									<p>XX/XX/XX</p>
-								</div>
-							</div>
-						),
-					},
-				]}
-			/>
-			<div style={{ display: 'flex', justifyContent: 'center', gap: 16 }}>
-				<Button
-					type='primary'
-					size='large'
-					style={{ width: 180, borderRadius: 0 }}
-					onClick={() => {
-						showModalNotification({ successText: 'OC aprobada exitosamente' });
-						hideDrawer();
-					}}
-				>
-					Aprobar
-				</Button>
-				<Button
-					danger
-					size='large'
-					style={{ width: 180, borderRadius: 0 }}
-					onClick={() => {
-						showModalNotification({ successText: 'OC rechazada exitosamente' });
-						hideDrawer();
-					}}
-				>
-					Rechazar
-				</Button>
-			</div>
+			{events?.length > 0 ? <Timeline items={items} /> : <h3>Sin datos</h3>}
+			{oc.oc_status === 'En revisión' ? (
+				<div className={styles.buttonsContainer}>
+					<Button
+						type='primary'
+						size='large'
+						onClick={() => {
+							showModalNotification({
+								successText: 'OC aprobada exitosamente',
+							});
+							hideDrawer();
+						}}
+					>
+						Aprobar
+					</Button>
+					<Button
+						danger
+						size='large'
+						onClick={() => {
+							showModalNotification({
+								successText: 'OC rechazada exitosamente',
+							});
+							hideDrawer();
+						}}
+					>
+						Rechazar
+					</Button>
+				</div>
+			) : null}
 		</section>
 	);
 };

@@ -2,7 +2,7 @@ import { DatePicker, Input, InputNumber, Select } from 'antd';
 
 export const ocData = [
 	{
-		key: '1',
+		id: '1',
 		oc_number: 'OC-331-5',
 		oc_name: 'Palos',
 		oc_gloss: 'Palos para subnivel',
@@ -44,7 +44,7 @@ export const ocData = [
 		oc_status: 'Borrador',
 	},
 	{
-		key: '2',
+		id: '2',
 		oc_number: 'OC-332-3',
 		oc_name: 'Varillas',
 		oc_gloss: 'Varillas para subnivel',
@@ -75,7 +75,7 @@ export const ocData = [
 		oc_status: 'Aprobada',
 	},
 	{
-		key: '3',
+		id: '3',
 		oc_number: 'OC-335-7',
 		oc_name: 'Pintura',
 		oc_gloss: 'Pintura',
@@ -106,7 +106,7 @@ export const ocData = [
 		oc_status: 'Rechazada',
 	},
 	{
-		key: '4',
+		id: '4',
 		oc_number: 'OC-340-0',
 		oc_name: 'Tornillos',
 		oc_gloss: 'Tornillos',
@@ -146,6 +146,44 @@ export const ocData = [
 		creation_date: '09/02/24',
 		approval_date: '--',
 		oc_status: 'En revisión',
+	},
+];
+
+export const ocApprovalEvents = [
+	{
+		event_id: 'e3323',
+		oc_id: '2',
+		aprobador: 'creador',
+		event_date: '15/05/24',
+		event_status: 'Envío a aprobación',
+	},
+	{
+		event_id: 'e3323',
+		oc_id: '2',
+		aprobador: 'aprobador5',
+		event_date: '15/05/24',
+		event_status: 'Aprobada',
+	},
+	{
+		event_id: 'e3357',
+		oc_id: '3',
+		aprobador: 'creador',
+		event_date: '12/02/24',
+		event_status: 'Envío a aprobación',
+	},
+	{
+		event_id: 'e3357',
+		oc_id: '3',
+		aprobador: 'aprobador5',
+		event_date: '14/02/24',
+		event_status: 'Rechazada',
+	},
+	{
+		event_id: 'e3400',
+		oc_id: '4',
+		aprobador: 'creador',
+		event_date: '12/02/24',
+		event_status: 'Envío a aprobación',
 	},
 ];
 

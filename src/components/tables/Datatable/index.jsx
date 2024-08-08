@@ -5,6 +5,7 @@ const Datatable = ({ columns, dataSource, pagination = true }) => {
 	return (
 		<div className={styles.tableContainer}>
 			<Table
+				rowKey='id'
 				columns={columns}
 				dataSource={dataSource}
 				pagination={pagination}
