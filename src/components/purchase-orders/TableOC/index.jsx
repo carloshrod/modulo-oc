@@ -1,9 +1,9 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import Toolbar from '@/components/ui/Toolbar';
-import Datatable from '../Datatable';
 import useTableColumns from '@/hooks/useTableColumns';
 import { ocData } from '@/utils/consts';
+import { Table } from 'antd';
 
 const TableOC = () => {
 	const obra = 'xxx-calle-santa-julia';
@@ -19,7 +19,9 @@ const TableOC = () => {
 					router.push(`/orden-de-compra/${obra}/generar-orden-de-compra`)
 				}
 			/>
-			<Datatable columns={ocColumns} dataSource={ocData} />
+			<div className='mainTableContainer'>
+				<Table rowKey='id' columns={ocColumns} dataSource={ocData} />
+			</div>
 		</>
 	);
 };

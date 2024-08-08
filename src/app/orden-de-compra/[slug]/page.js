@@ -1,6 +1,6 @@
 import { Tabs } from 'antd';
-import TableOC from '@/components/tables/TableOC';
-import TableOCReceipts from '@/components/tables/TableOCReceipts';
+import TableOC from '@/components/purchase-orders/TableOC';
+import TableOCReceipts from '@/components/oc-receipt/TableOCReceipts';
 
 const PurchaseOrder = () => {
 	const items = [

@@ -1,5 +1,5 @@
 'use client';
-import OcPDF from '@/components/content/OcPDF';
+import OcPDF from '@/components/purchase-orders/OcPDF';
 import useGlobalContext from '@/hooks/useGlobalContext';
 import { Button, Drawer, Space } from 'antd';
 import { useState } from 'react';

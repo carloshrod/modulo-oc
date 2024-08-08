@@ -1,5 +1,5 @@
 import { Actions } from '@/components/ui/Actions';
-import { getColumnSearchProps, parseDate } from '@/components/tables/utils';
+import { getColumnSearchProps, parseDate } from '@/components/utils';
 import { Badge, Button, Tooltip } from 'antd';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 

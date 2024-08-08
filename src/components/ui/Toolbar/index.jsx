@@ -1,8 +1,8 @@
 import { Button } from 'antd';
-import { IoAdd, IoDownloadOutline, IoArrowBackOutline } from 'react-icons/io5';
+import { IoAdd, IoDownloadOutline } from 'react-icons/io5';
 import styles from './Toolbar.module.css';
 
-const Toolbar = ({ table, showTable, onClick }) => {
+const Toolbar = ({ table, onClick }) => {
 	const BTN_LABELS = {
 		oc: 'Generar OC',
 		receipts: 'Recepción OC',
@@ -11,25 +11,17 @@ const Toolbar = ({ table, showTable, onClick }) => {
 	return (
 		<section className={styles.toolbar}>
 			<div className={styles.actionButtons}>
-				{showTable ? (
-					<Button
-						type='primary'
-						ghost
-						icon={<IoDownloadOutline size={20} />}
-						iconPosition='end'
-						onClick={() => console.log('Descargando excel!')}
-					>
-						Descargar Excel
-					</Button>
-				) : null}
 				<Button
 					type='primary'
-					icon={
-						showTable ? <IoAdd size={24} /> : <IoArrowBackOutline size={24} />
-					}
-					onClick={onClick}
+					ghost
+					icon={<IoDownloadOutline size={20} />}
+					iconPosition='end'
+					onClick={() => console.log('Descargando excel!')}
 				>
-					{showTable ? BTN_LABELS[table] : 'Volver'}
+					Descargar Excel
+				</Button>
+				<Button type='primary' icon={<IoAdd size={24} />} onClick={onClick}>
+					{BTN_LABELS[table]}
 				</Button>
 			</div>
 		</section>

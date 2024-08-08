@@ -5,7 +5,7 @@ import { TbPencilMinus } from 'react-icons/tb';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { HiOutlineTrash } from 'react-icons/hi2';
 import useGlobalContext from '@/hooks/useGlobalContext';
-import InfoOC from '@/components/content/InfoOC';
+import InfoOC from '@/components/purchase-orders/InfoOC';
 
 export const Actions = ({ record }) => {
 	const { showDrawer, showModalConfirm, showModalNotification } =

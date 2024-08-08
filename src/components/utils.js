@@ -1,4 +1,4 @@
-const { SearchFilter } = require('../ui/SearchFilter');
+const { SearchFilter } = require('./ui/SearchFilter');
 
 export const getColumnSearchProps = dataIndex =>
 	SearchFilter({
