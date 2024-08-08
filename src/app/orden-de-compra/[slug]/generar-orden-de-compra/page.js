@@ -4,10 +4,10 @@ import styles from './GenerateOC.module.css';
 
 const GenerateOC = () => {
 	return (
-		<main className={styles.main}>
+		<section className={styles.generateOc}>
 			<FormHeader />
 			<FormOc />
-		</main>
+		</section>
 	);
 };
 

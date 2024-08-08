@@ -5,6 +5,7 @@ import { TbPencilMinus } from 'react-icons/tb';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { HiOutlineTrash } from 'react-icons/hi2';
 import useGlobalContext from '@/hooks/useGlobalContext';
+import InfoOC from '@/components/content/InfoOC';
 
 export const Actions = ({ record }) => {
 	const { showDrawer, showModalConfirm, showModalNotification } =
@@ -41,7 +42,9 @@ export const Actions = ({ record }) => {
 				<Button
 					type='text'
 					icon={<IoDocumentTextOutline size={20} color='#0D6EFD' />}
-					onClick={() => showDrawer(record.oc_name)}
+					onClick={() =>
+						showDrawer({ title: record.oc_number, children: <InfoOC /> })
+					}
 				/>
 			</Tooltip>
 			<Tooltip title={notDisabled ? 'Editar OC' : ''}>

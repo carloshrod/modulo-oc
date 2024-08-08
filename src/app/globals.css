@@ -15,6 +15,10 @@ body {
   background: #F8F9FA;
 }
 
+main {
+  padding: 8px 24px;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -46,9 +50,9 @@ a {
   border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-.ant-drawer-header {
+/* .ant-drawer-header {
   background-color: #fff;
-}
+} */
 
 .ant-modal-footer {
   width: 100%;

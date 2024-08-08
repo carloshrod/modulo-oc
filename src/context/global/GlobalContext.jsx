@@ -7,6 +7,7 @@ export const GlobalContext = createContext(undefined);
 const initialDrawer = {
 	drawerOpen: false,
 	title: undefined,
+	children: null,
 };
 
 const initialModal = {
@@ -25,10 +26,11 @@ const GlobalProvider = ({ children }) => {
 	const [modal, setModal] = useState(initialModal);
 	const [onConfirm, setOnConfirm] = useState(null);
 
-	const showDrawer = title => {
+	const showDrawer = ({ title, children }) => {
 		setDrawer({
 			drawerOpen: true,
 			title,
+			children,
 		});
 	};
 

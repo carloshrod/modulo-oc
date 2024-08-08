@@ -6,10 +6,10 @@ const EditOC = props => {
 	const { params } = props;
 
 	return (
-		<main className={styles.main}>
+		<section className={styles.editOc}>
 			<FormHeader ocNumber={params.oc_number} />
 			<FormOc ocNumber={params.oc_number.replace('editar-', '')} />
-		</main>
+		</section>
 	);
 };
 

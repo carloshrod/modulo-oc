@@ -14,8 +14,10 @@ export const ocData = [
 		currency_type: 'Peso',
 		items: [
 			{
+				sku: 'PAN3CA1UN',
 				item: 'Palos',
 				description: 'Palos N 3',
+				gloss: 'Palos N 3',
 				cost_account: 'cost_account_1',
 				measurement_unit: 'un',
 				amount: 20,
@@ -23,10 +25,12 @@ export const ocData = [
 				unit_price: 5990,
 			},
 			{
+				sku: 'PAN4CA1UN',
 				item: 'Palos',
 				description: 'Palos N 4',
+				gloss: 'Palos N 4',
 				cost_account: 'cost_account_1',
-				measurement_unit: 'un ',
+				measurement_unit: 'un',
 				amount: 2,
 				subtotal: 11980,
 				unit_price: 5990,
@@ -52,8 +56,10 @@ export const ocData = [
 		currency_type: 'Peso',
 		items: [
 			{
+				sku: 'VAN1CA1UN',
 				item: 'Varillas',
 				description: 'Varillas N 1',
+				gloss: 'Varillas N 1',
 				cost_account: 'cost_account_1',
 				measurement_unit: 'un',
 				amount: 40,
@@ -81,8 +87,10 @@ export const ocData = [
 		currency_type: 'Peso',
 		items: [
 			{
+				sku: 'PIN1CA2UN',
 				item: 'Pintura',
 				description: 'Pintura N 1',
+				gloss: 'Pintura N 1',
 				cost_account: 'cost_account_2',
 				measurement_unit: 'un',
 				amount: 12,
@@ -99,7 +107,7 @@ export const ocData = [
 	},
 	{
 		key: '4',
-		oc_number: 'OC-335-7',
+		oc_number: 'OC-340-0',
 		oc_name: 'Tornillos',
 		oc_gloss: 'Tornillos',
 		provider_rut: '55.358.387-1',
@@ -110,8 +118,10 @@ export const ocData = [
 		currency_type: 'Peso',
 		items: [
 			{
+				sku: 'TON1CA1UN',
 				item: 'Tornillos',
 				description: 'Tornillos N 1',
+				gloss: 'Tornillos N 1',
 				cost_account: 'cost_account_1',
 				measurement_unit: 'un',
 				amount: 120,
@@ -119,8 +129,10 @@ export const ocData = [
 				unit_price: 1500,
 			},
 			{
+				sku: 'TON2CA1UN',
 				item: 'Tornillos',
 				description: 'Tornillos N 2',
+				gloss: 'Tornillos N 2',
 				cost_account: 'cost_account_1',
 				measurement_unit: 'un',
 				amount: 80,

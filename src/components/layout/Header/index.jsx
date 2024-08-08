@@ -1,3 +1,4 @@
+'use client';
 import { Breadcrumb, Button, Layout } from 'antd';
 import { BiArrowBack, BiSolidChart, BiSolidUser } from 'react-icons/bi';
 import { PiBuildingsFill } from 'react-icons/pi';

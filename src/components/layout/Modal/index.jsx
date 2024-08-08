@@ -1,3 +1,4 @@
+'use client';
 import useGlobalContext from '@/hooks/useGlobalContext';
 import { Modal } from 'antd';
 
