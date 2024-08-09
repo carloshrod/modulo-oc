@@ -21,6 +21,7 @@
     "react/prop-types": "off",
     "no-unused-vars": "warn",
     "space-before-function-paren": "off",
-    "react-hooks/exhaustive-deps": "off"
+    "react-hooks/exhaustive-deps": "off",
+    "camelcase": "off"
   }
 }

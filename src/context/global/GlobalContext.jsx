@@ -25,6 +25,7 @@ const GlobalProvider = ({ children }) => {
 	const [drawer, setDrawer] = useState(initialDrawer);
 	const [modal, setModal] = useState(initialModal);
 	const [onConfirm, setOnConfirm] = useState(null);
+	const [modalForm, setModalForm] = useState(false);
 
 	const showDrawer = ({ title, children }) => {
 		setDrawer({
@@ -80,6 +81,10 @@ const GlobalProvider = ({ children }) => {
 		}
 	};
 
+	const showModalForm = () => setModalForm(true);
+
+	const hideModalForm = () => setModalForm(false);
+
 	const data = {
 		drawer,
 		showDrawer,
@@ -89,6 +94,9 @@ const GlobalProvider = ({ children }) => {
 		showModalNotification,
 		hideModal,
 		confirmModal,
+		modalForm,
+		showModalForm,
+		hideModalForm,
 	};
 
 	return (

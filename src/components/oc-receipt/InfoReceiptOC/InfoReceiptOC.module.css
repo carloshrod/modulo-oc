@@ -1,0 +1,40 @@
+.mainContainer {
+  padding: 24px 0;
+}
+
+.mainContainer .topContainer {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.mainContainer .topContainer .detailOC,
+.mainContainer .topContainer .items {
+  min-height: 250px;
+  padding: 24px;
+  background-color: #FFF;
+  border-radius: 15px;
+}
+
+.mainContainer .topContainer .detailOC {
+  width: 320px;
+}
+
+.mainContainer .topContainer .detailOC h3 {
+  margin-bottom: 18px;
+}
+
+.mainContainer .topContainer .detailOC .inputsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mainContainer .topContainer .detailOC .inputsContainer .inputReadOnly input {
+  margin-top: 8px;
+  background-color: #F5F5F5;
+}
+
+.mainContainer .topContainer .items {
+  flex-grow: 1;
+}

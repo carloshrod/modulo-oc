@@ -7,6 +7,7 @@ import useOcContext from '@/hooks/useOcContext';
 import { generateOcOptions } from '@/utils/utils';
 import styles from './SearchReceipt.module.css';
 import { useEffect } from 'react';
+import InfoReceiptOC from '../InfoReceiptOC';
 
 const SearchReceipt = ({ handleShow }) => {
 	const { purchaseOrders, purchaseOrder, getPurchaseOrder } = useOcContext();
@@ -16,8 +17,6 @@ const SearchReceipt = ({ handleShow }) => {
 	const onChange = value => {
 		getPurchaseOrder(value);
 	};
-
-	console.log(purchaseOrder);
 
 	return (
 		<section className={styles.mainContainer}>
@@ -47,9 +46,7 @@ const SearchReceipt = ({ handleShow }) => {
 				</Button>
 			</div>
 			{purchaseOrder?.oc_number ? (
-				<section className={styles.infoOcContainer}>
-					<h3>{purchaseOrder.oc_name}</h3>
-				</section>
+				<InfoReceiptOC purchaseOrder={purchaseOrder} />
 			) : (
 				<section className={styles.receiptOcContainer}>
 					<div>

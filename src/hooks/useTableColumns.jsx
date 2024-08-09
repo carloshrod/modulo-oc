@@ -1,9 +1,16 @@
 import { Actions } from '@/components/ui/Actions';
 import { getColumnSearchProps, parseDate } from '@/components/utils';
 import { Badge, Button, Tooltip } from 'antd';
+import { AiOutlineDelete } from 'react-icons/ai';
 import { IoDocumentTextOutline } from 'react-icons/io5';
+import { TbPencilMinus } from 'react-icons/tb';
+import useGlobalContext from './useGlobalContext';
+import { HiOutlineTrash } from 'react-icons/hi2';
 
 const useTableColumns = () => {
+	const { showModalConfirm, showModalNotification, showModalForm } =
+		useGlobalContext();
+
 	const ocColumns = [
 		{
 			title: 'N° OC',
@@ -222,10 +229,184 @@ const useTableColumns = () => {
 		},
 	];
 
+	const itemsReceiptsOcColumns = [
+		{
+			title: 'DETALLE ARTÍCULO',
+			dataIndex: 'sku',
+			key: 'sku',
+			render: (_, record) => (
+				<div>
+					<p style={{ fontSize: 14, color: '#0D6EFD' }}>
+						{record.sku} ({record.measurement_unit})
+					</p>
+					<p>{record.description}</p>
+					<p>{record.gloss}</p>
+					<p>{record.cost_account}</p>
+				</div>
+			),
+			width: 180,
+		},
+		{
+			title: 'CANTIDAD',
+			dataIndex: 'amount',
+			key: 'amount',
+			width: 70,
+			align: 'center',
+		},
+		{
+			title: 'PRECIO UNITARIO',
+			dataIndex: 'unit_price',
+			key: 'unit_price',
+			width: 140,
+			render: (_, record) => <p>${record.unit_price}</p>,
+			align: 'center',
+		},
+		{
+			title: 'SUBTOTAL',
+			dataIndex: 'subtotal',
+			key: 'subtotal',
+			width: 70,
+			render: (_, record) => <p>${record.subtotal}</p>,
+			align: 'center',
+		},
+		{
+			title: 'MONTO RECIBIDO',
+			dataIndex: 'subtotal',
+			key: 'subtotal',
+			width: 140,
+			render: (_, record) => <p> -- </p>,
+			align: 'center',
+		},
+		{
+			title: 'MONTO POR RECIBIR',
+			dataIndex: 'subtotal',
+			key: 'subtotal',
+			width: 140,
+			render: (_, record) => <p>${record.subtotal}</p>,
+			align: 'center',
+		},
+		{
+			title: 'ESTADO RECEPCIÓN',
+			dataIndex: 'subtotal',
+			key: 'subtotal',
+			width: 140,
+			render: (_, record) => <p>Sin recepción</p>,
+			align: 'center',
+		},
+	];
+
+	const receiptsHistoryColumns = [
+		{
+			title: 'FECHA DE RECEPCIÓN',
+			dataIndex: 'reception_date',
+			key: 'reception_date',
+			...getColumnSearchProps('reception_date'),
+			width: 70,
+		},
+		{
+			title: 'TIPO DE DOCUMENTO',
+			dataIndex: 'doc_type',
+			key: 'doc_type',
+			...getColumnSearchProps('doc_type'),
+			width: 100,
+		},
+		{
+			title: 'N° DE DOCUMENTO',
+			dataIndex: 'doc_number',
+			key: 'doc_number',
+			...getColumnSearchProps('doc_number'),
+			width: 70,
+		},
+		{
+			title: 'ARTÍCULO',
+			dataIndex: 'item',
+			key: 'item',
+			...getColumnSearchProps('item'),
+			render: (_, record) => (
+				<p>
+					{record.sku} {record.oc_name}
+				</p>
+			),
+			width: 120,
+		},
+		{
+			title: 'CANTIDAD RECIBIDA',
+			dataIndex: 'received_quantity',
+			key: 'received_quantity',
+			...getColumnSearchProps('received_quantity'),
+			width: 70,
+		},
+		{
+			title: 'MONTO RECIBIDO',
+			dataIndex: 'received_amount',
+			key: 'received_amount',
+			...getColumnSearchProps('received_amount'),
+			width: 70,
+		},
+		{
+			title: 'ESTADO RECEPCIÓN',
+			dataIndex: 'receipt_status',
+			key: 'receipt_status',
+			...getColumnSearchProps('receipt_status'),
+			width: 120,
+		},
+		{
+			title: 'N° DE FACTURA',
+			dataIndex: 'invoice_number',
+			key: 'invoice_number',
+			...getColumnSearchProps('invoice_number'),
+			width: 70,
+		},
+		{
+			title: 'ACCIONES',
+			key: 'actions',
+			className: 'actions',
+			render: (_, record) => (
+				<>
+					<Tooltip title='Ingresar factura'>
+						<Button
+							type='text'
+							icon={<TbPencilMinus size={20} color='#0D6EFD' />}
+							onClick={showModalForm}
+						/>
+					</Tooltip>
+					<Tooltip title='Anular recepción'>
+						<Button
+							type='text'
+							icon={<AiOutlineDelete size={20} color='#E53535' />}
+							onClick={() =>
+								showModalConfirm(
+									() =>
+										showModalNotification({
+											successText: 'Recepción anulada exitosamente',
+										}),
+									{
+										danger: true,
+										title: '¿Deseas anular esta Recepción?',
+										subtitle:
+											'Si anulas, esta recepción dejará de ser editable.',
+										okText: 'Anular',
+										icon: {
+											bgColor: '#FFEBEB',
+											component: <HiOutlineTrash size={38} color='#E53535' />,
+										},
+									},
+								)
+							}
+						/>
+					</Tooltip>
+				</>
+			),
+			width: 70,
+		},
+	];
+
 	return {
 		ocColumns,
 		infoOcColumns,
 		receiptsColumns,
+		itemsReceiptsOcColumns,
+		receiptsHistoryColumns,
 	};
 };
 
