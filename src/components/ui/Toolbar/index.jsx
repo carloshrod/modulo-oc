@@ -20,7 +20,7 @@ const Toolbar = ({ table, onClick }) => {
 				>
 					Descargar Excel
 				</Button>
-				<Button type='primary' icon={<IoAdd size={24} />} onClick={onClick}>
+				<Button type='primary' icon={<IoAdd size={30} />} onClick={onClick}>
 					{BTN_LABELS[table]}
 				</Button>
 			</div>

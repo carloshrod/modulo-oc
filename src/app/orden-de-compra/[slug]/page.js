@@ -1,6 +1,6 @@
 import { Tabs } from 'antd';
 import TableOC from '@/components/purchase-orders/TableOC';
-import TableOCReceipts from '@/components/oc-receipt/TableOCReceipts';
+import OCReceipt from '@/components/oc-receipt/OCReceipt';
 
 const PurchaseOrder = () => {
 	const items = [
@@ -12,7 +12,7 @@ const PurchaseOrder = () => {
 		{
 			key: '2',
 			label: 'Recepción de OC',
-			children: <TableOCReceipts />,
+			children: <OCReceipt />,
 		},
 	];
 

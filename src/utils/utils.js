@@ -18,7 +18,7 @@ export const generateBreadcrumbs = pathname => {
 	});
 };
 
-function formatTitle(part) {
+const formatTitle = part => {
 	if (part.includes('oc-')) {
 		return part.replace('oc-', 'Editar OC ');
 	}
@@ -27,4 +27,13 @@ function formatTitle(part) {
 		.split('-')
 		.map(word => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(' ');
-}
+};
+
+export const generateOcOptions = ocData => {
+	return ocData.map(oc => {
+		return {
+			value: oc.oc_number,
+			label: oc.oc_number,
+		};
+	});
+};

@@ -1,0 +1,40 @@
+.mainContainer .toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mainContainer .toolbar .searchLabel {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.mainContainer .toolbar input {
+  margin: auto;
+}
+
+.mainContainer .receiptOcContainer {
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.mainContainer .receiptOcContainer div {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.mainContainer .receiptOcContainer div p {
+  font-weight: 500;
+}
+
+.mainContainer .receiptOcContainer div button {
+  padding: 0 20px;
+  font-weight: 600;
+}
