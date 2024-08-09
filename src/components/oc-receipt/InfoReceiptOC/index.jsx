@@ -46,6 +46,7 @@ const InfoReceiptOC = ({ purchaseOrder }) => {
 				</section>
 			</div>
 			<div className={styles.bottomContainer}>
+				<h3>Historial recepción</h3>
 				<Table
 					rowKey='id'
 					columns={receiptsHistoryColumns}

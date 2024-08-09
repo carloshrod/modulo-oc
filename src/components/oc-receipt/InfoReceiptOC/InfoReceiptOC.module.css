@@ -38,3 +38,13 @@
 .mainContainer .topContainer .items {
   flex-grow: 1;
 }
+
+.mainContainer .bottomContainer {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 15px;
+}
+
+.mainContainer .bottomContainer h3 {
+  padding-bottom: 12px;
+}
