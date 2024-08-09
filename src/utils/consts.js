@@ -290,7 +290,7 @@ export const receiptsData = [
 		currency_type: 'Peso',
 		oc_amount: 276000,
 		received_quantity: 2,
-		received_amount: 276000,
+		received_amount: 183000,
 		creation_date: '06/08/24',
 		reception_date: '07/08/24',
 		doc_type: 'Guía despacho',

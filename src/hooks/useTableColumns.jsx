@@ -1,6 +1,6 @@
 import { Actions } from '@/components/ui/Actions';
 import { getColumnSearchProps, parseDate } from '@/components/utils';
-import { Badge, Button, Tooltip } from 'antd';
+import { Badge, Button, Space, Tooltip } from 'antd';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { TbPencilMinus } from 'react-icons/tb';
@@ -321,7 +321,7 @@ const useTableColumns = () => {
 			title: 'ARTÍCULO',
 			dataIndex: 'item',
 			key: 'item',
-			...getColumnSearchProps('item'),
+			...getColumnSearchProps('sku'),
 			render: (_, record) => (
 				<p>
 					{record.sku} {record.oc_name}
@@ -340,14 +340,29 @@ const useTableColumns = () => {
 			title: 'MONTO RECIBIDO',
 			dataIndex: 'received_amount',
 			key: 'received_amount',
-			...getColumnSearchProps('received_amount'),
+			sorter: (a, b) => a.received_amount - b.received_amount,
+			sortDirections: ['descend', 'ascend'],
 			width: 70,
 		},
 		{
 			title: 'ESTADO RECEPCIÓN',
 			dataIndex: 'receipt_status',
 			key: 'receipt_status',
-			...getColumnSearchProps('receipt_status'),
+			filters: [
+				{
+					text: 'Recepción sin factura',
+					value: 'Recepción sin factura',
+				},
+				{
+					text: 'Recepción con factura',
+					value: 'Recepción con factura',
+				},
+				{
+					text: 'Anulada',
+					value: 'Anulada',
+				},
+			],
+			onFilter: (value, record) => record.receipt_status.indexOf(value) === 0,
 			width: 120,
 		},
 		{
@@ -362,7 +377,7 @@ const useTableColumns = () => {
 			key: 'actions',
 			className: 'actions',
 			render: (_, record) => (
-				<>
+				<Space size='small'>
 					<Tooltip title='Ingresar factura'>
 						<Button
 							type='text'
@@ -395,7 +410,7 @@ const useTableColumns = () => {
 							}
 						/>
 					</Tooltip>
-				</>
+				</Space>
 			),
 			width: 70,
 		},
