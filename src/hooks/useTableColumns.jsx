@@ -210,11 +210,11 @@ const useTableColumns = () => {
 			key: 'actions',
 			className: 'actions',
 			render: (_, record) => (
-				<Tooltip title='Ver OC'>
+				<Tooltip title='Ver recepción'>
 					<Button
 						type='text'
 						icon={<IoDocumentTextOutline size={20} color='#0D6EFD' />}
-						// onClick={() => showDrawer(record.oc_name)}
+						onClick={() => console.log(record.oc_number)}
 					/>
 				</Tooltip>
 			),

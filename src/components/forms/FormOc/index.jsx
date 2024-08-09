@@ -5,12 +5,13 @@ import GeneralInfoInputs from '../GeneralInfoInputs';
 import ItemInputs from '../ItemInputs';
 import useForm from '@/hooks/useForm';
 import styles from './FormOc.module.css';
-import { ocData } from '@/utils/consts';
 import { useEffect } from 'react';
 import moment from 'moment';
+import useOcContext from '@/hooks/useOcContext';
 
 const FormOc = ({ ocNumber }) => {
 	const obra = 'xxx-calle-santa-julia';
+	const { purchaseOrders } = useOcContext();
 	const {
 		form,
 		itemError,
@@ -22,7 +23,7 @@ const FormOc = ({ ocNumber }) => {
 	} = useForm(obra);
 
 	useEffect(() => {
-		const foundedOc = ocData.find(el => {
+		const foundedOc = purchaseOrders.find(el => {
 			return el.oc_number.toLowerCase() === ocNumber;
 		});
 

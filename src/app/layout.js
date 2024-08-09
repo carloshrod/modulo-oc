@@ -2,6 +2,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import GlobalProvider from '@/context/global/GlobalContext';
+import OcProvider from '@/context/OC/OcContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -14,9 +15,11 @@ export default function RootLayout({ children }) {
 	return (
 		<html lang='en'>
 			<GlobalProvider>
-				<body className={inter.className}>
-					<AntdRegistry>{children}</AntdRegistry>
-				</body>
+				<OcProvider>
+					<body className={inter.className}>
+						<AntdRegistry>{children}</AntdRegistry>
+					</body>
+				</OcProvider>
 			</GlobalProvider>
 		</html>
 	);

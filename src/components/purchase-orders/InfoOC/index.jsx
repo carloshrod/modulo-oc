@@ -1,45 +1,33 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Button, Divider, Table, Timeline } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
 import useGlobalContext from '@/hooks/useGlobalContext';
-import { ocApprovalEvents, ocData } from '@/utils/consts';
 import DetailOcTotals from '@/components/ui/DetailOcTotals';
 import styles from './InfoOC.module.css';
 import useTableColumns from '@/hooks/useTableColumns';
+import useOcContext from '@/hooks/useOcContext';
 
 const InfoOC = () => {
-	const [data, setData] = useState([]);
-	const [oc, setOc] = useState([]);
-	const [events, setEvents] = useState([]);
 	const {
 		drawer: { title: ocNumber },
 		hideDrawer,
 		showModalNotification,
 	} = useGlobalContext();
+	const { purchaseOrder, getPurchaseOrder, approvalEvents, getApprovalEvents } =
+		useOcContext();
 	const { infoOcColumns } = useTableColumns();
 
 	useEffect(() => {
-		const foundedOc = ocData.find(el => {
-			return el.oc_number === ocNumber;
-		});
-
-		if (foundedOc) {
-			const eventsFounded = ocApprovalEvents.filter(el => {
-				return el.oc_id === foundedOc.id;
-			});
-
-			setOc(foundedOc);
-			setData(foundedOc.items);
-			setEvents(eventsFounded);
-		}
-	}, [ocNumber]);
+		getPurchaseOrder(ocNumber);
+		getApprovalEvents(purchaseOrder?.id);
+	}, [ocNumber, purchaseOrder]);
 
 	const EVENT_COLORS = {
 		Aprobada: '#05A660',
 		Rechazada: '#E53535',
 	};
 
-	const items = events.map(event => ({
+	const items = approvalEvents.map(event => ({
 		dot:
 			event.event_status === 'Envío a aprobación' ? (
 				<ClockCircleOutlined />
@@ -62,13 +50,17 @@ const InfoOC = () => {
 			<Table
 				rowKey='sku'
 				columns={infoOcColumns}
-				dataSource={data}
+				dataSource={purchaseOrder?.items}
 				pagination={false}
 			/>
-			<DetailOcTotals oc={oc} />
+			<DetailOcTotals purchaseOrder={purchaseOrder} />
 			<Divider orientation='left'>Hilo de Aprobación</Divider>
-			{events?.length > 0 ? <Timeline items={items} /> : <h3>Sin datos</h3>}
-			{oc.oc_status === 'En revisión' ? (
+			{approvalEvents?.length > 0 ? (
+				<Timeline items={items} />
+			) : (
+				<h3>Sin datos</h3>
+			)}
+			{purchaseOrder?.oc_status === 'En revisión' ? (
 				<div className={styles.buttonsContainer}>
 					<Button
 						type='primary'

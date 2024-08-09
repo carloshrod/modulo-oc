@@ -29,8 +29,8 @@ const formatTitle = part => {
 		.join(' ');
 };
 
-export const generateOcOptions = ocData => {
-	return ocData.map(oc => {
+export const generateOcOptions = purchaseOrders => {
+	return purchaseOrders.map(oc => {
 		return {
 			value: oc.oc_number,
 			label: oc.oc_number,

@@ -1,6 +1,6 @@
 import { DatePicker, Input, InputNumber, Select } from 'antd';
 
-export const ocData = [
+export const ocDataDb = [
 	{
 		id: '1',
 		oc_number: 'OC-331-5',
@@ -149,7 +149,7 @@ export const ocData = [
 	},
 ];
 
-export const ocApprovalEvents = [
+export const approvalEventsDb = [
 	{
 		event_id: 'e3323',
 		oc_id: '2',
