@@ -2,7 +2,7 @@ import { Button } from 'antd';
 import { IoAdd, IoDownloadOutline } from 'react-icons/io5';
 import styles from './Toolbar.module.css';
 
-const Toolbar = ({ table, onClick }) => {
+const TableToolbar = ({ table, onClick }) => {
 	const BTN_LABELS = {
 		oc: 'Generar OC',
 		receipts: 'Recepción OC',
@@ -28,4 +28,4 @@ const Toolbar = ({ table, onClick }) => {
 	);
 };
 
-export default Toolbar;
+export default TableToolbar;

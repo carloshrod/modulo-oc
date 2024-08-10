@@ -6,16 +6,18 @@ import LayoutIcon from '../LayoutIcon';
 import useOcContext from '@/hooks/useOcContext';
 import { generateOcOptions } from '@/utils/utils';
 import styles from './SearchReceipt.module.css';
-import { useEffect } from 'react';
 import InfoReceiptOC from '../InfoReceiptOC';
 
 const SearchReceipt = ({ handleShow }) => {
 	const { purchaseOrders, purchaseOrder, getPurchaseOrder } = useOcContext();
 
-	useEffect(() => getPurchaseOrder(undefined), []);
-
 	const onChange = value => {
 		getPurchaseOrder(value);
+	};
+
+	const handleGoBack = () => {
+		getPurchaseOrder(undefined);
+		handleShow();
 	};
 
 	return (
@@ -40,9 +42,9 @@ const SearchReceipt = ({ handleShow }) => {
 					icon={<BiArrowBack size={20} />}
 					iconPosition='start'
 					size='large'
-					onClick={handleShow}
+					onClick={handleGoBack}
 				>
-					Volver
+					Volver a tabla
 				</Button>
 			</div>
 			{purchaseOrder?.oc_number ? (

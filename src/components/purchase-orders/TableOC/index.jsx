@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import Toolbar from '@/components/ui/Toolbar';
+import TableToolbar from '@/components/ui/TableToolbar';
 import useTableColumns from '@/hooks/useTableColumns';
 import { Table } from 'antd';
 import useOcContext from '@/hooks/useOcContext';
@@ -13,7 +13,7 @@ const TableOC = () => {
 
 	return (
 		<>
-			<Toolbar
+			<TableToolbar
 				table='oc'
 				showTable={true}
 				onClick={() =>

@@ -1,4 +1,3 @@
-'use client';
 import useTableColumns from '@/hooks/useTableColumns';
 import { receiptsData } from '@/utils/consts';
 import { Table } from 'antd';

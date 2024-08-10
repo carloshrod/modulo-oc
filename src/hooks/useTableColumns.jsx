@@ -6,10 +6,12 @@ import { IoDocumentTextOutline } from 'react-icons/io5';
 import { TbPencilMinus } from 'react-icons/tb';
 import useGlobalContext from './useGlobalContext';
 import FormInvoice from '@/components/forms/FormInvoice';
+import useOcContext from './useOcContext';
 
 const useTableColumns = () => {
 	const { showModalConfirm, showModalNotification, showModalForm } =
 		useGlobalContext();
+	const { getPurchaseOrder } = useOcContext();
 
 	const ocColumns = [
 		{
@@ -221,7 +223,7 @@ const useTableColumns = () => {
 					<Button
 						type='text'
 						icon={<IoDocumentTextOutline size={20} color='#0D6EFD' />}
-						onClick={() => console.log(record.oc_number)}
+						onClick={() => getPurchaseOrder(record.oc_number)}
 					/>
 				</Tooltip>
 			),
