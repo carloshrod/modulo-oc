@@ -1,4 +1,5 @@
 'use client';
+import useOcContext from '@/hooks/useOcContext';
 import { createContext, useState } from 'react';
 import { HiOutlineTrash } from 'react-icons/hi2';
 import {
@@ -35,6 +36,7 @@ const GlobalProvider = ({ children }) => {
 	const [modal, setModal] = useState(initialModal);
 	const [onConfirm, setOnConfirm] = useState(null);
 	const [modalForm, setModalForm] = useState(initialModalForm);
+	const { getPurchaseOrder } = useOcContext();
 
 	const showDrawer = ({ title, children }) => {
 		setDrawer({
@@ -44,7 +46,10 @@ const GlobalProvider = ({ children }) => {
 		});
 	};
 
-	const hideDrawer = () => setDrawer(initialDrawer);
+	const hideDrawer = () => {
+		setDrawer(initialDrawer);
+		getPurchaseOrder(undefined);
+	};
 
 	const showModalConfirm = (
 		onConfirmCallback,

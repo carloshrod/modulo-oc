@@ -10,15 +10,17 @@ const CustomDrawer = () => {
 	const { drawer, showDrawer, hideDrawer } = useGlobalContext();
 	const { drawerOpen, title, children } = drawer;
 
+	const handleClose = () => {
+		hideDrawer();
+		setTimeout(() => {
+			setShowExtra(true);
+		}, 1000);
+	};
+
 	return (
 		<Drawer
 			title={title}
-			onClose={() => {
-				hideDrawer();
-				setTimeout(() => {
-					setShowExtra(true);
-				}, 1000);
-			}}
+			onClose={handleClose}
 			open={drawerOpen}
 			style={{ backgroundColor: !showExtra && '#E1E1E2' }}
 			width={500}
