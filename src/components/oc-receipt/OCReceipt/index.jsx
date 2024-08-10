@@ -7,6 +7,7 @@ import useOcContext from '@/hooks/useOcContext';
 import InfoReceiptOC from '../InfoReceiptOC';
 import { BiArrowBack } from 'react-icons/bi';
 import { Button } from 'antd';
+import styles from './OCReceipt.module.css';
 
 const OCReceipt = () => {
 	const { purchaseOrder, getPurchaseOrder } = useOcContext();
@@ -17,7 +18,7 @@ const OCReceipt = () => {
 	return showTable ? (
 		purchaseOrder?.oc_number ? (
 			<>
-				<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+				<div className={styles.goBack}>
 					<Button
 						type='primary'
 						ghost
