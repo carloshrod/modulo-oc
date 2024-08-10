@@ -1,7 +1,7 @@
 import styles from './page.module.css';
 import Link from 'next/link';
 
-export default function Home() {
+const OeuvresPage = () => {
 	const obra = 'xxx-calle-santa-julia';
 
 	return (
@@ -10,4 +10,6 @@ export default function Home() {
 			<Link href={`/orden-de-compra/${obra}`}>XXX Calle Santa Julia</Link>
 		</section>
 	);
-}
+};
+
+export default OeuvresPage;

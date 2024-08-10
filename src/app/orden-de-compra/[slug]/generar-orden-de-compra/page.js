@@ -2,7 +2,7 @@ import FormOc from '@/components/forms/FormOc';
 import TitleFormOC from '@/components/forms/TitleFormOC';
 import styles from './GenerateOC.module.css';
 
-const GenerateOC = () => {
+const GenerateOCPage = () => {
 	return (
 		<section className={styles.generateOc}>
 			<TitleFormOC />
@@ -11,4 +11,4 @@ const GenerateOC = () => {
 	);
 };
 
-export default GenerateOC;
+export default GenerateOCPage;

@@ -2,7 +2,7 @@ import TitleFormOC from '@/components/forms/TitleFormOC';
 import FormOc from '@/components/forms/FormOc';
 import styles from './EditOC.module.css';
 
-const EditOC = props => {
+const EditOCPage = props => {
 	const { params } = props;
 
 	return (
@@ -13,4 +13,4 @@ const EditOC = props => {
 	);
 };
 
-export default EditOC;
+export default EditOCPage;

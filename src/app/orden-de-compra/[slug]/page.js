@@ -2,7 +2,7 @@ import { Tabs } from 'antd';
 import TableOC from '@/components/purchase-orders/TableOC';
 import OCReceipt from '@/components/oc-receipt/OCReceipt';
 
-const PurchaseOrder = () => {
+const PurchaseOrderPage = () => {
 	const items = [
 		{
 			key: '1',
@@ -19,4 +19,4 @@ const PurchaseOrder = () => {
 	return <Tabs defaultActiveKey='1' items={items} />;
 };
 
-export default PurchaseOrder;
+export default PurchaseOrderPage;
