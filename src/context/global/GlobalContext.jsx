@@ -25,11 +25,16 @@ const initialModal = {
 	successText: undefined,
 };
 
+const initialModalForm = {
+	modalFormOpen: false,
+	children: null,
+};
+
 const GlobalProvider = ({ children }) => {
 	const [drawer, setDrawer] = useState(initialDrawer);
 	const [modal, setModal] = useState(initialModal);
 	const [onConfirm, setOnConfirm] = useState(null);
-	const [modalForm, setModalForm] = useState(false);
+	const [modalForm, setModalForm] = useState(initialModalForm);
 
 	const showDrawer = ({ title, children }) => {
 		setDrawer({
@@ -39,9 +44,7 @@ const GlobalProvider = ({ children }) => {
 		});
 	};
 
-	const hideDrawer = () => {
-		setDrawer(initialDrawer);
-	};
+	const hideDrawer = () => setDrawer(initialDrawer);
 
 	const showModalConfirm = (
 		onConfirmCallback,
@@ -82,9 +85,7 @@ const GlobalProvider = ({ children }) => {
 		}, 1500);
 	};
 
-	const hideModal = () => {
-		setModal(initialModal);
-	};
+	const hideModal = () => setModal(initialModal);
 
 	const confirmModal = () => {
 		if (onConfirm) {
@@ -92,9 +93,14 @@ const GlobalProvider = ({ children }) => {
 		}
 	};
 
-	const showModalForm = () => setModalForm(true);
+	const showModalForm = children => {
+		setModalForm({
+			modalFormOpen: true,
+			children,
+		});
+	};
 
-	const hideModalForm = () => setModalForm(false);
+	const hideModalForm = () => setModalForm(initialModalForm);
 
 	const data = {
 		drawer,

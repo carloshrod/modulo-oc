@@ -8,16 +8,17 @@ import styles from './FormOc.module.css';
 import { useEffect } from 'react';
 import moment from 'moment';
 import useOcContext from '@/hooks/useOcContext';
+import useGlobalContext from '@/hooks/useGlobalContext';
 
 const FormOc = ({ ocNumber }) => {
 	const obra = 'xxx-calle-santa-julia';
+	const { showModalConfirm } = useGlobalContext();
 	const { purchaseOrders } = useOcContext();
 	const {
 		form,
 		itemError,
-		onFinish,
-		onFinishFailed,
-		handleSubmit,
+		sendForApproval,
+		sendForApprovalFailed,
 		saveAsDraft,
 		onCancel,
 	} = useForm(obra);
@@ -40,8 +41,8 @@ const FormOc = ({ ocNumber }) => {
 		<div className={styles.formWrapper}>
 			<Form
 				form={form}
-				onFinish={onFinish}
-				onFinishFailed={onFinishFailed}
+				onFinish={sendForApproval}
+				onFinishFailed={sendForApprovalFailed}
 				layout='vertical'
 				autoComplete='off'
 				initialValues={{
@@ -70,7 +71,14 @@ const FormOc = ({ ocNumber }) => {
 							style={{ width: 200 }}
 							icon={<CheckOutlined />}
 							iconPosition='end'
-							onClick={handleSubmit}
+							onClick={() =>
+								showModalConfirm(() => form.submit(), {
+									title: '¿Deseas enviar OC a aprobación?',
+									subtitle:
+										'Se enviará un correo a los aprobadores responsables para revisar tu OC.',
+									okText: 'Aceptar',
+								})
+							}
 						>
 							Enviar a aprobación
 						</Button>

@@ -5,6 +5,7 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { TbPencilMinus } from 'react-icons/tb';
 import useGlobalContext from './useGlobalContext';
+import FormInvoice from '@/components/forms/FormInvoice';
 
 const useTableColumns = () => {
 	const { showModalConfirm, showModalNotification, showModalForm } =
@@ -381,7 +382,7 @@ const useTableColumns = () => {
 						<Button
 							type='text'
 							icon={<TbPencilMinus size={20} color='#0D6EFD' />}
-							onClick={showModalForm}
+							onClick={() => showModalForm(<FormInvoice />)}
 						/>
 					</Tooltip>
 					<Tooltip title='Anular recepción'>

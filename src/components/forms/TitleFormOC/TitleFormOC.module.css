@@ -1,10 +1,10 @@
-.formHeader {
+.titleFormOC {
   display: flex;
   align-items: center;
   gap: .5rem;
 }
 
-.formHeader .icon {
+.titleFormOC .icon {
   height: 40px;
   width: 40px;
   display: grid;
@@ -13,13 +13,13 @@
   border-radius: 8px;
 }
 
-.formHeader .title h4 {
+.titleFormOC .title h4 {
   font-size: 16px;
   font-weight: 600;
   color: #0D6EFD;
 }
 
-.formHeader .title span {
+.titleFormOC .title span {
   font-size: 12px;
   color: #A0AEC0;
 }

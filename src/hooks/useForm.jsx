@@ -1,5 +1,5 @@
 import { Form } from 'antd';
-import { useParams, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ITEMS_INPUTS } from '@/utils/consts';
 import useGlobalContext from './useGlobalContext';
@@ -8,23 +8,17 @@ const useForm = obra => {
 	const [form] = Form.useForm();
 	const [itemError, setItemError] = useState(false);
 	const router = useRouter();
-	const { showModalConfirm, showModalNotification } = useGlobalContext();
-	const params = useParams();
-	console.log(params?.oc_number);
+	const { showModalNotification, hideModalForm } = useGlobalContext();
 
-	const onFinish = values => {
-		console.log('Enviando formulario!');
+	const sendForApproval = values => {
+		console.log('Enviando a aprobación!');
 		verifyItems(values);
 		console.log(values);
 		showModalNotification('OC enviada a aprobación exitosamente');
-		if (params?.oc_number) {
-			router.push(`/orden-de-compra/${obra}`);
-		} else {
-			form.resetFields();
-		}
+		router.push(`/orden-de-compra/${obra}`);
 	};
 
-	const onFinishFailed = ({ values }) => {
+	const sendForApprovalFailed = ({ values }) => {
 		console.log(values);
 		verifyItems(values);
 	};
@@ -43,15 +37,6 @@ const useForm = obra => {
 		setItemError(null);
 	};
 
-	const handleSubmit = () => {
-		showModalConfirm(() => form.submit(), {
-			title: '¿Deseas enviar OC a aprobación?',
-			subtitle:
-				'Se enviará un correo a los aprobadores responsables para revisar tu OC.',
-			okText: 'Aceptar',
-		});
-	};
-
 	const saveAsDraft = async () => {
 		try {
 			const values = await form.getFieldsValue(true);
@@ -67,14 +52,20 @@ const useForm = obra => {
 		router.push(`/orden-de-compra/${obra}`);
 	};
 
+	const addInvoice = values => {
+		console.log(values);
+		hideModalForm();
+		showModalNotification('Factura ingresada exitosamente');
+	};
+
 	return {
 		form,
 		itemError,
-		onFinish,
-		onFinishFailed,
-		handleSubmit,
+		sendForApproval,
+		sendForApprovalFailed,
 		saveAsDraft,
 		onCancel,
+		addInvoice,
 	};
 };
 

@@ -1,11 +1,11 @@
 import { FaRegCircle } from 'react-icons/fa';
-import styles from './FormHeader.module.css';
+import styles from './TitleFormOC.module.css';
 
-const FormHeader = ({ ocNumber }) => {
+const TitleFormOC = ({ ocNumber }) => {
 	const title = ocNumber?.replace('oc-', 'OC ') ?? 'Nueva Orden de Compra';
 
 	return (
-		<section className={styles.formHeader}>
+		<section className={styles.titleFormOC}>
 			<span className={styles.icon}>
 				<FaRegCircle size={18} color='#fff' />
 			</span>
@@ -17,4 +17,4 @@ const FormHeader = ({ ocNumber }) => {
 	);
 };
 
-export default FormHeader;
+export default TitleFormOC;

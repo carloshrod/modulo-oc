@@ -1,11 +1,11 @@
 import FormOc from '@/components/forms/FormOc';
-import FormHeader from '@/components/forms/FormHeader';
+import TitleFormOC from '@/components/forms/TitleFormOC';
 import styles from './GenerateOC.module.css';
 
 const GenerateOC = () => {
 	return (
 		<section className={styles.generateOc}>
-			<FormHeader />
+			<TitleFormOC />
 			<FormOc />
 		</section>
 	);
