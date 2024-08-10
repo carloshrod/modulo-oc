@@ -66,9 +66,7 @@ const InfoOC = () => {
 						type='primary'
 						size='large'
 						onClick={() => {
-							showModalNotification({
-								successText: 'OC aprobada exitosamente',
-							});
+							showModalNotification('OC aprobada exitosamente');
 							hideDrawer();
 						}}
 					>
@@ -78,9 +76,7 @@ const InfoOC = () => {
 						danger
 						size='large'
 						onClick={() => {
-							showModalNotification({
-								successText: 'OC rechazada exitosamente',
-							});
+							showModalNotification('OC rechazada exitosamente');
 							hideDrawer();
 						}}
 					>

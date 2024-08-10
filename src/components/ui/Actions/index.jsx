@@ -3,7 +3,6 @@ import { Button, Space, Tooltip } from 'antd';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { TbPencilMinus } from 'react-icons/tb';
 import { AiOutlineDelete } from 'react-icons/ai';
-import { HiOutlineTrash } from 'react-icons/hi2';
 import useGlobalContext from '@/hooks/useGlobalContext';
 import InfoOC from '@/components/purchase-orders/InfoOC';
 
@@ -18,9 +17,7 @@ export const Actions = ({ record }) => {
 
 	const deleteOc = () => {
 		console.log('Eliminando OC');
-		showModalNotification({
-			successText: 'Orden de compra eliminada exitosamente',
-		});
+		showModalNotification('Orden de compra eliminada exitosamente');
 	};
 
 	const handleDelete = () => {
@@ -29,10 +26,6 @@ export const Actions = ({ record }) => {
 			title: '¿Deseas eliminar esta Orden de Compra?',
 			subtitle: 'Si eliminas no podrás recuperar los datos',
 			okText: 'Eliminar',
-			icon: {
-				bgColor: '#FFEBEB',
-				component: <HiOutlineTrash size={38} color='#E53535' />,
-			},
 		});
 	};
 

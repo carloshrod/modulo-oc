@@ -1,7 +1,6 @@
 import { Form } from 'antd';
 import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { IoNotificationsOutline } from 'react-icons/io5';
 import { ITEMS_INPUTS } from '@/utils/consts';
 import useGlobalContext from './useGlobalContext';
 
@@ -17,9 +16,7 @@ const useForm = obra => {
 		console.log('Enviando formulario!');
 		verifyItems(values);
 		console.log(values);
-		showModalNotification({
-			successText: 'OC enviada a aprobación exitosamente',
-		});
+		showModalNotification('OC enviada a aprobación exitosamente');
 		if (params?.oc_number) {
 			router.push(`/orden-de-compra/${obra}`);
 		} else {
@@ -52,10 +49,6 @@ const useForm = obra => {
 			subtitle:
 				'Se enviará un correo a los aprobadores responsables para revisar tu OC.',
 			okText: 'Aceptar',
-			icon: {
-				bgColor: '#0D6EFD',
-				component: <IoNotificationsOutline size={38} color='#FFEBEB' />,
-			},
 		});
 	};
 
@@ -63,9 +56,7 @@ const useForm = obra => {
 		try {
 			const values = await form.getFieldsValue(true);
 			console.log('Datos guardados como borrador:', values);
-			showModalNotification({
-				successText: 'OC guardada como borrador exitosamente',
-			});
+			showModalNotification('OC guardada como borrador exitosamente');
 		} catch (errorInfo) {
 			console.error('Errores de validación:', errorInfo);
 		}

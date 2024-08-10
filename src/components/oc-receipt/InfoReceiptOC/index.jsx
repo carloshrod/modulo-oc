@@ -1,7 +1,7 @@
 import { Input, Table } from 'antd';
-import styles from './InfoReceiptOC.module.css';
 import useTableColumns from '@/hooks/useTableColumns';
 import { receiptsData } from '@/utils/consts';
+import styles from './InfoReceiptOC.module.css';
 
 const InfoReceiptOC = ({ purchaseOrder }) => {
 	const { id, oc_name, oc_gloss, provider_rut, provider_name } = purchaseOrder;

@@ -10,7 +10,7 @@ const ModalForm = () => {
 	const addInvoice = values => {
 		console.log(values);
 		hideModalForm();
-		showModalNotification({ successText: 'Factura ingresada exitosamente' });
+		showModalNotification('Factura ingresada exitosamente');
 	};
 
 	return (

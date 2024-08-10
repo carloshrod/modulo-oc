@@ -5,7 +5,6 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { TbPencilMinus } from 'react-icons/tb';
 import useGlobalContext from './useGlobalContext';
-import { HiOutlineTrash } from 'react-icons/hi2';
 
 const useTableColumns = () => {
 	const { showModalConfirm, showModalNotification, showModalForm } =
@@ -391,20 +390,13 @@ const useTableColumns = () => {
 							icon={<AiOutlineDelete size={20} color='#E53535' />}
 							onClick={() =>
 								showModalConfirm(
-									() =>
-										showModalNotification({
-											successText: 'Recepción anulada exitosamente',
-										}),
+									() => showModalNotification('Recepción anulada exitosamente'),
 									{
 										danger: true,
 										title: '¿Deseas anular esta Recepción?',
 										subtitle:
 											'Si anulas, esta recepción dejará de ser editable.',
 										okText: 'Anular',
-										icon: {
-											bgColor: '#FFEBEB',
-											component: <HiOutlineTrash size={38} color='#E53535' />,
-										},
 									},
 								)
 							}

@@ -1,6 +1,10 @@
 'use client';
 import { createContext, useState } from 'react';
-import { IoCheckmarkCircleOutline } from 'react-icons/io5';
+import { HiOutlineTrash } from 'react-icons/hi2';
+import {
+	IoCheckmarkCircleOutline,
+	IoNotificationsOutline,
+} from 'react-icons/io5';
 
 export const GlobalContext = createContext(undefined);
 
@@ -41,8 +45,9 @@ const GlobalProvider = ({ children }) => {
 
 	const showModalConfirm = (
 		onConfirmCallback,
-		{ danger = false, title, subtitle, okText, icon },
+		{ danger = false, title, subtitle, okText },
 	) => {
+		setOnConfirm(() => onConfirmCallback);
 		setModal({
 			...modal,
 			modalOpen: true,
@@ -50,12 +55,18 @@ const GlobalProvider = ({ children }) => {
 			title,
 			subtitle,
 			okText,
-			icon,
+			icon: {
+				bgColor: danger ? '#FFEBEB' : '#0D6EFD',
+				component: danger ? (
+					<HiOutlineTrash size={38} color='#E53535' />
+				) : (
+					<IoNotificationsOutline size={38} color='#FFEBEB' />
+				),
+			},
 		});
-		setOnConfirm(() => onConfirmCallback);
 	};
 
-	const showModalNotification = ({ successText }) => {
+	const showModalNotification = successText => {
 		setModal({
 			...modal,
 			modalOpen: true,
