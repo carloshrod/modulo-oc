@@ -4,11 +4,6 @@
   align-items: center;
 }
 
-.mainContainer .toolbar .searchLabel {
-  font-size: 16px;
-  font-weight: 500;
-}
-
 .mainContainer .toolbar input {
   margin: auto;
 }

@@ -1,6 +1,7 @@
 'use client';
 import { createContext, useEffect, useState } from 'react';
 import { approvalEventsDb, ocDataDb } from '@/utils/consts';
+import { usePathname } from 'next/navigation';
 
 export const OcContext = createContext(undefined);
 
@@ -8,10 +9,13 @@ const OcProvider = ({ children }) => {
 	const [purchaseOrders, setPurchaseOrders] = useState([]);
 	const [purchaseOrder, setPurchaseOrder] = useState({});
 	const [approvalEvents, setApprovalEvents] = useState([]);
+	const pathname = usePathname();
 
 	useEffect(() => {
 		setPurchaseOrders(ocDataDb);
 	}, []);
+
+	useEffect(() => setPurchaseOrder({}), [pathname]);
 
 	const getPurchaseOrder = purchaseOrderNumber => {
 		if (!purchaseOrderNumber) return setPurchaseOrder({});

@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import moment from 'moment';
 import useOcContext from '@/hooks/useOcContext';
 import useGlobalContext from '@/hooks/useGlobalContext';
+import { GEN_INFO_INPUTS, ITEMS_INPUTS } from '@/utils/consts';
 
 const FormOc = ({ ocNumber }) => {
 	const obra = 'xxx-calle-santa-julia';
@@ -35,7 +36,7 @@ const FormOc = ({ ocNumber }) => {
 			};
 			form.setFieldsValue(preparedFields);
 		}
-	}, [ocNumber]);
+	}, [ocNumber, purchaseOrders]);
 
 	return (
 		<div className={styles.formWrapper}>
@@ -50,24 +51,36 @@ const FormOc = ({ ocNumber }) => {
 				}}
 			>
 				<Divider orientation='left'>Información General</Divider>
-				<GeneralInfoInputs />
+				<GeneralInfoInputs inputs={GEN_INFO_INPUTS} />
 				<Divider orientation='left'>Artículos</Divider>
-				<ItemInputs form={form} itemError={itemError} />
+				<ItemInputs
+					inputs={ITEMS_INPUTS}
+					type='oc'
+					form={form}
+					itemError={itemError}
+				/>
 				<Form.Item>
 					<section className={styles.buttonsContainer}>
 						<Button
 							type='primary'
+							size='large'
 							style={{ width: 130 }}
 							ghost
 							onClick={onCancel}
 						>
 							Cancelar
 						</Button>
-						<Button type='primary' onClick={saveAsDraft} style={{ width: 200 }}>
+						<Button
+							type='primary'
+							size='large'
+							onClick={saveAsDraft}
+							style={{ width: 200 }}
+						>
 							Guardar como borrador
 						</Button>
 						<Button
 							type='primary'
+							size='large'
 							style={{ width: 200 }}
 							icon={<CheckOutlined />}
 							iconPosition='end'

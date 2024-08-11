@@ -1,11 +1,11 @@
 import FormOc from '@/components/forms/FormOc';
-import TitleFormOC from '@/components/forms/TitleFormOC';
+import TitleForm from '@/components/ui/TitleForm';
 import styles from './GenerateOC.module.css';
 
 const GenerateOCPage = () => {
 	return (
 		<section className={styles.generateOc}>
-			<TitleFormOC />
+			<TitleForm title='Nueva Orden de Compra' />
 			<FormOc />
 		</section>
 	);

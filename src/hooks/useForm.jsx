@@ -3,12 +3,14 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { ITEMS_INPUTS } from '@/utils/consts';
 import useGlobalContext from './useGlobalContext';
+import useOcContext from './useOcContext';
 
 const useForm = obra => {
 	const [form] = Form.useForm();
 	const [itemError, setItemError] = useState(false);
 	const router = useRouter();
 	const { showModalNotification, hideModalForm } = useGlobalContext();
+	const { getPurchaseOrder } = useOcContext();
 
 	const sendForApproval = values => {
 		console.log('Enviando a aprobación!');
@@ -58,6 +60,13 @@ const useForm = obra => {
 		showModalNotification('Factura ingresada exitosamente');
 	};
 
+	const saveReceipt = values => {
+		console.log('Guardando recepción!');
+		console.log(values);
+		showModalNotification('OC recibida exitosamente');
+		getPurchaseOrder(undefined);
+	};
+
 	return {
 		form,
 		itemError,
@@ -66,6 +75,7 @@ const useForm = obra => {
 		saveAsDraft,
 		onCancel,
 		addInvoice,
+		saveReceipt,
 	};
 };
 

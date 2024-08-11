@@ -13,7 +13,10 @@ const CustomHeader = () => {
 	const router = useRouter();
 	const pathname = usePathname();
 	const params = useParams();
-	const hasBreadcrumb = pathname.includes('generar') || params?.oc_number;
+	const hasBreadcrumb =
+		pathname.includes('generar') ||
+		params?.oc_number ||
+		pathname.includes('recibir');
 	const bcItems = generateBreadcrumbs(pathname);
 
 	return (

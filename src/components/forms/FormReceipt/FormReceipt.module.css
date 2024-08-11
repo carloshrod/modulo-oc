@@ -12,5 +12,6 @@
 }
 
 .formWrapper .buttonsContainer button {
+  width: 130px;
   font-size: 14px;
 }

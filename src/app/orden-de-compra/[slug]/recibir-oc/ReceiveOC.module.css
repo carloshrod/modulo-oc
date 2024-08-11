@@ -1,0 +1,23 @@
+.receiveOC .formContainer {
+  background-color: #ffffff;
+  padding: 2rem;
+  margin-top: 1.5rem;
+  border-radius: 15px;
+}
+
+.receiveOC .formContainer .formHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.receiveOC .selectOcMessage {
+  min-height: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  font-weight: 500;
+}

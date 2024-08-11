@@ -1,19 +1,17 @@
-import { Button, Select, Space } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import { IoAdd } from 'react-icons/io5';
 import { BiArrowBack } from 'react-icons/bi';
 import LayoutIcon from '../LayoutIcon';
 import useOcContext from '@/hooks/useOcContext';
-import { generateOcOptions } from '@/utils/utils';
 import styles from './SearchReceipt.module.css';
 import InfoReceiptOC from '../InfoReceiptOC';
+import { useRouter, usePathname } from 'next/navigation';
+import SearchInput from '@/components/forms/SearchInput';
 
 const SearchReceipt = ({ handleShow }) => {
-	const { purchaseOrders, purchaseOrder, getPurchaseOrder } = useOcContext();
-
-	const onChange = value => {
-		getPurchaseOrder(value);
-	};
+	const { purchaseOrder, getPurchaseOrder } = useOcContext();
+	const router = useRouter();
+	const pathname = usePathname();
 
 	const handleGoBack = () => {
 		getPurchaseOrder(undefined);
@@ -23,19 +21,7 @@ const SearchReceipt = ({ handleShow }) => {
 	return (
 		<section className={styles.mainContainer}>
 			<div className={styles.toolbar}>
-				<Space>
-					<span className={styles.searchLabel}>Buscar NºOC:</span>
-					<Select
-						placeholder='Ej: OC-331-32'
-						optionFilterProp='label'
-						suffixIcon={<SearchOutlined style={{ fontSize: 16 }} />}
-						onChange={onChange}
-						options={generateOcOptions(purchaseOrders)}
-						showSearch
-						allowClear
-						style={{ width: 200 }}
-					/>
-				</Space>
+				<SearchInput />
 				<Button
 					type='primary'
 					ghost
@@ -56,7 +42,12 @@ const SearchReceipt = ({ handleShow }) => {
 						<p>
 							Busca una OC para ver el Detalle de Recepción o recibe una OC:
 						</p>
-						<Button type='primary' size='large' icon={<IoAdd size={30} />}>
+						<Button
+							type='primary'
+							size='large'
+							icon={<IoAdd size={30} />}
+							onClick={() => router.push(`${pathname}/recibir-oc`)}
+						>
 							Recibir OC
 						</Button>
 					</div>

@@ -23,6 +23,10 @@ const formatTitle = part => {
 		return part.replace('oc-', 'Editar OC ');
 	}
 
+	if (part.includes('recibir-oc')) {
+		return part.replace('recibir-oc', 'Recibir OC');
+	}
+
 	return part
 		.split('-')
 		.map(word => word.charAt(0).toUpperCase() + word.slice(1))

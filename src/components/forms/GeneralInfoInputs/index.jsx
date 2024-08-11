@@ -2,9 +2,9 @@ import { Button, Form, Select, Tooltip, Upload } from 'antd';
 import { BsPlusSquare } from 'react-icons/bs';
 import { UploadOutlined } from '@ant-design/icons';
 import styles from './GeneralInfoInputs.module.css';
-import { GEN_INFO_INPUTS, INPUT_TYPES } from '@/utils/consts';
+import { INPUT_TYPES } from '@/utils/consts';
 
-const GeneralInfoInputs = () => {
+const GeneralInfoInputs = ({ inputs }) => {
 	const normFile = e => {
 		console.log('Upload event:', e);
 		if (Array.isArray(e)) {
@@ -15,7 +15,7 @@ const GeneralInfoInputs = () => {
 
 	return (
 		<section className={styles.generalInfoInputs}>
-			{GEN_INFO_INPUTS.map((input, index) =>
+			{inputs?.map((input, index) =>
 				input.type !== 'file' ? (
 					<Form.Item
 						key={`${index}-${input.name}`}
@@ -46,6 +46,8 @@ const GeneralInfoInputs = () => {
 					>
 						{INPUT_TYPES[input.type]({
 							placeholder: input?.placeholder,
+							allowSearch: input?.allowSearch,
+							readOnly: input?.readOnly ?? false,
 							children:
 								input.type === 'select'
 									? input?.options?.map(option => (
@@ -68,7 +70,7 @@ const GeneralInfoInputs = () => {
 						<Upload name='logo' listType='picture' multiple maxCount={5}>
 							<Button
 								icon={<UploadOutlined />}
-								style={{ whiteSpace: 'normal', height: 'auto' }}
+								style={{ whiteSpace: 'normal', height: '38px' }}
 							>
 								Adjuntar documentos (máx 5)
 							</Button>

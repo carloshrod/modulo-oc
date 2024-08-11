@@ -20,7 +20,7 @@ export const ocDataDb = [
 				gloss: 'Palos N 3',
 				cost_account: 'cost_account_1',
 				measurement_unit: 'un',
-				amount: 20,
+				quantity: 20,
 				subtotal: 119800,
 				unit_price: 5990,
 			},
@@ -31,7 +31,7 @@ export const ocDataDb = [
 				gloss: 'Palos N 4',
 				cost_account: 'cost_account_1',
 				measurement_unit: 'un',
-				amount: 2,
+				quantity: 2,
 				subtotal: 11980,
 				unit_price: 5990,
 			},
@@ -63,7 +63,7 @@ export const ocDataDb = [
 				gloss: 'Varillas N 1',
 				cost_account: 'cost_account_1',
 				measurement_unit: 'un',
-				amount: 40,
+				quantity: 40,
 				subtotal: 1839600,
 				unit_price: 45990,
 			},
@@ -94,7 +94,7 @@ export const ocDataDb = [
 				gloss: 'Pintura N 1',
 				cost_account: 'cost_account_2',
 				measurement_unit: 'un',
-				amount: 12,
+				quantity: 12,
 				subtotal: 840000,
 				unit_price: 70000,
 			},
@@ -125,7 +125,7 @@ export const ocDataDb = [
 				gloss: 'Tornillos N 1',
 				cost_account: 'cost_account_1',
 				measurement_unit: 'un',
-				amount: 120,
+				quantity: 120,
 				subtotal: 180000,
 				unit_price: 1500,
 			},
@@ -136,7 +136,7 @@ export const ocDataDb = [
 				gloss: 'Tornillos N 2',
 				cost_account: 'cost_account_1',
 				measurement_unit: 'un',
-				amount: 80,
+				quantity: 80,
 				subtotal: 96000,
 				unit_price: 5990,
 			},
@@ -302,8 +302,12 @@ export const receiptsData = [
 ];
 
 export const INPUT_TYPES = {
-	text: ({ placeholder = 'Ingrese texto' }) => (
-		<Input placeholder={placeholder} />
+	text: ({ placeholder = 'Ingrese texto', readOnly }) => (
+		<Input
+			placeholder={placeholder}
+			readOnly={readOnly}
+			style={{ backgroundColor: readOnly ? '#F5F5F5' : '' }}
+		/>
 	),
 	number: ({ placeholder, ...props }) => (
 		<InputNumber
@@ -312,12 +316,17 @@ export const INPUT_TYPES = {
 			{...props}
 		/>
 	),
-	select: ({ placeholder = 'Seleccione', children, ...props }) => (
+	select: ({
+		placeholder = 'Seleccione...',
+		allowSearch,
+		children,
+		...props
+	}) => (
 		<Select
 			style={{ width: '100%' }}
 			placeholder={placeholder}
 			allowClear
-			showSearch
+			showSearch={allowSearch}
 			{...props}
 		>
 			{children}
@@ -413,6 +422,78 @@ export const GEN_INFO_INPUTS = [
 	},
 ];
 
+export const RECEIPT_GEN_INFO_INPUTS = [
+	{
+		name: 'oc_name',
+		label: 'Nombre OC',
+		type: 'text',
+		readOnly: true,
+	},
+	{
+		name: 'provider_rut',
+		label: 'RUT Proveedor',
+		type: 'text',
+		readOnly: true,
+	},
+	{
+		name: 'provider_name',
+		label: 'Proveedor',
+		type: 'text',
+		readOnly: true,
+	},
+	{
+		name: 'oc_gloss',
+		label: 'Glosa OC',
+		type: 'text',
+		readOnly: true,
+	},
+	{
+		name: 'reception_date',
+		label: 'Fecha de recepción',
+		message: 'La fecha de recepción es requerida',
+		type: 'date',
+		required: true,
+	},
+	{
+		name: 'doc_type',
+		label: 'Tipo de documento',
+		message: 'El tipo de documento es requerido',
+		type: 'select',
+		options: [
+			{
+				value: 'Factura',
+				label: 'Factura',
+			},
+			{
+				value: 'Guía de despacho',
+				label: 'Guía de despacho',
+			},
+			{
+				value: 'Boleta de honorarios',
+				label: 'Boleta de honorarios',
+			},
+			{
+				value: 'Vale',
+				label: 'Vale',
+			},
+			{
+				value: 'Estado de pago',
+				label: 'Estado de pago',
+			},
+		],
+		required: true,
+		allowSearch: false,
+	},
+	{
+		name: 'doc_number',
+		label: 'N° de documento',
+		placeholder: 'Ingrese número',
+		message: 'El N° de documento es requerido',
+		type: 'text',
+		required: true,
+	},
+];
+
 export const ITEMS_INPUTS = [
 	{
 		name: 'item',
@@ -450,7 +531,7 @@ export const ITEMS_INPUTS = [
 		type: 'text',
 	},
 	{
-		name: 'amount',
+		name: 'quantity',
 		label: 'Cantidad',
 		type: 'number',
 		placeholder: 'Valor',
@@ -464,6 +545,51 @@ export const ITEMS_INPUTS = [
 	{
 		name: 'subtotal',
 		label: 'Subtotal',
+		type: 'number',
+		placeholder: 'Valor $',
+	},
+];
+
+export const RECEIPT_ITEMS_INPUTS = [
+	{
+		name: 'item',
+		label: 'Artículo',
+		type: 'text',
+		readOnly: true,
+	},
+	{
+		name: 'description',
+		label: 'Descripción',
+		type: 'text',
+		readOnly: true,
+	},
+	{
+		name: 'measurement_unit',
+		label: 'Unidad de medida',
+		type: 'text',
+		readOnly: true,
+	},
+	{
+		name: 'quantity',
+		label: 'Cantidad OC',
+		type: 'text',
+		readOnly: true,
+	},
+	{
+		name: 'unit_price',
+		label: 'Precio unitario',
+		type: 'text',
+		readOnly: true,
+	},
+	{
+		name: 'received_quantity',
+		label: 'Cantidad recibida',
+		type: 'number',
+		placeholder: 'Ingrese número',
+	},
+	{
+		name: 'received_amount',
+		label: 'Monto recibido',
 		type: 'number',
 		placeholder: 'Valor $',
 	},

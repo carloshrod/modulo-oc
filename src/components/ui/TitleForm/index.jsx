@@ -1,9 +1,7 @@
 import { FaRegCircle } from 'react-icons/fa';
-import styles from './TitleFormOC.module.css';
+import styles from './TitleForm.module.css';
 
-const TitleFormOC = ({ ocNumber }) => {
-	const title = ocNumber?.replace('oc-', 'OC ') ?? 'Nueva Orden de Compra';
-
+const TitleForm = ({ title }) => {
 	return (
 		<section className={styles.titleFormOC}>
 			<span className={styles.icon}>
@@ -17,4 +15,4 @@ const TitleFormOC = ({ ocNumber }) => {
 	);
 };
 
-export default TitleFormOC;
+export default TitleForm;

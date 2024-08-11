@@ -1,16 +1,16 @@
 import { Button, Form, InputNumber, Select } from 'antd';
 import { BsPlusSquare } from 'react-icons/bs';
 import { AiOutlineDelete } from 'react-icons/ai';
-import { CALCULATION_INPUTS, INPUT_TYPES, ITEMS_INPUTS } from '@/utils/consts';
+import { CALCULATION_INPUTS, INPUT_TYPES } from '@/utils/consts';
 import styles from './ItemInputs.module.css';
 
-const ItemInputs = ({ form, itemError }) => {
+const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 	const IVA_RATE = 0.19;
 
 	const updateSubtotal = name => {
 		const items = form.getFieldValue('items');
 		const item = items[name];
-		const subtotal = (item?.amount || 0) * (item?.unit_price || 0);
+		const subtotal = (item?.quantity || 0) * (item?.unit_price || 0);
 		form.setFieldsValue({
 			items: items.map((field, index) =>
 				index === name ? { ...field, subtotal } : field,
@@ -20,10 +20,28 @@ const ItemInputs = ({ form, itemError }) => {
 		updateCalculations();
 	};
 
+	const updateReceivedAmount = name => {
+		const items = form.getFieldValue('items');
+		const item = items[name];
+		const receivedAmount =
+			(item?.received_quantity || 0) * (item?.unit_price || 0);
+		form.setFieldsValue({
+			items: items.map((field, index) =>
+				index === name ? { ...field, received_amount: receivedAmount } : field,
+			),
+		});
+
+		updateReceiptCalculations();
+	};
+
 	const handleValueChange = (name, field, value) => {
 		const items = form.getFieldValue('items');
 		items[name][field] = value;
-		updateSubtotal(name);
+		if (type === 'oc') {
+			updateSubtotal(name);
+		} else {
+			updateReceivedAmount(name);
+		}
 	};
 
 	const updateCalculations = () => {
@@ -42,8 +60,27 @@ const ItemInputs = ({ form, itemError }) => {
 		});
 	};
 
+	const updateReceiptCalculations = () => {
+		const items = form.getFieldValue('items') || [];
+		const netTotal = items.reduce(
+			(total, item) => total + (item?.received_amount || 0),
+			0,
+		);
+		const iva = netTotal * IVA_RATE;
+		const total = netTotal + iva;
+
+		form.setFieldsValue({
+			net_total: netTotal,
+			iva,
+			total,
+		});
+	};
+
 	return (
-		<section className={styles.items}>
+		<section
+			className={styles.items}
+			style={{ marginRight: type !== 'oc' && 0 }}
+		>
 			<Form.List name='items'>
 				{(fields, { add, remove }) => {
 					return (
@@ -51,7 +88,7 @@ const ItemInputs = ({ form, itemError }) => {
 							{fields.map(({ key, name, ...restField }) => {
 								return (
 									<section key={key} className={styles.itemsInputs}>
-										{ITEMS_INPUTS.map((input, index) => {
+										{inputs?.map((input, index) => {
 											return (
 												<Form.Item
 													{...restField}
@@ -68,6 +105,7 @@ const ItemInputs = ({ form, itemError }) => {
 												>
 													{INPUT_TYPES[input.type]({
 														placeholder: input?.placeholder,
+														readOnly: input?.readOnly,
 														children:
 															input.type === 'select'
 																? input?.options?.map(option => (
@@ -80,8 +118,9 @@ const ItemInputs = ({ form, itemError }) => {
 																	))
 																: null,
 														onChange:
-															input.name === 'amount' ||
-															input.name === 'unit_price'
+															input.name === 'quantity' ||
+															input.name === 'unit_price' ||
+															input.name === 'received_quantity'
 																? value =>
 																		handleValueChange(name, input.name, value)
 																: () => null,
@@ -89,29 +128,33 @@ const ItemInputs = ({ form, itemError }) => {
 												</Form.Item>
 											);
 										})}
-										<div className={styles.actions}>
-											<Button
-												style={{ marginTop: name === 0 ? 6 : -24 }}
-												type='text'
-												icon={<BsPlusSquare size={22} color='#0D6EFD' />}
-												onClick={() => add()}
-											/>
-											<Button
-												style={{ marginTop: name === 0 ? 4 : -24 }}
-												type='text'
-												icon={
-													<AiOutlineDelete
-														size={28}
-														color={fields.length === 1 ? '#FCBABA' : '#E53535'}
-													/>
-												}
-												onClick={() => {
-													remove(name);
-													updateCalculations();
-												}}
-												disabled={fields.length === 1}
-											/>
-										</div>
+										{type === 'oc' ? (
+											<div className={styles.actions}>
+												<Button
+													style={{ marginTop: name === 0 ? 6 : -24 }}
+													type='text'
+													icon={<BsPlusSquare size={22} color='#0D6EFD' />}
+													onClick={() => add()}
+												/>
+												<Button
+													style={{ marginTop: name === 0 ? 4 : -24 }}
+													type='text'
+													icon={
+														<AiOutlineDelete
+															size={28}
+															color={
+																fields.length === 1 ? '#FCBABA' : '#E53535'
+															}
+														/>
+													}
+													onClick={() => {
+														remove(name);
+														updateCalculations();
+													}}
+													disabled={fields.length === 1}
+												/>
+											</div>
+										) : null}
 									</section>
 								);
 							})}
