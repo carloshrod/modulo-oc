@@ -1,45 +1,29 @@
 'use client';
-import { useState } from 'react';
 import TableToolbar from '@/components/ui/TableToolbar';
 import TableOCReceipts from '../TableOCReceipts';
-import SearchReceipt from '../SearchReceipt';
 import useOcContext from '@/hooks/useOcContext';
 import InfoReceiptOC from '../InfoReceiptOC';
-import { BiArrowBack } from 'react-icons/bi';
-import { Button } from 'antd';
-import styles from './OCReceipt.module.css';
+import { usePathname, useRouter } from 'next/navigation';
+import GoBack from '@/components/ui/GoBack';
 
 const OCReceipt = () => {
 	const { purchaseOrder, getPurchaseOrder } = useOcContext();
-	const [showTable, setShowTable] = useState(true);
+	const router = useRouter();
+	const pathname = usePathname();
 
-	const handleShow = () => setShowTable(!showTable);
-
-	return showTable ? (
-		purchaseOrder?.oc_number ? (
-			<>
-				<div className={styles.goBack}>
-					<Button
-						type='primary'
-						ghost
-						icon={<BiArrowBack size={20} />}
-						iconPosition='start'
-						size='large'
-						onClick={() => getPurchaseOrder(undefined)}
-					>
-						Volver a tabla
-					</Button>
-				</div>
-				<InfoReceiptOC purchaseOrder={purchaseOrder} />
-			</>
-		) : (
-			<>
-				<TableToolbar table='receipts' onClick={handleShow} />
-				<TableOCReceipts />
-			</>
-		)
+	return purchaseOrder?.oc_number ? (
+		<>
+			<GoBack onClick={() => getPurchaseOrder(undefined)} />
+			<InfoReceiptOC purchaseOrder={purchaseOrder} />
+		</>
 	) : (
-		<SearchReceipt handleShow={handleShow} />
+		<>
+			<TableToolbar
+				table='receipts'
+				onClick={() => router.push(`${pathname}/recibir-oc`)}
+			/>
+			<TableOCReceipts />
+		</>
 	);
 };
 

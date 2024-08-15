@@ -5,7 +5,7 @@ import styles from './Toolbar.module.css';
 const TableToolbar = ({ table, onClick }) => {
 	const BTN_LABELS = {
 		oc: 'Generar OC',
-		receipts: 'Recepción OC',
+		receipts: 'Recibir OC',
 	};
 
 	return (
