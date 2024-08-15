@@ -313,6 +313,7 @@ export const INPUT_TYPES = {
 		<InputNumber
 			style={{ width: '100%' }}
 			placeholder={placeholder}
+			controls={false}
 			{...props}
 		/>
 	),

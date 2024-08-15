@@ -180,7 +180,7 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 							justifyContent: 'flex-end',
 						}}
 					>
-						<InputNumber style={{ width: '100%' }} />
+						<InputNumber style={{ width: '100%' }} controls={false} />
 					</Form.Item>
 				</div>
 			))}
