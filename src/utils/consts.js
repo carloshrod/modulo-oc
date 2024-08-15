@@ -405,7 +405,7 @@ export const GEN_INFO_INPUTS = [
 				label: 'UF',
 			},
 			{
-				value: 'usdUSD',
+				value: 'USD',
 				label: 'USD',
 			},
 			{
