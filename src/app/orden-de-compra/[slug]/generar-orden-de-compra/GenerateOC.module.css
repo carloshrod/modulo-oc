@@ -1,6 +1,11 @@
-.generateOc {
+.generateOc .goBack {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 1.5rem;
+}
+
+.generateOc .generateOcForm {
   background-color: #ffffff;
   padding: 2rem;
-  margin-top: 1.5rem;
   border-radius: 15px;
 }

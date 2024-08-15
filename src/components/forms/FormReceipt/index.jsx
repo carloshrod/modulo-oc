@@ -6,10 +6,12 @@ import { RECEIPT_GEN_INFO_INPUTS, RECEIPT_ITEMS_INPUTS } from '@/utils/consts';
 import useOcContext from '@/hooks/useOcContext';
 import { useEffect } from 'react';
 import useForm from '@/hooks/useForm';
+import { useRouter } from 'next/navigation';
 
 const FormReceipt = () => {
-	const { purchaseOrder, getPurchaseOrder } = useOcContext();
+	const { purchaseOrder } = useOcContext();
 	const { form, saveReceipt } = useForm();
+	const router = useRouter();
 
 	useEffect(() => {
 		if (purchaseOrder) {
@@ -48,7 +50,7 @@ const FormReceipt = () => {
 							type='primary'
 							size='large'
 							ghost
-							onClick={() => getPurchaseOrder(undefined)}
+							onClick={() => router.back()}
 						>
 							Cancelar
 						</Button>
