@@ -20,6 +20,26 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 		updateCalculations();
 	};
 
+	const updateCalculations = () => {
+		const items = form.getFieldValue('items') || [];
+		const discount = form.getFieldValue('discount') || 0;
+
+		if (!discount) form.setFieldsValue({ discount: 0 });
+
+		const netTotal =
+			items.reduce((total, item) => total + (item?.subtotal || 0), 0) -
+			discount;
+
+		const iva = netTotal * IVA_RATE;
+		const total = netTotal + iva;
+
+		form.setFieldsValue({
+			net_total: netTotal,
+			iva,
+			total,
+		});
+	};
+
 	const updateReceivedAmount = name => {
 		const items = form.getFieldValue('items');
 		const item = items[name];
@@ -34,6 +54,26 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 		updateReceiptCalculations();
 	};
 
+	const updateReceiptCalculations = () => {
+		const items = form.getFieldValue('items') || [];
+		const discount = form.getFieldValue('discount') || 0;
+
+		if (!discount) form.setFieldsValue({ discount: 0 });
+
+		const netTotal =
+			items.reduce((total, item) => total + (item?.received_amount || 0), 0) -
+			discount;
+
+		const iva = netTotal * IVA_RATE;
+		const total = netTotal + iva;
+
+		form.setFieldsValue({
+			net_total: netTotal,
+			iva,
+			total,
+		});
+	};
+
 	const handleValueChange = (name, field, value) => {
 		const items = form.getFieldValue('items');
 		items[name][field] = value;
@@ -44,36 +84,13 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 		}
 	};
 
-	const updateCalculations = () => {
-		const items = form.getFieldValue('items') || [];
-		const netTotal = items.reduce(
-			(total, item) => total + (item?.subtotal || 0),
-			0,
-		);
-		const iva = netTotal * IVA_RATE;
-		const total = netTotal + iva;
-
-		form.setFieldsValue({
-			net_total: netTotal,
-			iva,
-			total,
-		});
-	};
-
-	const updateReceiptCalculations = () => {
-		const items = form.getFieldValue('items') || [];
-		const netTotal = items.reduce(
-			(total, item) => total + (item?.received_amount || 0),
-			0,
-		);
-		const iva = netTotal * IVA_RATE;
-		const total = netTotal + iva;
-
-		form.setFieldsValue({
-			net_total: netTotal,
-			iva,
-			total,
-		});
+	const handleDiscountChange = (name, value) => {
+		form.setFieldsValue({ [name]: value });
+		if (type === 'oc') {
+			updateCalculations();
+		} else {
+			updateReceiptCalculations();
+		}
 	};
 
 	return (
@@ -180,7 +197,11 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 							justifyContent: 'flex-end',
 						}}
 					>
-						<InputNumber style={{ width: '100%' }} controls={false} />
+						<InputNumber
+							style={{ width: '100%' }}
+							controls={false}
+							onChange={value => handleDiscountChange(input.name, value)}
+						/>
 					</Form.Item>
 				</div>
 			))}

@@ -602,6 +602,10 @@ export const CALCULATION_INPUTS = [
 		label: 'Total Neto',
 	},
 	{
+		name: 'discount',
+		label: 'Descuento',
+	},
+	{
 		name: 'iva',
 		label: 'IVA',
 	},
