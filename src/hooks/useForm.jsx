@@ -60,6 +60,12 @@ const useForm = obra => {
 		showModalNotification('Factura ingresada exitosamente');
 	};
 
+	const addItem = values => {
+		console.log(values);
+		hideModalForm();
+		showModalNotification('Artículo agregado exitosamente');
+	};
+
 	const saveReceipt = values => {
 		console.log('Guardando recepción!');
 		console.log(values);
@@ -75,6 +81,7 @@ const useForm = obra => {
 		saveAsDraft,
 		onCancel,
 		addInvoice,
+		addItem,
 		saveReceipt,
 	};
 };

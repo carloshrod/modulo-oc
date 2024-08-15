@@ -1,11 +1,14 @@
-import { Button, Form, InputNumber, Select } from 'antd';
+import { Button, Form, InputNumber, Select, Tooltip } from 'antd';
 import { BsPlusSquare } from 'react-icons/bs';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { CALCULATION_INPUTS, INPUT_TYPES } from '@/utils/consts';
 import styles from './ItemInputs.module.css';
+import useGlobalContext from '@/hooks/useGlobalContext';
+import FormItem from '../FormItem';
 
 const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 	const IVA_RATE = 0.19;
+	const { showModalForm } = useGlobalContext();
 
 	const updateSubtotal = name => {
 		const items = form.getFieldValue('items');
@@ -119,6 +122,29 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 														},
 													]}
 													className={`noRequiredMark ${input.name === 'cost_account' ? 'costAccountSelect' : ''}`}
+													extra={
+														input.name === 'item' ? (
+															<Tooltip title='Agregar artículo'>
+																<Button
+																	style={{
+																		position: 'absolute',
+																		top: -38,
+																		left: 59,
+																	}}
+																	type='text'
+																	icon={
+																		<BsPlusSquare size={22} color='#0D6EFD' />
+																	}
+																	onClick={() =>
+																		showModalForm({
+																			title: 'Agregar Artículo',
+																			children: <FormItem />,
+																		})
+																	}
+																/>
+															</Tooltip>
+														) : null
+													}
 												>
 													{INPUT_TYPES[input.type]({
 														placeholder: input?.placeholder,

@@ -98,9 +98,10 @@ const GlobalProvider = ({ children }) => {
 		}
 	};
 
-	const showModalForm = children => {
+	const showModalForm = ({ title, children }) => {
 		setModalForm({
 			modalFormOpen: true,
+			title,
 			children,
 		});
 	};

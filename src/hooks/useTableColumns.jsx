@@ -372,7 +372,12 @@ const useTableColumns = () => {
 						<Button
 							type='text'
 							icon={<TbPencilMinus size={20} color='#0D6EFD' />}
-							onClick={() => showModalForm(<FormInvoice />)}
+							onClick={() =>
+								showModalForm({
+									title: 'Ingresar N° Factura',
+									children: <FormInvoice />,
+								})
+							}
 						/>
 					</Tooltip>
 					<Tooltip title='Anular recepción'>

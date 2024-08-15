@@ -4,14 +4,14 @@ import useGlobalContext from '@/hooks/useGlobalContext';
 
 const ModalForm = () => {
 	const {
-		modalForm: { modalFormOpen, children },
+		modalForm: { modalFormOpen, title, children },
 		hideModalForm,
 	} = useGlobalContext();
 
 	return (
 		<Modal
 			open={modalFormOpen}
-			title='Ingresar N° Factura'
+			title={title}
 			okText='Agregar'
 			cancelText='Cancelar'
 			okButtonProps={{
