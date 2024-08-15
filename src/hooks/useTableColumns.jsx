@@ -152,6 +152,7 @@ const useTableColumns = () => {
 			title: 'N° OC',
 			dataIndex: 'oc_number',
 			key: 'oc_number',
+			...getColumnSearchProps('oc_number'),
 			width: 80,
 		},
 		{
@@ -181,19 +182,6 @@ const useTableColumns = () => {
 			dataIndex: 'provider_name',
 			key: 'provider_name',
 			...getColumnSearchProps('provider_name'),
-			width: 175,
-		},
-		{
-			title: 'CÓDIGO',
-			dataIndex: 'code',
-			key: 'code',
-			...getColumnSearchProps('code'),
-			width: 120,
-		},
-		{
-			title: 'DESCRIPCIÓN',
-			dataIndex: 'description',
-			key: 'description',
 			width: 175,
 		},
 		{
