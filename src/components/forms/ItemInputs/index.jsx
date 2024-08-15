@@ -123,7 +123,9 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 													]}
 													className={`noRequiredMark ${input.name === 'cost_account' ? 'costAccountSelect' : ''}`}
 													extra={
-														input.name === 'item' ? (
+														input.name === 'item' &&
+														name === 0 &&
+														type === 'oc' ? (
 															<Tooltip title='Agregar artículo'>
 																<Button
 																	style={{
@@ -172,7 +174,12 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 											);
 										})}
 										{type === 'oc' ? (
-											<div className={styles.actions}>
+											<div
+												className={styles.actions}
+												style={{
+													top: name === 0 && '42%',
+												}}
+											>
 												<Button
 													style={{ marginTop: name === 0 ? 6 : -24 }}
 													type='text'
