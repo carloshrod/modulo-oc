@@ -1,19 +1,37 @@
 'use client';
+import { usePathname, useRouter } from 'next/navigation';
+import { Button } from 'antd';
+import { GiReceiveMoney } from 'react-icons/gi';
+import Toolbar from '@/components/ui/Toolbar';
+import InfoReceiptOC from '../InfoReceiptOC';
 import TableToolbar from '@/components/ui/TableToolbar';
 import TableOCReceipts from '../TableOCReceipts';
 import useOcContext from '@/hooks/useOcContext';
-import InfoReceiptOC from '../InfoReceiptOC';
-import { usePathname, useRouter } from 'next/navigation';
-import GoBack from '@/components/ui/GoBack';
 
 const OCReceipt = () => {
-	const { purchaseOrder, getPurchaseOrder } = useOcContext();
+	const { purchaseOrder, getPurchaseOrder, getPurchaseOrderToReceive } =
+		useOcContext();
 	const router = useRouter();
 	const pathname = usePathname();
 
+	const handleReceiveOc = () => {
+		router.push(`${pathname}/recibir-oc`);
+		getPurchaseOrderToReceive(purchaseOrder?.oc_number);
+	};
+
 	return purchaseOrder?.oc_number ? (
 		<>
-			<GoBack onClick={() => getPurchaseOrder(undefined)} />
+			<Toolbar onClick={() => getPurchaseOrder(undefined)}>
+				<Button
+					type='primary'
+					icon={<GiReceiveMoney size={20} />}
+					iconPosition='start'
+					size='large'
+					onClick={handleReceiveOc}
+				>
+					Recibir {purchaseOrder?.oc_number}
+				</Button>
+			</Toolbar>
 			<InfoReceiptOC purchaseOrder={purchaseOrder} />
 		</>
 	) : (

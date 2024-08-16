@@ -1,11 +1,11 @@
 'use client';
 import { Button } from 'antd';
 import { BiArrowBack } from 'react-icons/bi';
-import styles from './GoBack.module.css';
 import { useRouter } from 'next/navigation';
 import useOcContext from '@/hooks/useOcContext';
+import styles from './Toolbar.module.css';
 
-const GoBack = ({ onClick = undefined }) => {
+const Toolbar = ({ onClick = undefined, children }) => {
 	const { getPurchaseOrderToReceive } = useOcContext();
 	const router = useRouter();
 
@@ -21,7 +21,8 @@ const GoBack = ({ onClick = undefined }) => {
 	};
 
 	return (
-		<div className={styles.goBack}>
+		<div className={styles.toolbar}>
+			{children}
 			<Button
 				type='primary'
 				ghost
@@ -36,4 +37,4 @@ const GoBack = ({ onClick = undefined }) => {
 	);
 };
 
-export default GoBack;
+export default Toolbar;

@@ -5,14 +5,14 @@ import SearchInput from '@/components/forms/SearchInput';
 import LayoutIcon from '@/components/oc-receipt/LayoutIcon';
 import FormReceipt from '@/components/forms/FormReceipt';
 import useOcContext from '@/hooks/useOcContext';
-import GoBack from '@/components/ui/GoBack';
+import Toolbar from '@/components/ui/Toolbar';
 
 const ReceiveOCPage = () => {
 	const { purchaseOrderToReceive } = useOcContext();
 
 	return (
 		<div className={styles.receiveOC}>
-			<GoBack />
+			<Toolbar />
 			<section className={styles.formContainer}>
 				<div className={styles.formHeader}>
 					<TitleForm title='Recepción OC' />

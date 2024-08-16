@@ -1,7 +1,7 @@
 import FormOc from '@/components/forms/FormOc';
 import TitleForm from '@/components/ui/TitleForm';
 import styles from './EditOC.module.css';
-import GoBack from '@/components/ui/GoBack';
+import Toolbar from '@/components/ui/Toolbar';
 
 const EditOCPage = props => {
 	const { params } = props;
@@ -10,7 +10,7 @@ const EditOCPage = props => {
 
 	return (
 		<div className={styles.editOc}>
-			<GoBack />
+			<Toolbar />
 			<section className={styles.editOcForm}>
 				<TitleForm title={title} />
 				<FormOc ocNumber={ocNumber} />
