@@ -302,10 +302,11 @@ export const receiptsData = [
 ];
 
 export const INPUT_TYPES = {
-	text: ({ ...props }) => (
+	text: ({ placeholder, readOnly, ...props }) => (
 		<Input
-			placeholder={props?.placeholder ?? 'Ingrese texto'}
-			style={{ backgroundColor: props?.readOnly ? '#F5F5F5' : '' }}
+			style={{ backgroundColor: readOnly ? '#F5F5F5' : '' }}
+			placeholder={placeholder ?? 'Ingrese texto'}
+			readOnly={readOnly}
 			{...props}
 		/>
 	),
@@ -313,30 +314,26 @@ export const INPUT_TYPES = {
 		<InputNumber
 			style={{ width: '100%' }}
 			placeholder={props?.placeholder ?? 'Ingrese valor'}
-			formatter={props?.formatter ?? undefined}
-			parser={props?.parser ?? undefined}
 			controls={false}
 			{...props}
 		/>
 	),
-	select: ({ children, ...props }) => {
+	select: ({ placeholder, children }) => {
 		return (
 			<Select
 				style={{ width: '100%' }}
-				placeholder={props?.placeholder ?? 'Seleccione...'}
+				placeholder={placeholder ?? 'Seleccione...'}
 				allowClear
 				showSearch
-				{...props}
 			>
 				{children}
 			</Select>
 		);
 	},
-	date: ({ ...props }) => (
+	date: ({ placeholder }) => (
 		<DatePicker
 			style={{ width: '100%' }}
-			placeholder={props?.placeholder ?? 'Seleccione una fecha...'}
-			{...props}
+			placeholder={placeholder ?? 'Seleccione una fecha...'}
 		/>
 	),
 };

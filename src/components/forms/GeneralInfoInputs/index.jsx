@@ -62,7 +62,8 @@ const GeneralInfoInputs = ({ inputs, form }) => {
 							style={{ width: input.name === 'currency_type' ? '50%' : '' }}
 						>
 							{INPUT_TYPES[input.type]({
-								...input,
+								placeholder: input?.placeholder,
+								readOnly: input?.readOnly,
 								children:
 									input.type === 'select'
 										? input?.options?.map(option => (
