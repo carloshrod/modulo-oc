@@ -318,13 +318,14 @@ export const INPUT_TYPES = {
 			{...props}
 		/>
 	),
-	select: ({ placeholder, children }) => {
+	select: ({ placeholder, children, ...props }) => {
 		return (
 			<Select
 				style={{ width: '100%' }}
 				placeholder={placeholder ?? 'Seleccione...'}
 				allowClear
 				showSearch
+				{...props}
 			>
 				{children}
 			</Select>
