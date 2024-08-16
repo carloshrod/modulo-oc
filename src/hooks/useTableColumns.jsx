@@ -4,14 +4,23 @@ import { Badge, Button, Space, Tooltip } from 'antd';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { TbPencilMinus } from 'react-icons/tb';
+import { GiReceiveMoney } from 'react-icons/gi';
 import useGlobalContext from './useGlobalContext';
 import FormInvoice from '@/components/forms/FormInvoice';
 import useOcContext from './useOcContext';
+import { useRouter, usePathname } from 'next/navigation';
 
 const useTableColumns = () => {
 	const { showModalConfirm, showModalNotification, showModalForm } =
 		useGlobalContext();
-	const { getPurchaseOrder } = useOcContext();
+	const { getPurchaseOrder, getPurchaseOrderToReceive } = useOcContext();
+	const router = useRouter();
+	const pathname = usePathname();
+
+	const handleReceiveOc = ocNumber => {
+		router.push(`${pathname}/recibir-oc`);
+		getPurchaseOrderToReceive(ocNumber);
+	};
 
 	const ocColumns = [
 		{
@@ -207,13 +216,22 @@ const useTableColumns = () => {
 			key: 'actions',
 			className: 'actions',
 			render: (_, record) => (
-				<Tooltip title='Ver recepción'>
-					<Button
-						type='text'
-						icon={<IoDocumentTextOutline size={20} color='#0D6EFD' />}
-						onClick={() => getPurchaseOrder(record.oc_number)}
-					/>
-				</Tooltip>
+				<Space>
+					<Tooltip title='Ver recepción'>
+						<Button
+							type='text'
+							icon={<IoDocumentTextOutline size={20} color='#0D6EFD' />}
+							onClick={() => getPurchaseOrder(record.oc_number)}
+						/>
+					</Tooltip>
+					<Tooltip title='Recibir OC'>
+						<Button
+							type='text'
+							icon={<GiReceiveMoney size={20} color='#0D6EFD' />}
+							onClick={() => handleReceiveOc(record.oc_number)}
+						/>
+					</Tooltip>
+				</Space>
 			),
 			width: 100,
 		},

@@ -9,31 +9,38 @@ import useForm from '@/hooks/useForm';
 import { useRouter } from 'next/navigation';
 
 const FormReceipt = () => {
-	const { purchaseOrder } = useOcContext();
+	const { purchaseOrderToReceive, getPurchaseOrderToReceive } = useOcContext();
 	const { form, saveReceipt } = useForm();
 	const router = useRouter();
 
+	const handleCancel = () => {
+		router.back();
+		setTimeout(() => {
+			getPurchaseOrderToReceive(undefined);
+		}, 500);
+	};
+
 	useEffect(() => {
-		if (purchaseOrder) {
+		if (purchaseOrderToReceive) {
 			const preparedFields = {
-				...purchaseOrder,
+				...purchaseOrderToReceive,
 				reception_date: '',
 				doc_type: '',
 				doc_number: '',
+				discount: '',
 				net_total: '',
 				iva: '',
 				total: '',
 			};
 			form.setFieldsValue(preparedFields);
 		}
-	}, [purchaseOrder]);
+	}, [purchaseOrderToReceive]);
 
 	return (
 		<div className={styles.formWrapper}>
 			<Form
 				form={form}
 				onFinish={saveReceipt}
-				// onFinishFailed={sendForApprovalFailed}
 				layout='vertical'
 				autoComplete='off'
 				initialValues={{
@@ -46,12 +53,7 @@ const FormReceipt = () => {
 				<ItemInputs inputs={RECEIPT_ITEMS_INPUTS} form={form} />
 				<Form.Item>
 					<section className={styles.buttonsContainer}>
-						<Button
-							type='primary'
-							size='large'
-							ghost
-							onClick={() => router.back()}
-						>
+						<Button type='primary' size='large' ghost onClick={handleCancel}>
 							Cancelar
 						</Button>
 						<Button

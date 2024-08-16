@@ -8,7 +8,7 @@ import useOcContext from '@/hooks/useOcContext';
 import GoBack from '@/components/ui/GoBack';
 
 const ReceiveOCPage = () => {
-	const { purchaseOrder } = useOcContext();
+	const { purchaseOrderToReceive } = useOcContext();
 
 	return (
 		<div className={styles.receiveOC}>
@@ -18,9 +18,9 @@ const ReceiveOCPage = () => {
 					<TitleForm title='Recepción OC' />
 					<SearchInput />
 				</div>
-				{purchaseOrder?.oc_number ? <FormReceipt /> : null}
+				{purchaseOrderToReceive?.oc_number ? <FormReceipt /> : null}
 			</section>
-			{!purchaseOrder?.oc_number ? (
+			{!purchaseOrderToReceive?.oc_number ? (
 				<section className={styles.selectOcMessage}>
 					<LayoutIcon />
 					<p>Selecciona una OC para realizar la recepción.</p>

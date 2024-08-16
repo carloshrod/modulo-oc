@@ -3,8 +3,10 @@ import { Button } from 'antd';
 import { BiArrowBack } from 'react-icons/bi';
 import styles from './GoBack.module.css';
 import { useRouter } from 'next/navigation';
+import useOcContext from '@/hooks/useOcContext';
 
 const GoBack = ({ onClick = undefined }) => {
+	const { getPurchaseOrderToReceive } = useOcContext();
 	const router = useRouter();
 
 	const handleBack = () => {
@@ -12,6 +14,9 @@ const GoBack = ({ onClick = undefined }) => {
 			onClick();
 		} else {
 			router.back();
+			setTimeout(() => {
+				getPurchaseOrderToReceive(undefined);
+			}, 500);
 		}
 	};
 

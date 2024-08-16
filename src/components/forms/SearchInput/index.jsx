@@ -6,16 +6,18 @@ import useOcContext from '@/hooks/useOcContext';
 import { generateOcOptions } from '@/utils/utils';
 
 const SearchInput = () => {
-	const { purchaseOrders, getPurchaseOrder } = useOcContext();
+	const { purchaseOrders, purchaseOrderToReceive, getPurchaseOrderToReceive } =
+		useOcContext();
 
 	const onChange = value => {
-		getPurchaseOrder(value);
+		getPurchaseOrderToReceive(value);
 	};
 
 	return (
 		<Space>
 			<span className={styles.searchLabel}>Seleccionar NºOC:</span>
 			<Select
+				defaultValue={purchaseOrderToReceive?.oc_number}
 				placeholder='Ej: OC-331-32'
 				optionFilterProp='label'
 				suffixIcon={<SearchOutlined style={{ fontSize: 16 }} />}

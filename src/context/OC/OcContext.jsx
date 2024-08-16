@@ -1,29 +1,37 @@
 'use client';
 import { createContext, useEffect, useState } from 'react';
 import { approvalEventsDb, ocDataDb } from '@/utils/consts';
-import { usePathname } from 'next/navigation';
 
 export const OcContext = createContext(undefined);
 
 const OcProvider = ({ children }) => {
 	const [purchaseOrders, setPurchaseOrders] = useState([]);
 	const [purchaseOrder, setPurchaseOrder] = useState({});
+	const [purchaseOrderToReceive, setPurchaseOrderToReceive] = useState({});
 	const [approvalEvents, setApprovalEvents] = useState([]);
-	const pathname = usePathname();
 
 	useEffect(() => {
 		setPurchaseOrders(ocDataDb);
 	}, []);
 
-	useEffect(() => setPurchaseOrder({}), [pathname]);
-
-	const getPurchaseOrder = purchaseOrderNumber => {
-		if (!purchaseOrderNumber) return setPurchaseOrder({});
-
+	const findPurchaseOrder = purchaseOrderNumber => {
 		const foundOc = purchaseOrders.find(el => {
 			return el.oc_number === purchaseOrderNumber;
 		});
+
+		return foundOc;
+	};
+
+	const getPurchaseOrder = purchaseOrderNumber => {
+		if (!purchaseOrderNumber) return setPurchaseOrder({});
+		const foundOc = findPurchaseOrder(purchaseOrderNumber);
 		setPurchaseOrder(foundOc);
+	};
+
+	const getPurchaseOrderToReceive = purchaseOrderNumber => {
+		if (!purchaseOrderNumber) return setPurchaseOrderToReceive({});
+		const foundOc = findPurchaseOrder(purchaseOrderNumber);
+		setPurchaseOrderToReceive(foundOc);
 	};
 
 	const getApprovalEvents = purchaseOrderId => {
@@ -37,6 +45,8 @@ const OcProvider = ({ children }) => {
 		purchaseOrders,
 		purchaseOrder,
 		getPurchaseOrder,
+		purchaseOrderToReceive,
+		getPurchaseOrderToReceive,
 		approvalEvents,
 		getApprovalEvents,
 	};
