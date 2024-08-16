@@ -598,12 +598,12 @@ export const RECEIPT_ITEMS_INPUTS = [
 
 export const CALCULATION_INPUTS = [
 	{
-		name: 'net_total',
-		label: 'Total Neto',
-	},
-	{
 		name: 'discount',
 		label: 'Descuento',
+	},
+	{
+		name: 'net_total',
+		label: 'Total Neto',
 	},
 	{
 		name: 'iva',
