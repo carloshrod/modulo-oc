@@ -317,22 +317,19 @@ export const INPUT_TYPES = {
 			{...props}
 		/>
 	),
-	select: ({
-		placeholder = 'Seleccione...',
-		allowSearch,
-		children,
-		...props
-	}) => (
-		<Select
-			style={{ width: '100%' }}
-			placeholder={placeholder}
-			allowClear
-			showSearch={allowSearch}
-			{...props}
-		>
-			{children}
-		</Select>
-	),
+	select: ({ placeholder = 'Seleccione...', children, ...props }) => {
+		return (
+			<Select
+				style={{ width: '100%' }}
+				placeholder={placeholder}
+				allowClear
+				showSearch={props.name !== 'currency_type'}
+				{...props}
+			>
+				{children}
+			</Select>
+		);
+	},
 	date: ({ placeholder = 'Seleccione una fecha' }) => (
 		<DatePicker style={{ width: '100%' }} placeholder={placeholder} />
 	),
@@ -373,7 +370,6 @@ export const GEN_INFO_INPUTS = [
 				label: 'Proveedor Tornillos',
 			},
 		],
-		searchPlaceholder: 'Busca por nombre o RUT',
 	},
 	{
 		name: 'delivery_date',
@@ -413,7 +409,6 @@ export const GEN_INFO_INPUTS = [
 				label: 'Euro',
 			},
 		],
-		searchPlaceholder: 'Busca',
 	},
 	{
 		name: 'attachments',
@@ -499,7 +494,29 @@ export const ITEMS_INPUTS = [
 	{
 		name: 'item',
 		label: 'Artículo',
-		type: 'text',
+		type: 'select',
+		options: [
+			{
+				value: 'Palos N 3',
+				label: 'Palos N 3',
+			},
+			{
+				value: 'Palos N 4',
+				label: 'Palos N 4',
+			},
+			{
+				value: 'Pintura N1',
+				label: 'Pintura N1',
+			},
+			{
+				value: 'Tornillos',
+				label: 'Tornillos',
+			},
+			{
+				value: 'Varillas',
+				label: 'Varillas',
+			},
+		],
 	},
 	{
 		name: 'description',
