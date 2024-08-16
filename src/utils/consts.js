@@ -302,36 +302,42 @@ export const receiptsData = [
 ];
 
 export const INPUT_TYPES = {
-	text: ({ placeholder = 'Ingrese texto', readOnly }) => (
+	text: ({ ...props }) => (
 		<Input
-			placeholder={placeholder}
-			readOnly={readOnly}
-			style={{ backgroundColor: readOnly ? '#F5F5F5' : '' }}
+			placeholder={props?.placeholder ?? 'Ingrese texto'}
+			style={{ backgroundColor: props?.readOnly ? '#F5F5F5' : '' }}
+			{...props}
 		/>
 	),
-	number: ({ placeholder, ...props }) => (
+	number: ({ ...props }) => (
 		<InputNumber
 			style={{ width: '100%' }}
-			placeholder={placeholder}
+			placeholder={props?.placeholder ?? 'Ingrese valor'}
+			formatter={props?.formatter ?? undefined}
+			parser={props?.parser ?? undefined}
 			controls={false}
 			{...props}
 		/>
 	),
-	select: ({ placeholder = 'Seleccione...', children, ...props }) => {
+	select: ({ children, ...props }) => {
 		return (
 			<Select
 				style={{ width: '100%' }}
-				placeholder={placeholder}
+				placeholder={props?.placeholder ?? 'Seleccione...'}
 				allowClear
-				showSearch={props.name !== 'currency_type'}
+				showSearch
 				{...props}
 			>
 				{children}
 			</Select>
 		);
 	},
-	date: ({ placeholder = 'Seleccione una fecha' }) => (
-		<DatePicker style={{ width: '100%' }} placeholder={placeholder} />
+	date: ({ ...props }) => (
+		<DatePicker
+			style={{ width: '100%' }}
+			placeholder={props?.placeholder ?? 'Seleccione una fecha...'}
+			{...props}
+		/>
 	),
 };
 
@@ -478,7 +484,6 @@ export const RECEIPT_GEN_INFO_INPUTS = [
 			},
 		],
 		required: true,
-		allowSearch: false,
 	},
 	{
 		name: 'doc_number',

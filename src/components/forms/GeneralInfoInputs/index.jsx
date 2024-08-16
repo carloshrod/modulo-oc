@@ -63,8 +63,6 @@ const GeneralInfoInputs = ({ inputs, form }) => {
 						>
 							{INPUT_TYPES[input.type]({
 								...input,
-								placeholder: input?.placeholder,
-								readOnly: input?.readOnly ?? false,
 								children:
 									input.type === 'select'
 										? input?.options?.map(option => (
@@ -100,6 +98,10 @@ const GeneralInfoInputs = ({ inputs, form }) => {
 									controls={false}
 									placeholder='Valor $'
 									disabled={currencyType === 'Peso'}
+									formatter={value =>
+										value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+									}
+									parser={value => value.replace(/\$\s?|(,*)/g, '')}
 								/>
 							</Form.Item>
 						) : null}
