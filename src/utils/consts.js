@@ -542,12 +542,15 @@ export const ITEMS_INPUTS = [
 		label: 'Precio unitario',
 		type: 'number',
 		placeholder: 'Valor $',
+		formatter: value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+		parser: value => value.replace(/\$\s?|(,*)/g, ''),
 	},
 	{
 		name: 'subtotal',
 		label: 'Subtotal',
 		type: 'number',
-		placeholder: 'Valor $',
+		formatter: value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+		parser: value => value.replace(/\$\s?|(,*)/g, ''),
 	},
 ];
 
@@ -593,6 +596,8 @@ export const RECEIPT_ITEMS_INPUTS = [
 		label: 'Monto recibido',
 		type: 'number',
 		placeholder: 'Valor $',
+		formatter: value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+		parser: value => value.replace(/\$\s?|(,*)/g, ''),
 	},
 ];
 
@@ -600,6 +605,7 @@ export const CALCULATION_INPUTS = [
 	{
 		name: 'discount',
 		label: 'Descuento',
+		placeholder: 'Valor $',
 	},
 	{
 		name: 'net_total',

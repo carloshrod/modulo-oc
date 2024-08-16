@@ -51,7 +51,7 @@ const FormOc = ({ ocNumber }) => {
 				}}
 			>
 				<Divider orientation='left'>Información General</Divider>
-				<GeneralInfoInputs inputs={GEN_INFO_INPUTS} />
+				<GeneralInfoInputs inputs={GEN_INFO_INPUTS} form={form} />
 				<Divider orientation='left'>Artículos</Divider>
 				<ItemInputs
 					inputs={ITEMS_INPUTS}

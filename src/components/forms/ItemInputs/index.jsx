@@ -5,15 +5,23 @@ import { CALCULATION_INPUTS, INPUT_TYPES } from '@/utils/consts';
 import styles from './ItemInputs.module.css';
 import useGlobalContext from '@/hooks/useGlobalContext';
 import FormItem from '../FormItem';
+import { useEffect } from 'react';
 
 const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 	const IVA_RATE = 0.19;
 	const { showModalForm } = useGlobalContext();
+	const exchangeRate = Form.useWatch('exchange_rate') ?? 1;
+
+	useEffect(() => {
+		const items = form.getFieldValue('items');
+		items.forEach((_, index) => updateSubtotal(index));
+	}, [exchangeRate]);
 
 	const updateSubtotal = name => {
 		const items = form.getFieldValue('items');
 		const item = items[name];
-		const subtotal = (item?.quantity || 0) * (item?.unit_price || 0);
+		const subtotal =
+			(item?.quantity || 0) * ((item?.unit_price || 0) * exchangeRate);
 		form.setFieldsValue({
 			items: items.map((field, index) =>
 				index === name ? { ...field, subtotal } : field,
@@ -154,6 +162,8 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 													{INPUT_TYPES[input.type]({
 														placeholder: input?.placeholder,
 														readOnly: input?.readOnly,
+														formatter: input?.formatter,
+														parser: input?.parser,
 														children:
 															input.type === 'select'
 																? input?.options?.map(option => (
@@ -234,9 +244,12 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 						}}
 					>
 						<InputNumber
+							{...input}
 							style={{ width: '100%' }}
 							controls={false}
 							onChange={value => handleDiscountChange(input.name, value)}
+							formatter={value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+							parser={value => value.replace(/\$\s?|(,*)/g, '')}
 						/>
 					</Form.Item>
 				</div>

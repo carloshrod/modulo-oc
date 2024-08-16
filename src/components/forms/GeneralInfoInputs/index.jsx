@@ -3,10 +3,9 @@ import { BsPlusSquare } from 'react-icons/bs';
 import { UploadOutlined } from '@ant-design/icons';
 import styles from './GeneralInfoInputs.module.css';
 import { INPUT_TYPES } from '@/utils/consts';
-import { useState } from 'react';
 
-const GeneralInfoInputs = ({ inputs }) => {
-	const [currencyType, setCurrencyType] = useState(null);
+const GeneralInfoInputs = ({ inputs, form }) => {
+	const currencyType = Form.useWatch('currency_type');
 
 	const normFile = e => {
 		console.log('Upload event:', e);
@@ -17,10 +16,10 @@ const GeneralInfoInputs = ({ inputs }) => {
 	};
 
 	const handleCurrencyChange = value => {
-		setCurrencyType(value);
+		if (value === 'Peso') {
+			form.setFieldsValue({ exchange_rate: 1 }, form);
+		}
 	};
-
-	console.log(currencyType);
 
 	const EXTRAS = {
 		provider: (
