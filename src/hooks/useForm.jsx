@@ -10,7 +10,7 @@ const useForm = obra => {
 	const [itemError, setItemError] = useState(false);
 	const router = useRouter();
 	const { showModalNotification, hideModalForm } = useGlobalContext();
-	const { getPurchaseOrder } = useOcContext();
+	const { getPurchaseOrderToReceive } = useOcContext();
 
 	const sendForApproval = values => {
 		console.log('Enviando a aprobación!');
@@ -51,7 +51,7 @@ const useForm = obra => {
 
 	const onCancel = () => {
 		setItemError(false);
-		router.push(`/orden-de-compra/${obra}`);
+		router.back();
 	};
 
 	const addInvoice = values => {
@@ -70,7 +70,7 @@ const useForm = obra => {
 		console.log('Guardando recepción!');
 		console.log(values);
 		showModalNotification('OC recibida exitosamente');
-		getPurchaseOrder(undefined);
+		getPurchaseOrderToReceive(undefined);
 	};
 
 	return {

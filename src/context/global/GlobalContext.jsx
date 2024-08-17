@@ -1,11 +1,11 @@
 'use client';
-import useOcContext from '@/hooks/useOcContext';
 import { createContext, useState } from 'react';
 import { HiOutlineTrash } from 'react-icons/hi2';
 import {
 	IoCheckmarkCircleOutline,
 	IoNotificationsOutline,
 } from 'react-icons/io5';
+import useOcContext from '@/hooks/useOcContext';
 
 export const GlobalContext = createContext(undefined);
 

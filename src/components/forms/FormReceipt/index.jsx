@@ -6,19 +6,10 @@ import { RECEIPT_GEN_INFO_INPUTS, RECEIPT_ITEMS_INPUTS } from '@/utils/consts';
 import useOcContext from '@/hooks/useOcContext';
 import { useEffect } from 'react';
 import useForm from '@/hooks/useForm';
-import { useRouter } from 'next/navigation';
 
 const FormReceipt = () => {
-	const { purchaseOrderToReceive, getPurchaseOrderToReceive } = useOcContext();
-	const { form, saveReceipt } = useForm();
-	const router = useRouter();
-
-	const handleCancel = () => {
-		router.back();
-		setTimeout(() => {
-			getPurchaseOrderToReceive(undefined);
-		}, 500);
-	};
+	const { purchaseOrderToReceive } = useOcContext();
+	const { form, saveReceipt, onCancel } = useForm();
 
 	useEffect(() => {
 		if (purchaseOrderToReceive) {
@@ -53,7 +44,7 @@ const FormReceipt = () => {
 				<ItemInputs inputs={RECEIPT_ITEMS_INPUTS} form={form} />
 				<Form.Item>
 					<section className={styles.buttonsContainer}>
-						<Button type='primary' size='large' ghost onClick={handleCancel}>
+						<Button type='primary' size='large' ghost onClick={onCancel}>
 							Cancelar
 						</Button>
 						<Button
