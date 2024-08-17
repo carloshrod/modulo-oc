@@ -7,12 +7,15 @@ import InfoReceiptOC from '../InfoReceiptOC';
 import TableToolbar from '@/components/ui/TableToolbar';
 import TableOCReceipts from '../TableOCReceipts';
 import useOcContext from '@/hooks/useOcContext';
+import { useEffect } from 'react';
 
 const OCReceipt = () => {
 	const { purchaseOrder, getPurchaseOrder, getPurchaseOrderToReceive } =
 		useOcContext();
 	const router = useRouter();
 	const pathname = usePathname();
+
+	useEffect(() => getPurchaseOrderToReceive(undefined), []);
 
 	const handleReceiveOc = () => {
 		router.push(`${pathname}/recibir-oc`);
@@ -21,7 +24,7 @@ const OCReceipt = () => {
 
 	return purchaseOrder?.oc_number ? (
 		<>
-			<Toolbar onClick={() => getPurchaseOrder(undefined)}>
+			<Toolbar onClick={() => getPurchaseOrder(undefined)} back={false}>
 				<Button
 					type='primary'
 					icon={<GiReceiveMoney size={20} />}

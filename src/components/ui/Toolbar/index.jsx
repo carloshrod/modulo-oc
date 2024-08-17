@@ -2,22 +2,14 @@
 import { Button } from 'antd';
 import { BiArrowBack } from 'react-icons/bi';
 import { useRouter } from 'next/navigation';
-import useOcContext from '@/hooks/useOcContext';
 import styles from './Toolbar.module.css';
 
-const Toolbar = ({ onClick = undefined, children }) => {
-	const { getPurchaseOrderToReceive } = useOcContext();
+const Toolbar = ({ onClick = () => null, back = true, children }) => {
 	const router = useRouter();
 
 	const handleBack = () => {
-		if (onClick) {
-			onClick();
-		} else {
-			router.back();
-			setTimeout(() => {
-				getPurchaseOrderToReceive(undefined);
-			}, 500);
-		}
+		if (back) router.back();
+		onClick();
 	};
 
 	return (
@@ -31,7 +23,7 @@ const Toolbar = ({ onClick = undefined, children }) => {
 				size='large'
 				onClick={handleBack}
 			>
-				Volver
+				Volver {!back ? 'a tabla' : null}
 			</Button>
 		</div>
 	);
