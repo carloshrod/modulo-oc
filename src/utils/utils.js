@@ -18,7 +18,8 @@ export const generateBreadcrumbs = pathname => {
 	});
 };
 
-const formatTitle = part => {
+export const formatTitle = part => {
+	if (!part) return;
 	if (part.includes('oc-')) {
 		return part.replace('oc-', 'Editar OC ');
 	}

@@ -3,16 +3,16 @@ import { Breadcrumb, Button, Layout } from 'antd';
 import { BiArrowBack, BiSolidChart, BiSolidUser } from 'react-icons/bi';
 import { PiBuildingsFill } from 'react-icons/pi';
 import { useParams, usePathname, useRouter } from 'next/navigation';
-import { generateBreadcrumbs } from '@/utils/utils';
+import { formatTitle, generateBreadcrumbs } from '@/utils/utils';
 import styles from './Header.module.css';
 
 const { Header } = Layout;
 
 const CustomHeader = () => {
-	const obra = 'XXX Calle Santa Julia';
 	const router = useRouter();
 	const pathname = usePathname();
 	const params = useParams();
+	const oeuvreName = formatTitle(params?.slug);
 	const hasBreadcrumb =
 		pathname.includes('generar') ||
 		params?.oc_number ||
@@ -33,7 +33,7 @@ const CustomHeader = () => {
 				<div className={styles.title}>
 					{hasBreadcrumb && <Breadcrumb items={bcItems} />}
 					<h3>
-						Orden de compra <span>{obra}</span>
+						Orden de compra <span>{oeuvreName}</span>
 					</h3>
 				</div>
 				<section className={styles.info}>

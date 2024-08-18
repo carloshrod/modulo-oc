@@ -5,7 +5,7 @@ import { ITEMS_INPUTS } from '@/utils/consts';
 import useGlobalContext from './useGlobalContext';
 import useOcContext from './useOcContext';
 
-const useForm = obra => {
+const useForm = () => {
 	const [form] = Form.useForm();
 	const [itemError, setItemError] = useState(false);
 	const router = useRouter();
@@ -17,7 +17,7 @@ const useForm = obra => {
 		verifyItems(values);
 		console.log(values);
 		showModalNotification('OC enviada a aprobación exitosamente');
-		router.push(`/orden-de-compra/${obra}`);
+		router.back();
 	};
 
 	const sendForApprovalFailed = ({ values }) => {

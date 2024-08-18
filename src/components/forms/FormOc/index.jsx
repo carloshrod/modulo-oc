@@ -12,7 +12,6 @@ import useGlobalContext from '@/hooks/useGlobalContext';
 import { GEN_INFO_INPUTS, ITEMS_INPUTS } from '@/utils/consts';
 
 const FormOc = ({ ocNumber }) => {
-	const obra = 'xxx-calle-santa-julia';
 	const { showModalConfirm } = useGlobalContext();
 	const { purchaseOrders } = useOcContext();
 	const {
@@ -22,7 +21,7 @@ const FormOc = ({ ocNumber }) => {
 		sendForApprovalFailed,
 		saveAsDraft,
 		onCancel,
-	} = useForm(obra);
+	} = useForm();
 
 	useEffect(() => {
 		const foundedOc = purchaseOrders.find(el => {
