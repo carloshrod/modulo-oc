@@ -72,7 +72,11 @@ const useTableColumns = () => {
 			key: 'total',
 			sorter: (a, b) => a.total - b.total,
 			sortDirections: ['descend', 'ascend'],
-			render: value => <span>${value}</span>,
+			render: value => (
+				<span>
+					${value?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? ' --'}
+				</span>
+			),
 			width: 135,
 		},
 		{
@@ -137,22 +141,30 @@ const useTableColumns = () => {
 		},
 		{
 			title: 'CANTIDAD',
-			dataIndex: 'amount',
-			key: 'amount',
+			dataIndex: 'quantity',
+			key: 'quantity',
 		},
 		{
 			title: 'PU',
 			dataIndex: 'unit_price',
 			key: 'unit_price',
 			width: 70,
-			render: (_, record) => <p>${record.unit_price}</p>,
+			render: (_, record) => (
+				<p>
+					${record.unit_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+				</p>
+			),
 		},
 		{
 			title: 'SUBTOTAL',
 			dataIndex: 'subtotal',
 			key: 'subtotal',
 			width: 100,
-			render: (_, record) => <p>${record.subtotal}</p>,
+			render: (_, record) => (
+				<p>
+					${record.subtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+				</p>
+			),
 		},
 	];
 
@@ -199,7 +211,11 @@ const useTableColumns = () => {
 			key: 'oc_amount',
 			sorter: (a, b) => a.oc_amount - b.oc_amount,
 			sortDirections: ['descend', 'ascend'],
-			render: value => <span>${value}</span>,
+			render: value => (
+				<span>
+					${value?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? ' --'}
+				</span>
+			),
 			width: 135,
 		},
 		{
@@ -208,7 +224,11 @@ const useTableColumns = () => {
 			key: 'received_amount',
 			sorter: (a, b) => a.received_amount - b.received_amount,
 			sortDirections: ['descend', 'ascend'],
-			render: value => <span>${value}</span>,
+			render: value => (
+				<span>
+					${value?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? ' --'}
+				</span>
+			),
 			width: 135,
 		},
 		{
@@ -256,8 +276,8 @@ const useTableColumns = () => {
 		},
 		{
 			title: 'CANTIDAD',
-			dataIndex: 'amount',
-			key: 'amount',
+			dataIndex: 'quantity',
+			key: 'quantity',
 			width: 70,
 			align: 'center',
 		},
@@ -266,7 +286,14 @@ const useTableColumns = () => {
 			dataIndex: 'unit_price',
 			key: 'unit_price',
 			width: 140,
-			render: (_, record) => <p>${record.unit_price}</p>,
+			render: (_, record) => (
+				<p>
+					$
+					{record.unit_price
+						?.toString()
+						.replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? ' --'}
+				</p>
+			),
 			align: 'center',
 		},
 		{
@@ -274,7 +301,13 @@ const useTableColumns = () => {
 			dataIndex: 'subtotal',
 			key: 'subtotal',
 			width: 70,
-			render: (_, record) => <p>${record.subtotal}</p>,
+			render: (_, record) => (
+				<p>
+					$
+					{record.subtotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') ??
+						' --'}
+				</p>
+			),
 			align: 'center',
 		},
 		{
@@ -282,7 +315,14 @@ const useTableColumns = () => {
 			dataIndex: 'subtotal',
 			key: 'subtotal',
 			width: 140,
-			render: (_, record) => <p> -- </p>,
+			render: (_, record) => (
+				<p>
+					$
+					{record.received_amount
+						?.toString()
+						.replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? ' --'}
+				</p>
+			),
 			align: 'center',
 		},
 		{
@@ -290,7 +330,14 @@ const useTableColumns = () => {
 			dataIndex: 'subtotal',
 			key: 'subtotal',
 			width: 140,
-			render: (_, record) => <p>${record.subtotal}</p>,
+			render: (_, record) => (
+				<p>
+					$
+					{record.amount_to_receive
+						?.toString()
+						.replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? ' --'}
+				</p>
+			),
 			align: 'center',
 		},
 		{
@@ -298,7 +345,7 @@ const useTableColumns = () => {
 			dataIndex: 'subtotal',
 			key: 'subtotal',
 			width: 140,
-			render: (_, record) => <p>Sin recepción</p>,
+			render: (_, record) => <p>{record?.receipt_status}</p>,
 			align: 'center',
 		},
 	];
@@ -350,6 +397,11 @@ const useTableColumns = () => {
 			key: 'received_amount',
 			sorter: (a, b) => a.received_amount - b.received_amount,
 			sortDirections: ['descend', 'ascend'],
+			render: value => (
+				<span>
+					${value?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? ' --'}
+				</span>
+			),
 			width: 70,
 		},
 		{
