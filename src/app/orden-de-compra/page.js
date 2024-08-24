@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import axios from 'axios';
+import { env } from '@/config/env';
 import styles from './page.module.css';
 
 const OeuvresPage = async () => {
 	const getAllOeuvres = async () => {
 		try {
-			const res = await axios.get('http://localhost:4000/api/v1/oeuvres');
+			const res = await axios.get(`${env.API_URL}/oeuvres`);
 			return res.data;
 		} catch (error) {
 			console.error(error);
