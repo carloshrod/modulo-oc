@@ -29,3 +29,8 @@
   align-items: center;
   font-weight: bold;
 }
+
+.home .linksContainer h3 {
+  font-size: 30px;
+  padding: 150px 0;
+}
