@@ -68,7 +68,10 @@ const GeneralInfoInputs = ({ inputs, form }) => {
 								children:
 									input.type === 'select'
 										? input?.options?.map(option => (
-												<Select.Option key={option.value} value={option.value}>
+												<Select.Option
+													key={option?.key ?? option.value}
+													value={option.value}
+												>
 													{option.label}
 												</Select.Option>
 											))

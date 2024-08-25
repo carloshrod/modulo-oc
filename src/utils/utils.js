@@ -56,3 +56,17 @@ export const generateItemOptions = generalItems => {
 		console.error(error);
 	}
 };
+
+export const generateSupplierOptions = suppliers => {
+	try {
+		return suppliers.map(sup => {
+			return {
+				key: sup.supplier_rut,
+				value: sup.id,
+				label: sup.supplier_name,
+			};
+		});
+	} catch (error) {
+		console.error(error);
+	}
+};

@@ -1,9 +1,9 @@
 import { DatePicker, Input, InputNumber, Select } from 'antd';
-import { generateItemOptions } from '@/utils/utils';
+import { generateItemOptions, generateSupplierOptions } from '@/utils/utils';
 import useOcContext from './useOcContext';
 
 const useInputs = () => {
-	const { generalItems } = useOcContext();
+	const { generalItems, suppliers } = useOcContext();
 
 	const INPUT_TYPES = {
 		text: ({ placeholder, readOnly, ...props }) => (
@@ -54,6 +54,76 @@ const useInputs = () => {
 			/>
 		),
 	};
+
+	const GEN_INFO_INPUTS = [
+		{
+			name: 'name',
+			label: 'Nombre OC',
+			message: 'El nombre OC es requerido',
+			type: 'text',
+			required: true,
+		},
+		{
+			name: 'gloss',
+			label: 'Glosa OC',
+			message: '',
+			type: 'text',
+			required: false,
+		},
+		{
+			name: 'supplier',
+			label: 'Proveedor',
+			message: 'El proveedor es requerido',
+			type: 'select',
+			required: true,
+			options: generateSupplierOptions(suppliers),
+		},
+		{
+			name: 'delivery_date',
+			label: 'Fecha de entrega',
+			message: 'La fecha de entrega es requerida',
+			type: 'date',
+			required: true,
+		},
+		{
+			name: 'delivery_address',
+			label: 'Dirección de entrega',
+			message: 'La dirección de entrega es requerida',
+			type: 'text',
+			required: true,
+		},
+		{
+			name: 'currency_type',
+			label: 'Tipo de moneda',
+			message: 'El tipo de moneda es requerido',
+			type: 'select',
+			required: true,
+			options: [
+				{
+					value: 'Peso',
+					label: 'Peso',
+				},
+				{
+					value: 'UF',
+					label: 'UF',
+				},
+				{
+					value: 'USD',
+					label: 'USD',
+				},
+				{
+					value: 'Euro',
+					label: 'Euro',
+				},
+			],
+		},
+		{
+			name: 'attachments',
+			label: 'Anexos',
+			type: 'file',
+			required: true,
+		},
+	];
 
 	const ITEMS_INPUTS = [
 		{
@@ -115,7 +185,7 @@ const useInputs = () => {
 		},
 	];
 
-	return { INPUT_TYPES, ITEMS_INPUTS };
+	return { INPUT_TYPES, GEN_INFO_INPUTS, ITEMS_INPUTS };
 };
 
 export default useInputs;
