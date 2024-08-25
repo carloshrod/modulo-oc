@@ -2,10 +2,11 @@ import { Button, Form, InputNumber, Select, Tooltip, Upload } from 'antd';
 import { BsPlusSquare } from 'react-icons/bs';
 import { UploadOutlined } from '@ant-design/icons';
 import styles from './GeneralInfoInputs.module.css';
-import { INPUT_TYPES } from '@/utils/consts';
+import useInputs from '@/hooks/useInputs';
 
 const GeneralInfoInputs = ({ inputs, form }) => {
 	const currencyType = Form.useWatch('currency_type');
+	const { INPUT_TYPES } = useInputs();
 
 	const normFile = e => {
 		console.log('Upload event:', e);

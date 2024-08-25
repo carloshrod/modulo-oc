@@ -1,9 +1,10 @@
 import { Form } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { ITEMS_INPUTS } from '@/utils/consts';
 import useGlobalContext from './useGlobalContext';
 import useOcContext from './useOcContext';
+import useInputs from './useInputs';
+import useGeneralItemsServices from '@/services/useGeneralItemsServices';
 
 const useForm = () => {
 	const [form] = Form.useForm();
@@ -11,12 +12,16 @@ const useForm = () => {
 	const router = useRouter();
 	const { showModalNotification, hideModalForm } = useGlobalContext();
 	const { getPurchaseOrderToReceive } = useOcContext();
+	const { ITEMS_INPUTS } = useInputs();
+	const { createGeneralItem } = useGeneralItemsServices();
 
 	const sendForApproval = values => {
 		console.log('Enviando a aprobación!');
 		verifyItems(values);
 		console.log(values);
-		showModalNotification('OC enviada a aprobación exitosamente');
+		showModalNotification({
+			notificationText: 'OC enviada a aprobación exitosamente',
+		});
 		router.back();
 	};
 
@@ -43,7 +48,9 @@ const useForm = () => {
 		try {
 			const values = await form.getFieldsValue(true);
 			console.log('Datos guardados como borrador:', values);
-			showModalNotification('OC guardada como borrador exitosamente');
+			showModalNotification({
+				notificationText: 'OC guardada como borrador exitosamente',
+			});
 		} catch (errorInfo) {
 			console.error('Errores de validación:', errorInfo);
 		}
@@ -57,19 +64,32 @@ const useForm = () => {
 	const addInvoice = values => {
 		console.log(values);
 		hideModalForm();
-		showModalNotification('Factura ingresada exitosamente');
+		showModalNotification({
+			notificationText: 'Factura ingresada exitosamente',
+		});
 	};
 
-	const addItem = values => {
-		console.log(values);
-		hideModalForm();
-		showModalNotification('Artículo agregado exitosamente');
+	const addItem = async values => {
+		try {
+			await createGeneralItem(values);
+			hideModalForm();
+			showModalNotification({
+				notificationText: 'Artículo agregado exitosamente',
+			});
+		} catch (error) {
+			console.error(error);
+			hideModalForm();
+			showModalNotification({
+				notificationText: 'Error al agregar artículo',
+				success: false,
+			});
+		}
 	};
 
 	const saveReceipt = values => {
 		console.log('Guardando recepción!');
 		console.log(values);
-		showModalNotification('OC recibida exitosamente');
+		showModalNotification({ notificationText: 'OC recibida exitosamente' });
 		getPurchaseOrderToReceive(undefined);
 	};
 

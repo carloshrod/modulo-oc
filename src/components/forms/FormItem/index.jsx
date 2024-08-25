@@ -18,20 +18,7 @@ const FormItem = () => {
 			onFinish={addItem}
 		>
 			<Form.Item
-				name='sku_item'
-				label='SKU'
-				rules={[
-					{
-						required: true,
-						message: 'Ingrese sku',
-					},
-				]}
-				style={{ marginTop: 24 }}
-			>
-				<Input />
-			</Form.Item>
-			<Form.Item
-				name='sku_name'
+				name='name'
 				label='Nombre de Artículo'
 				rules={[
 					{

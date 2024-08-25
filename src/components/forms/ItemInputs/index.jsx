@@ -1,15 +1,17 @@
+import { useEffect } from 'react';
 import { Button, Form, InputNumber, Select, Tooltip } from 'antd';
 import { BsPlusSquare } from 'react-icons/bs';
 import { AiOutlineDelete } from 'react-icons/ai';
-import { CALCULATION_INPUTS, INPUT_TYPES } from '@/utils/consts';
-import styles from './ItemInputs.module.css';
-import useGlobalContext from '@/hooks/useGlobalContext';
 import FormItem from '../FormItem';
-import { useEffect } from 'react';
+import useGlobalContext from '@/hooks/useGlobalContext';
+import useInputs from '@/hooks/useInputs';
+import { CALCULATION_INPUTS } from '@/utils/consts';
+import styles from './ItemInputs.module.css';
 
 const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 	const IVA_RATE = 0.19;
 	const { showModalForm } = useGlobalContext();
+	const { INPUT_TYPES } = useInputs();
 	const exchangeRate = Form.useWatch('exchange_rate') ?? 1;
 
 	useEffect(() => {

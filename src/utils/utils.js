@@ -42,3 +42,16 @@ export const generateOcOptions = purchaseOrders => {
 		};
 	});
 };
+
+export const generateItemOptions = generalItems => {
+	try {
+		return generalItems.map(gi => {
+			return {
+				value: gi.sku,
+				label: gi.name,
+			};
+		});
+	} catch (error) {
+		console.error(error);
+	}
+};

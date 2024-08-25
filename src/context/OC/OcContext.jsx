@@ -1,6 +1,7 @@
 'use client';
 import { createContext, useEffect, useState } from 'react';
 import { approvalEventsDb, ocDataDb } from '@/utils/consts';
+import { fetchData } from '../utils';
 
 export const OcContext = createContext(undefined);
 
@@ -9,9 +10,16 @@ const OcProvider = ({ children }) => {
 	const [purchaseOrder, setPurchaseOrder] = useState({});
 	const [purchaseOrderToReceive, setPurchaseOrderToReceive] = useState({});
 	const [approvalEvents, setApprovalEvents] = useState([]);
+	const [generalItems, setGeneralItems] = useState([]);
+
+	const getGeneralItems = async () => {
+		const res = await fetchData('/general-items');
+		setGeneralItems(res);
+	};
 
 	useEffect(() => {
 		setPurchaseOrders(ocDataDb);
+		getGeneralItems();
 	}, []);
 
 	const findPurchaseOrder = purchaseOrderNumber => {
@@ -49,6 +57,8 @@ const OcProvider = ({ children }) => {
 		getPurchaseOrderToReceive,
 		approvalEvents,
 		getApprovalEvents,
+		generalItems,
+		setGeneralItems,
 	};
 
 	return <OcContext.Provider value={data}>{children}</OcContext.Provider>;

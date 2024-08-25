@@ -1,5 +1,3 @@
-import { DatePicker, Input, InputNumber, Select } from 'antd';
-
 export const ocDataDb = [
 	{
 		id: '1',
@@ -341,45 +339,6 @@ export const receiptsData = [
 	},
 ];
 
-export const INPUT_TYPES = {
-	text: ({ placeholder, readOnly, ...props }) => (
-		<Input
-			style={{ backgroundColor: readOnly ? '#F5F5F5' : '' }}
-			placeholder={placeholder ?? 'Ingrese texto'}
-			readOnly={readOnly}
-			{...props}
-		/>
-	),
-	number: ({ readOnly, ...props }) => (
-		<InputNumber
-			style={{ width: '100%', backgroundColor: readOnly ? '#F5F5F5' : '' }}
-			placeholder={props?.placeholder ?? 'Ingrese valor'}
-			controls={false}
-			readOnly={readOnly}
-			{...props}
-		/>
-	),
-	select: ({ placeholder, children, ...props }) => {
-		return (
-			<Select
-				style={{ width: '100%' }}
-				placeholder={placeholder ?? 'Seleccione...'}
-				allowClear
-				showSearch
-				{...props}
-			>
-				{children}
-			</Select>
-		);
-	},
-	date: ({ placeholder }) => (
-		<DatePicker
-			style={{ width: '100%' }}
-			placeholder={placeholder ?? 'Seleccione una fecha...'}
-		/>
-	),
-};
-
 export const GEN_INFO_INPUTS = [
 	{
 		name: 'oc_name',
@@ -531,87 +490,6 @@ export const RECEIPT_GEN_INFO_INPUTS = [
 		message: 'El N° de documento es requerido',
 		type: 'text',
 		required: true,
-	},
-];
-
-export const ITEMS_INPUTS = [
-	{
-		name: 'item',
-		label: 'Artículo',
-		type: 'select',
-		options: [
-			{
-				value: 'Palos N 3',
-				label: 'Palos N 3',
-			},
-			{
-				value: 'Palos N 4',
-				label: 'Palos N 4',
-			},
-			{
-				value: 'Pintura N1',
-				label: 'Pintura N1',
-			},
-			{
-				value: 'Tornillos',
-				label: 'Tornillos',
-			},
-			{
-				value: 'Varillas',
-				label: 'Varillas',
-			},
-		],
-	},
-	{
-		name: 'description',
-		label: 'Descripción',
-		type: 'text',
-	},
-	{
-		name: 'cost_account',
-		label: 'Cuenta costo',
-		type: 'select',
-		placeholder: 'Seleccionar cuenta costo',
-		options: [
-			{
-				value: 'cost_account_1',
-				label: 'Cuenta costo 1',
-			},
-			{
-				value: 'cost_account_2',
-				label: 'Cuenta costo 2',
-			},
-			{
-				value: 'cost_account_3',
-				label: 'Cuenta costo 3',
-			},
-		],
-	},
-	{
-		name: 'measurement_unit',
-		label: 'Unidad de medida',
-		type: 'text',
-	},
-	{
-		name: 'quantity',
-		label: 'Cantidad',
-		type: 'number',
-		placeholder: 'Valor',
-	},
-	{
-		name: 'unit_price',
-		label: 'Precio unitario',
-		type: 'number',
-		placeholder: 'Valor $',
-		formatter: value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-		parser: value => value.replace(/\$\s?|(,*)/g, ''),
-	},
-	{
-		name: 'subtotal',
-		label: 'Subtotal',
-		type: 'number',
-		formatter: value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-		parser: value => value.replace(/\$\s?|(,*)/g, ''),
 	},
 ];
 

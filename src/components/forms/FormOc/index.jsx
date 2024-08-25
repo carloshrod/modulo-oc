@@ -9,7 +9,8 @@ import { useEffect } from 'react';
 import moment from 'moment';
 import useOcContext from '@/hooks/useOcContext';
 import useGlobalContext from '@/hooks/useGlobalContext';
-import { GEN_INFO_INPUTS, ITEMS_INPUTS } from '@/utils/consts';
+import { GEN_INFO_INPUTS } from '@/utils/consts';
+import useInputs from '@/hooks/useInputs';
 
 const FormOc = ({ ocNumber }) => {
 	const { showModalConfirm } = useGlobalContext();
@@ -22,6 +23,7 @@ const FormOc = ({ ocNumber }) => {
 		saveAsDraft,
 		onCancel,
 	} = useForm();
+	const { ITEMS_INPUTS } = useInputs();
 
 	useEffect(() => {
 		const foundedOc = purchaseOrders.find(el => {
