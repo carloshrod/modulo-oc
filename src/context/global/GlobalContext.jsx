@@ -2,8 +2,9 @@
 import { createContext, useState } from 'react';
 import { HiOutlineTrash } from 'react-icons/hi2';
 import {
-	IoCheckmarkCircleOutline,
 	IoNotificationsOutline,
+	IoCheckmarkCircleOutline,
+	IoCloseCircleOutline,
 } from 'react-icons/io5';
 import useOcContext from '@/hooks/useOcContext';
 
@@ -18,12 +19,13 @@ const initialDrawer = {
 const initialModal = {
 	modalOpen: false,
 	danger: false,
-	title: null,
-	subtitle: null,
+	title: undefined,
+	subtitle: undefined,
 	okText: undefined,
 	icon: { bgColor: undefined, component: null },
 	confirmed: false,
-	successText: undefined,
+	notificationText: undefined,
+	success: true,
 };
 
 const initialModalForm = {
@@ -74,16 +76,21 @@ const GlobalProvider = ({ children }) => {
 		});
 	};
 
-	const showModalNotification = successText => {
+	const showModalNotification = ({ notificationText, success = true }) => {
 		setModal({
 			...modal,
 			modalOpen: true,
 			icon: {
-				bgColor: '#EBF8F1',
-				component: <IoCheckmarkCircleOutline size={38} color='#05A660' />,
+				bgColor: success ? '#EBF8F1' : '#FFEBEB',
+				component: success ? (
+					<IoCheckmarkCircleOutline size={38} color='#05A660' />
+				) : (
+					<IoCloseCircleOutline size={38} color='#E53535' />
+				),
 			},
 			confirmed: true,
-			successText,
+			notificationText,
+			success,
 		});
 		setTimeout(() => {
 			hideModal();

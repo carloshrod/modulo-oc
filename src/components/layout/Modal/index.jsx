@@ -11,8 +11,9 @@ const CustomModal = () => {
 			subtitle,
 			okText,
 			confirmed,
-			successText,
 			icon,
+			notificationText,
+			success,
 		},
 		hideModal,
 		confirmModal,
@@ -68,8 +69,14 @@ const CustomModal = () => {
 						</p>
 					</>
 				) : (
-					<h4 style={{ fontSize: 24, fontWeight: 500, color: '#05A660' }}>
-						{successText}
+					<h4
+						style={{
+							fontSize: 24,
+							fontWeight: 500,
+							color: success ? '#05A660' : '#E53535',
+						}}
+					>
+						{notificationText}
 					</h4>
 				)}
 			</div>

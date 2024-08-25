@@ -456,7 +456,10 @@ const useTableColumns = () => {
 							icon={<AiOutlineDelete size={20} color='#E53535' />}
 							onClick={() =>
 								showModalConfirm(
-									() => showModalNotification('Recepción anulada exitosamente'),
+									() =>
+										showModalNotification({
+											notificationText: 'Recepción anulada exitosamente',
+										}),
 									{
 										danger: true,
 										title: '¿Deseas anular esta Recepción?',

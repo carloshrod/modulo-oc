@@ -17,7 +17,9 @@ export const Actions = ({ record }) => {
 
 	const deleteOc = () => {
 		console.log('Eliminando OC');
-		showModalNotification('Orden de compra eliminada exitosamente');
+		showModalNotification({
+			notificationText: 'Orden de compra eliminada exitosamente',
+		});
 	};
 
 	const handleDelete = () => {
