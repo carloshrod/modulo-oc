@@ -33,10 +33,12 @@ const useInputs = () => {
 					optionFilterProp='children'
 					filterOption={(input, option) => {
 						const label = option?.children?.toLowerCase();
-						const value = option?.value?.toLowerCase();
+						const value = option?.value?.toString().toLowerCase();
+						const key = option?.key?.toLowerCase();
 						return (
 							label.includes(input.toLowerCase()) ||
-							value.includes(input.toLowerCase())
+							value.includes(input.toLowerCase()) ||
+							key.includes(input.toLowerCase())
 						);
 					}}
 					{...props}

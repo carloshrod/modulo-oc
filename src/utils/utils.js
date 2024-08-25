@@ -47,7 +47,8 @@ export const generateItemOptions = generalItems => {
 	try {
 		return generalItems.map(gi => {
 			return {
-				value: gi.sku,
+				key: gi.sku,
+				value: gi.id,
 				label: gi.name,
 			};
 		});

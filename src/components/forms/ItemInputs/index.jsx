@@ -170,7 +170,7 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 															input.type === 'select'
 																? input?.options?.map(option => (
 																		<Select.Option
-																			key={option.value}
+																			key={option?.key ?? option.value}
 																			value={option.value}
 																		>
 																			{option.label}
