@@ -70,3 +70,24 @@ export const generateSupplierOptions = suppliers => {
 		console.error(error);
 	}
 };
+
+export const generateAccountCostsOptions = accountCosts => {
+	try {
+		const options = [];
+		for (let i = 0; i < accountCosts.length; i++) {
+			options.push({
+				label: <span>{accountCosts[i].family_name}</span>,
+				title: accountCosts[i].family_name,
+				options: accountCosts[i].accounts.map(account => {
+					return {
+						label: account.name,
+						value: account.id,
+					};
+				}),
+			});
+		}
+		return options;
+	} catch (error) {
+		console.error(error);
+	}
+};

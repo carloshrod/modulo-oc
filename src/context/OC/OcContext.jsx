@@ -12,6 +12,7 @@ const OcProvider = ({ children }) => {
 	const [approvalEvents, setApprovalEvents] = useState([]);
 	const [generalItems, setGeneralItems] = useState([]);
 	const [suppliers, setSuppliers] = useState([]);
+	const [accountCosts, setAccountCosts] = useState([]);
 
 	const getGeneralItems = async () => {
 		const res = await fetchData('/general-items');
@@ -23,10 +24,16 @@ const OcProvider = ({ children }) => {
 		setSuppliers(res);
 	};
 
+	const getAccountCosts = async () => {
+		const res = await fetchData('/account-costs');
+		setAccountCosts(res);
+	};
+
 	useEffect(() => {
 		setPurchaseOrders(ocDataDb);
 		getGeneralItems();
 		getSuppliers();
+		getAccountCosts();
 	}, []);
 
 	const findPurchaseOrder = purchaseOrderNumber => {
@@ -67,6 +74,7 @@ const OcProvider = ({ children }) => {
 		generalItems,
 		setGeneralItems,
 		suppliers,
+		accountCosts,
 	};
 
 	return <OcContext.Provider value={data}>{children}</OcContext.Provider>;

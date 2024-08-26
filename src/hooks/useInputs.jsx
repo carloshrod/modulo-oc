@@ -1,9 +1,13 @@
 import { DatePicker, Input, InputNumber, Select } from 'antd';
-import { generateItemOptions, generateSupplierOptions } from '@/utils/utils';
+import {
+	generateAccountCostsOptions,
+	generateItemOptions,
+	generateSupplierOptions,
+} from '@/utils/utils';
 import useOcContext from './useOcContext';
 
 const useInputs = () => {
-	const { generalItems, suppliers } = useOcContext();
+	const { generalItems, suppliers, accountCosts } = useOcContext();
 
 	const INPUT_TYPES = {
 		text: ({ placeholder, readOnly, ...props }) => (
@@ -23,28 +27,37 @@ const useInputs = () => {
 				{...props}
 			/>
 		),
-		select: ({ placeholder, children, ...props }) => {
+		select: ({ placeholder, ...props }) => {
 			return (
 				<Select
 					style={{ width: '100%' }}
 					placeholder={placeholder ?? 'Seleccione...'}
 					allowClear
 					showSearch
-					optionFilterProp='children'
 					filterOption={(input, option) => {
-						const label = option?.children?.toLowerCase();
-						const value = option?.value?.toString().toLowerCase();
-						const key = option?.key?.toLowerCase();
-						return (
-							label.includes(input.toLowerCase()) ||
-							value.includes(input.toLowerCase()) ||
-							key.includes(input.toLowerCase())
-						);
+						try {
+							const checkOption = opt => {
+								const label = opt?.label?.toLowerCase();
+								const value = opt?.value?.toString().toLowerCase();
+								const key = opt?.key?.toLowerCase();
+								return (
+									label?.includes(input.toLowerCase()) ||
+									value?.includes(input.toLowerCase()) ||
+									key?.includes(input.toLowerCase())
+								);
+							};
+
+							if (option.options) {
+								return option.options.every(opt => checkOption(opt));
+							} else {
+								return checkOption(option);
+							}
+						} catch (error) {
+							console.error(error);
+						}
 					}}
 					{...props}
-				>
-					{children}
-				</Select>
+				/>
 			);
 		},
 		date: ({ placeholder }) => (
@@ -142,20 +155,7 @@ const useInputs = () => {
 			label: 'Cuenta costo',
 			type: 'select',
 			placeholder: 'Seleccionar cuenta costo',
-			options: [
-				{
-					value: 'cost_account_1',
-					label: 'Cuenta costo 1',
-				},
-				{
-					value: 'cost_account_2',
-					label: 'Cuenta costo 2',
-				},
-				{
-					value: 'cost_account_3',
-					label: 'Cuenta costo 3',
-				},
-			],
+			options: generateAccountCostsOptions(accountCosts),
 		},
 		{
 			name: 'measurement_unit',

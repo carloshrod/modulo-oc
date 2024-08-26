@@ -1,4 +1,4 @@
-import { Button, Form, InputNumber, Select, Tooltip, Upload } from 'antd';
+import { Button, Form, InputNumber, Tooltip, Upload } from 'antd';
 import { BsPlusSquare } from 'react-icons/bs';
 import { UploadOutlined } from '@ant-design/icons';
 import styles from './GeneralInfoInputs.module.css';
@@ -65,17 +65,7 @@ const GeneralInfoInputs = ({ inputs, form }) => {
 							{INPUT_TYPES[input.type]({
 								placeholder: input?.placeholder,
 								readOnly: input?.readOnly,
-								children:
-									input.type === 'select'
-										? input?.options?.map(option => (
-												<Select.Option
-													key={option?.key ?? option.value}
-													value={option.value}
-												>
-													{option.label}
-												</Select.Option>
-											))
-										: null,
+								options: input?.options,
 								onChange:
 									input.name === 'currency_type'
 										? handleCurrencyChange

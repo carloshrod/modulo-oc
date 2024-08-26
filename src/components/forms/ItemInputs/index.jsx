@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Button, Form, InputNumber, Select, Tooltip } from 'antd';
+import { Button, Form, InputNumber, Tooltip } from 'antd';
 import { BsPlusSquare } from 'react-icons/bs';
 import { AiOutlineDelete } from 'react-icons/ai';
 import FormItem from '../FormItem';
@@ -166,17 +166,7 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 														readOnly: input?.readOnly,
 														formatter: input?.formatter,
 														parser: input?.parser,
-														children:
-															input.type === 'select'
-																? input?.options?.map(option => (
-																		<Select.Option
-																			key={option?.key ?? option.value}
-																			value={option.value}
-																		>
-																			{option.label}
-																		</Select.Option>
-																	))
-																: null,
+														options: input?.options,
 														onChange:
 															input.name === 'quantity' ||
 															input.name === 'unit_price' ||
