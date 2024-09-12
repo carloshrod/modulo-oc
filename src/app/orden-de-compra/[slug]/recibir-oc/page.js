@@ -3,7 +3,7 @@ import Toolbar from '@/components/ui/Toolbar';
 import TitleForm from '@/components/ui/TitleForm';
 import SearchInput from '@/components/forms/SearchInput';
 import FormReceipt from '@/components/forms/FormReceipt';
-import LayoutIcon from '@/components/oc-receipt/LayoutIcon';
+import LayoutIcon from '@/components/po-receipt/LayoutIcon';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import styles from './ReceivePurchaseOrderPage.module.css';
 

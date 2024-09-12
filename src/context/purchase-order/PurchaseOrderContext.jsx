@@ -1,9 +1,6 @@
 'use client';
 import { createContext, useReducer } from 'react';
 import purchaseOrderReducers from './purchaseOrderReducers';
-import { PO_TYPES } from './purchaseOrderActions';
-
-const { GET_ALL_PURCHASE_ORDERS } = PO_TYPES;
 
 export const PurchaseOrderContext = createContext(undefined);
 
@@ -23,16 +20,8 @@ const PurchaseOrderProvider = ({ children }) => {
 		generalItems,
 	} = state;
 
-	const getPurchaseOrders = payload => {
-		dispatch({
-			type: GET_ALL_PURCHASE_ORDERS,
-			payload,
-		});
-	};
-
 	const data = {
 		purchaseOrders,
-		getPurchaseOrders,
 		purchaseOrder,
 		purchaseOrderToReceive,
 		generalItems,

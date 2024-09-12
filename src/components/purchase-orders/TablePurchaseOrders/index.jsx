@@ -6,16 +6,22 @@ import { Table } from 'antd';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import { useEffect } from 'react';
 import { fetchData } from '@/services/utils';
+import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
+
+const { GET_ALL_PURCHASE_ORDERS } = PO_TYPES;
 
 const TablePurchaseOrders = ({ oeuvre }) => {
-	const { getPurchaseOrders, purchaseOrders } = usePurchaseOrderContext();
+	const { purchaseOrders, dispatch } = usePurchaseOrderContext();
 	const { ocColumns } = useTableColumns();
 	const router = useRouter();
 	const pathname = usePathname();
 
 	const getPurchaseOrdersByOeuvre = async () => {
 		const data = await fetchData(`/purchase-orders/${oeuvre?.id}`);
-		getPurchaseOrders(data);
+		dispatch({
+			type: GET_ALL_PURCHASE_ORDERS,
+			payload: data,
+		});
 	};
 
 	useEffect(() => {

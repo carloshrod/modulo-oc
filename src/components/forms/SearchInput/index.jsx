@@ -10,22 +10,21 @@ import { fetchData } from '@/services/utils';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import styles from './SearchInput.module.css';
 
-const { GET_PURCHASE_ORDER_TO_RECEIVE } = PO_TYPES;
+const { GET_ALL_PURCHASE_ORDERS, GET_PURCHASE_ORDER_TO_RECEIVE } = PO_TYPES;
 
 const SearchInput = () => {
-	const {
-		purchaseOrders,
-		getPurchaseOrders,
-		purchaseOrderToReceive,
-		dispatch,
-	} = usePurchaseOrderContext();
+	const { purchaseOrders, purchaseOrderToReceive, dispatch } =
+		usePurchaseOrderContext();
 	const { slug } = useParams();
 
 	const getApprovedOrdersByOeuvre = async () => {
 		const oeuvre = await fetchData(`/oeuvres/${slug}`);
 		const data = await fetchData(`/purchase-orders/${oeuvre?.id}`);
 		const approvedOrders = data.filter(po => po.status === 'Aprobada');
-		getPurchaseOrders(approvedOrders);
+		dispatch({
+			type: GET_ALL_PURCHASE_ORDERS,
+			payload: approvedOrders,
+		});
 	};
 
 	useEffect(() => {
