@@ -5,9 +5,14 @@ import axios from 'axios';
 import useGlobalContext from './useGlobalContext';
 import usePurchaseOrderContext from './usePurchaseOrderContext';
 import useInputs from './useInputs';
-import useGeneralItemsServices from '@/services/useGeneralItemsServices';
-import { savePurchaseOrder } from '@/services/purchaseOrderServices';
+import {
+	createGeneralItem,
+	savePurchaseOrder,
+} from '@/services/purchaseOrderServices';
 import { env } from '@/config/env';
+import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
+
+const { CREATE_GENERAL_ITEM } = PO_TYPES;
 
 const useForm = () => {
 	const [form] = Form.useForm();
@@ -15,9 +20,8 @@ const useForm = () => {
 	const router = useRouter();
 	const { showModalNotification, hideModalForm, loggedUser } =
 		useGlobalContext();
-	const { getPurchaseOrderToReceive } = usePurchaseOrderContext();
+	const { getPurchaseOrderToReceive, dispatch } = usePurchaseOrderContext();
 	const { ITEMS_INPUTS } = useInputs();
-	const { createGeneralItem } = useGeneralItemsServices();
 	console.log(loggedUser);
 
 	const sendForApproval = async oeuvreId => {
@@ -108,14 +112,16 @@ const useForm = () => {
 
 	const addItem = async values => {
 		try {
-			await createGeneralItem(values);
-			hideModalForm();
-			showModalNotification({
-				notificationText: 'Artículo agregado exitosamente',
-			});
+			const data = await createGeneralItem(values);
+			if (data) {
+				dispatch({ type: CREATE_GENERAL_ITEM, payload: data });
+				hideModalForm();
+				showModalNotification({
+					notificationText: 'Artículo agregado exitosamente',
+				});
+			}
 		} catch (error) {
 			console.error(error);
-			hideModalForm();
 			showModalNotification({
 				notificationText: 'Error al agregar artículo',
 				success: false,

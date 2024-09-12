@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { fetchData } from './utils';
 import { env } from '@/config/env';
 
 export const getPurchaseOrderByNumber = async ({
@@ -59,17 +58,13 @@ export const deletePurchaseOrder = async purchaseOrderId => {
 	}
 };
 
-export const getSuppliers = async () => {
-	const res = await fetchData('/suppliers');
-	return res;
-};
-
-export const getAccountCosts = async () => {
-	const res = await fetchData('/account-costs');
-	return res;
-};
-
-export const getGeneralItems = async () => {
-	const res = await fetchData('/general-items');
-	return res;
+export const createGeneralItem = async generalItem => {
+	try {
+		const res = await axios.post(`${env.API_URL}/general-items`, generalItem);
+		if (res.status === 200) {
+			return res.data;
+		}
+	} catch (error) {
+		console.error(error);
+	}
 };

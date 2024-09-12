@@ -4,32 +4,33 @@ import {
 	generateItemOptions,
 	generateSupplierOptions,
 } from '@/utils/utils';
-import {
-	getAccountCosts,
-	getGeneralItems,
-	getSuppliers,
-} from '@/services/purchaseOrderServices';
 import { useEffect, useState } from 'react';
 import usePurchaseOrderContext from './usePurchaseOrderContext';
+import { fetchData } from '@/services/utils';
+import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
+
+const { GET_ALL_GENERAL_ITEMS } = PO_TYPES;
 
 const useInputs = () => {
 	const [suppliers, setSuppliers] = useState([]);
 	const [accountCosts, setAccountCosts] = useState([]);
-	const { generalItems, setGeneralItems } = usePurchaseOrderContext();
+	const { generalItems, dispatch } = usePurchaseOrderContext();
 
 	const fetchSuppliers = async () => {
-		const res = await getSuppliers();
-		setSuppliers(res);
+		const data = await fetchData('/suppliers');
+		if (data) setSuppliers(data);
 	};
 
 	const fetchGeneralItems = async () => {
-		const res = await getGeneralItems();
-		setGeneralItems(res);
+		const data = await fetchData('/general-items');
+		if (data) {
+			dispatch({ type: GET_ALL_GENERAL_ITEMS, payload: data });
+		}
 	};
 
 	const fetchAccountCosts = async () => {
-		const res = await getAccountCosts();
-		setAccountCosts(res);
+		const data = await fetchData('/account-costs');
+		if (data) setAccountCosts(data);
 	};
 
 	useEffect(() => {

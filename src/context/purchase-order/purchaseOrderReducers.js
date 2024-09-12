@@ -6,6 +6,8 @@ const {
 	GET_PURCHASE_ORDER_TO_RECEIVE,
 	UPDATE_PURCHASE_ORDER,
 	DELETE_PURCHASE_ORDER,
+	GET_ALL_GENERAL_ITEMS,
+	CREATE_GENERAL_ITEM,
 } = PO_TYPES;
 
 const purchaseOrderReducers = (state, action) => {
@@ -49,6 +51,20 @@ const purchaseOrderReducers = (state, action) => {
 			return {
 				...state,
 				purchaseOrders: newData,
+			};
+		}
+
+		case GET_ALL_GENERAL_ITEMS: {
+			return {
+				...state,
+				generalItems: action.payload,
+			};
+		}
+
+		case CREATE_GENERAL_ITEM: {
+			return {
+				...state,
+				generalItems: [action.payload, ...state.generalItems],
 			};
 		}
 

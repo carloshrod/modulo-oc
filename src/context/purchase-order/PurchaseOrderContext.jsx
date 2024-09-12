@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useReducer, useState } from 'react';
+import { createContext, useReducer } from 'react';
 import purchaseOrderReducers from './purchaseOrderReducers';
 import { PO_TYPES } from './purchaseOrderActions';
 
@@ -11,14 +11,17 @@ const initialState = {
 	purchaseOrders: [],
 	purchaseOrder: {},
 	purchaseOrderToReceive: {},
+	generalItems: [],
 };
 
 const PurchaseOrderProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(purchaseOrderReducers, initialState);
-	const { purchaseOrders, purchaseOrder, purchaseOrderToReceive } = state;
-
-	// TODO: reubicar generalItems state
-	const [generalItems, setGeneralItems] = useState([]);
+	const {
+		purchaseOrders,
+		purchaseOrder,
+		purchaseOrderToReceive,
+		generalItems,
+	} = state;
 
 	const getPurchaseOrders = payload => {
 		dispatch({
@@ -33,7 +36,6 @@ const PurchaseOrderProvider = ({ children }) => {
 		purchaseOrder,
 		purchaseOrderToReceive,
 		generalItems,
-		setGeneralItems,
 		dispatch,
 	};
 
