@@ -1,13 +1,17 @@
 import { Tabs } from 'antd';
 import TableOC from '@/components/purchase-orders/TableOC';
 import OCReceipt from '@/components/oc-receipt/OCReceipt';
+import { fetchData } from '@/services/utils';
 
-const PurchaseOrderPage = () => {
+const PurchaseOrderPage = async ({ params }) => {
+	const { slug } = params;
+	const oeuvre = await fetchData(`/oeuvres/${slug}`);
+
 	const items = [
 		{
 			key: '1',
 			label: 'Órdenes de Compra',
-			children: <TableOC />,
+			children: <TableOC oeuvre={oeuvre} />,
 		},
 		{
 			key: '2',
