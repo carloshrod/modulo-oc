@@ -3,7 +3,7 @@ import styles from './TitleForm.module.css';
 
 const TitleForm = ({ title }) => {
 	return (
-		<section className={styles.titleFormOC}>
+		<section className={styles.titleForm}>
 			<span className={styles.icon}>
 				<FaRegCircle size={18} color='#fff' />
 			</span>

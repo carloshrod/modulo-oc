@@ -1,8 +1,8 @@
 import { Button } from 'antd';
 import { IoDownloadOutline } from 'react-icons/io5';
-import styles from './OcPDF.module.css';
+import styles from './PoPDF.module.css';
 
-const OcPDF = () => {
+const PoPDF = () => {
 	return (
 		<>
 			<div className={styles.pdfContainer}>
@@ -23,4 +23,4 @@ const OcPDF = () => {
 	);
 };
 
-export default OcPDF;
+export default PoPDF;

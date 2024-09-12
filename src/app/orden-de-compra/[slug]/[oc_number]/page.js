@@ -1,11 +1,11 @@
-import FormOc from '@/components/forms/FormOc';
+import FormPurchaseOrder from '@/components/forms/FormPurchaseOrder';
 import TitleForm from '@/components/ui/TitleForm';
-import styles from './EditOC.module.css';
 import Toolbar from '@/components/ui/Toolbar';
 import { getOneOeuvre } from '@/services/useOeuvreServices';
-import { getPurchaseOrderByNumber } from '@/services/purchaseOrdersServices';
+import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
+import styles from './EditPurchaseOrderPage.module.css';
 
-const EditOCPage = async props => {
+const EditPurchaseOrderPage = async props => {
 	const { params } = props;
 	const title = params.oc_number?.replace('oc-', 'OC ');
 	const poNumber = params.oc_number?.replace('editar-', '');
@@ -16,14 +16,14 @@ const EditOCPage = async props => {
 	});
 
 	return (
-		<div className={styles.editOc}>
+		<div className={styles.editPo}>
 			<Toolbar />
-			<section className={styles.editOcForm}>
+			<section className={styles.editPoForm}>
 				<TitleForm title={title} />
-				<FormOc oeuvreId={oeuvre.id} purchaseOrder={data} />
+				<FormPurchaseOrder oeuvreId={oeuvre.id} purchaseOrder={data} />
 			</section>
 		</div>
 	);
 };
 
-export default EditOCPage;
+export default EditPurchaseOrderPage;

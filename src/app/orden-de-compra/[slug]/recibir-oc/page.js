@@ -1,17 +1,17 @@
 'use client';
-import TitleForm from '@/components/ui/TitleForm';
-import styles from './ReceiveOC.module.css';
-import SearchInput from '@/components/forms/SearchInput';
-import LayoutIcon from '@/components/oc-receipt/LayoutIcon';
-import FormReceipt from '@/components/forms/FormReceipt';
-import useOcContext from '@/hooks/useOcContext';
 import Toolbar from '@/components/ui/Toolbar';
+import TitleForm from '@/components/ui/TitleForm';
+import SearchInput from '@/components/forms/SearchInput';
+import FormReceipt from '@/components/forms/FormReceipt';
+import LayoutIcon from '@/components/oc-receipt/LayoutIcon';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
+import styles from './ReceivePurchaseOrderPage.module.css';
 
-const ReceiveOCPage = () => {
-	const { purchaseOrderToReceive } = useOcContext();
+const ReceivePurchaseOrderPage = () => {
+	const { purchaseOrderToReceive } = usePurchaseOrderContext();
 
 	return (
-		<div className={styles.receiveOC}>
+		<div className={styles.receivePo}>
 			<Toolbar />
 			<section className={styles.formContainer}>
 				<div className={styles.formHeader}>
@@ -21,7 +21,7 @@ const ReceiveOCPage = () => {
 				{purchaseOrderToReceive?.number ? <FormReceipt /> : null}
 			</section>
 			{!purchaseOrderToReceive?.number ? (
-				<section className={styles.selectOcMessage}>
+				<section className={styles.selectPoMessage}>
 					<LayoutIcon />
 					<p>Selecciona una OC para realizar la recepción.</p>
 				</section>
@@ -30,4 +30,4 @@ const ReceiveOCPage = () => {
 	);
 };
 
-export default ReceiveOCPage;
+export default ReceivePurchaseOrderPage;

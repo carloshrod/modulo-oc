@@ -1,8 +1,8 @@
 import { Input, Table } from 'antd';
 import useTableColumns from '@/hooks/useTableColumns';
-import styles from './InfoReceiptOC.module.css';
+import styles from './InfoReceiptPO.module.css';
 
-const InfoReceiptOC = ({ purchaseOrder }) => {
+const InfoReceiptPo = ({ purchaseOrder }) => {
 	const { id, name, gloss, supplier_rut, supplier_name } = purchaseOrder;
 	const { itemsReceiptsOcColumns, receiptsHistoryColumns } = useTableColumns();
 
@@ -53,4 +53,4 @@ const InfoReceiptOC = ({ purchaseOrder }) => {
 	);
 };
 
-export default InfoReceiptOC;
+export default InfoReceiptPo;

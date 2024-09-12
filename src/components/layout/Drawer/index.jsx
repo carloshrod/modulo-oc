@@ -1,5 +1,5 @@
 'use client';
-import OcPDF from '@/components/purchase-orders/OcPDF';
+import PoPDF from '@/components/purchase-orders/PoPDF';
 import useGlobalContext from '@/hooks/useGlobalContext';
 import { Button, Drawer, Space } from 'antd';
 import { useState } from 'react';
@@ -34,7 +34,7 @@ const CustomDrawer = () => {
 							iconPosition='end'
 							onClick={() => {
 								setShowExtra(false);
-								showDrawer({ ...drawer, children: <OcPDF /> });
+								showDrawer({ ...drawer, children: <PoPDF /> });
 							}}
 						>
 							Descargar PDF

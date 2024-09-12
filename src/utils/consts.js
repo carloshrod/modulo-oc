@@ -2,11 +2,11 @@ export const ocDataDb = [
 	{
 		id: '1',
 		oc_number: 'OC-331-5',
-		oc_name: 'Palos',
-		oc_gloss: 'Palos para subnivel',
-		provider_rut: '77.930.430-1',
-		provider_name: 'Sodimac Homecenter S.A',
-		provider: 'Sodimac Homecenter S.A',
+		name: 'Palos',
+		gloss: 'Palos para subnivel',
+		supplier_rut: '77.930.430-1',
+		supplier_name: 'Sodimac Homecenter S.A',
+		supplier: 'Sodimac Homecenter S.A',
 		delivery_date: '2024-08-20T05:00:00.000Z',
 		delivery_address: 'Las rosas 50, Vitacura, Región Metropolitana',
 		currency_type: 'Peso',
@@ -51,11 +51,11 @@ export const ocDataDb = [
 	{
 		id: '2',
 		oc_number: 'OC-332-3',
-		oc_name: 'Varillas',
-		oc_gloss: 'Varillas para subnivel',
-		provider_rut: '77.930.430-1',
-		provider_name: 'Sodimac Homecenter S.A',
-		provider: 'Sodimac Homecenter S.A',
+		name: 'Varillas',
+		gloss: 'Varillas para subnivel',
+		supplier_rut: '77.930.430-1',
+		supplier_name: 'Sodimac Homecenter S.A',
+		supplier: 'Sodimac Homecenter S.A',
 		delivery_date: '2024-08-20T05:00:00.000Z',
 		delivery_address: 'Las rosas 50, Vitacura, Región Metropolitana',
 		currency_type: 'Peso',
@@ -85,11 +85,11 @@ export const ocDataDb = [
 	{
 		id: '3',
 		oc_number: 'OC-335-7',
-		oc_name: 'Pintura',
-		oc_gloss: 'Pintura',
-		provider_rut: '55.358.387-1',
-		provider_name: 'Proveedor Pintura',
-		provider: 'Proveedor Pintura',
+		name: 'Pintura',
+		gloss: 'Pintura',
+		supplier_rut: '55.358.387-1',
+		supplier_name: 'Proveedor Pintura',
+		supplier: 'Proveedor Pintura',
 		delivery_date: '2024-08-20T05:00:00.000Z',
 		delivery_address: 'Las rosas 50, Vitacura, Región Metropolitana',
 		currency_type: 'Peso',
@@ -119,11 +119,11 @@ export const ocDataDb = [
 	{
 		id: '4',
 		oc_number: 'OC-340-0',
-		oc_name: 'Tornillos',
-		oc_gloss: 'Tornillos',
-		provider_rut: '55.358.387-1',
-		provider_name: 'Proveedor Tornillos',
-		provider: 'Proveedor Tornillos',
+		name: 'Tornillos',
+		gloss: 'Tornillos',
+		supplier_rut: '55.358.387-1',
+		supplier_name: 'Proveedor Tornillos',
+		supplier: 'Proveedor Tornillos',
 		delivery_date: '2024-08-20T05:00:00.000Z',
 		delivery_address: 'Las rosas 50, Vitacura, Región Metropolitana',
 		currency_type: 'Peso',
@@ -336,146 +336,6 @@ export const receiptsData = [
 		sku: 'TON1CA1UN',
 		receipt_status: 'Anulada',
 		invoice_number: '18',
-	},
-];
-
-export const RECEIPT_GEN_INFO_INPUTS = [
-	{
-		name: 'oc_name',
-		label: 'Nombre OC',
-		type: 'text',
-		readOnly: true,
-	},
-	{
-		name: 'provider_rut',
-		label: 'RUT Proveedor',
-		type: 'text',
-		readOnly: true,
-	},
-	{
-		name: 'provider_name',
-		label: 'Proveedor',
-		type: 'text',
-		readOnly: true,
-	},
-	{
-		name: 'oc_gloss',
-		label: 'Glosa OC',
-		type: 'text',
-		readOnly: true,
-	},
-	{
-		name: 'reception_date',
-		label: 'Fecha de recepción',
-		message: 'La fecha de recepción es requerida',
-		type: 'date',
-		required: true,
-	},
-	{
-		name: 'doc_type',
-		label: 'Tipo de documento',
-		message: 'El tipo de documento es requerido',
-		type: 'select',
-		options: [
-			{
-				value: 'Factura',
-				label: 'Factura',
-			},
-			{
-				value: 'Guía de despacho',
-				label: 'Guía de despacho',
-			},
-			{
-				value: 'Boleta de honorarios',
-				label: 'Boleta de honorarios',
-			},
-			{
-				value: 'Vale',
-				label: 'Vale',
-			},
-			{
-				value: 'Estado de pago',
-				label: 'Estado de pago',
-			},
-		],
-		required: true,
-	},
-	{
-		name: 'doc_number',
-		label: 'N° de documento',
-		placeholder: 'Ingrese número',
-		message: 'El N° de documento es requerido',
-		type: 'text',
-		required: true,
-	},
-];
-
-export const RECEIPT_ITEMS_INPUTS = [
-	{
-		name: 'item',
-		label: 'Artículo',
-		type: 'text',
-		readOnly: true,
-	},
-	{
-		name: 'description',
-		label: 'Descripción',
-		type: 'text',
-		readOnly: true,
-	},
-	{
-		name: 'measurement_unit',
-		label: 'Unidad de medida',
-		type: 'text',
-		readOnly: true,
-	},
-	{
-		name: 'quantity',
-		label: 'Cantidad OC',
-		type: 'text',
-		readOnly: true,
-	},
-	{
-		name: 'unit_price',
-		label: 'Precio unitario',
-		type: 'number',
-		readOnly: true,
-		formatter: value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-		parser: value => value.replace(/\$\s?|(,*)/g, ''),
-	},
-	{
-		name: 'received_quantity',
-		label: 'Cantidad recibida',
-		type: 'number',
-		placeholder: 'Ingrese número',
-	},
-	{
-		name: 'received_amount',
-		label: 'Monto recibido',
-		type: 'number',
-		placeholder: 'Valor $',
-		formatter: value => value.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
-		parser: value => value.replace(/\$\s?|(,*)/g, ''),
-	},
-];
-
-export const CALCULATION_INPUTS = [
-	{
-		name: 'discount',
-		label: 'Descuento',
-		placeholder: 'Valor $',
-	},
-	{
-		name: 'net_total',
-		label: 'Total Neto',
-	},
-	{
-		name: 'iva',
-		label: 'IVA',
-	},
-	{
-		name: 'total',
-		label: 'Total',
 	},
 ];
 

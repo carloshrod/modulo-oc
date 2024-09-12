@@ -1,10 +1,10 @@
-.generateOc .goBack {
+.generatePo .goBack {
   display: flex;
   justify-content: flex-end;
   padding-bottom: 1.5rem;
 }
 
-.generateOc .generateOcForm {
+.generatePo .generatePoForm {
   background-color: #ffffff;
   padding: 2rem;
   border-radius: 15px;

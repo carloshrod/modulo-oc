@@ -3,12 +3,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import TableToolbar from '@/components/ui/TableToolbar';
 import useTableColumns from '@/hooks/useTableColumns';
 import { Table } from 'antd';
-import useOcContext from '@/hooks/useOcContext';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import { useEffect } from 'react';
 import { fetchData } from '@/services/utils';
 
-const TableOC = ({ oeuvre }) => {
-	const { getPurchaseOrders, purchaseOrders } = useOcContext();
+const TablePurchaseOrders = ({ oeuvre }) => {
+	const { getPurchaseOrders, purchaseOrders } = usePurchaseOrderContext();
 	const { ocColumns } = useTableColumns();
 	const router = useRouter();
 	const pathname = usePathname();
@@ -36,4 +36,4 @@ const TableOC = ({ oeuvre }) => {
 	);
 };
 
-export default TableOC;
+export default TablePurchaseOrders;

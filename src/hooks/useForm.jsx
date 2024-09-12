@@ -3,10 +3,10 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
 import useGlobalContext from './useGlobalContext';
-import useOcContext from './useOcContext';
+import usePurchaseOrderContext from './usePurchaseOrderContext';
 import useInputs from './useInputs';
 import useGeneralItemsServices from '@/services/useGeneralItemsServices';
-import { savePurchaseOrder } from '@/services/purchaseOrdersServices';
+import { savePurchaseOrder } from '@/services/purchaseOrderServices';
 import { env } from '@/config/env';
 
 const useForm = () => {
@@ -15,7 +15,7 @@ const useForm = () => {
 	const router = useRouter();
 	const { showModalNotification, hideModalForm, loggedUser } =
 		useGlobalContext();
-	const { getPurchaseOrderToReceive } = useOcContext();
+	const { getPurchaseOrderToReceive } = usePurchaseOrderContext();
 	const { ITEMS_INPUTS } = useInputs();
 	const { createGeneralItem } = useGeneralItemsServices();
 	console.log(loggedUser);

@@ -35,10 +35,10 @@ export const formatTitle = part => {
 };
 
 export const generateOcOptions = purchaseOrders => {
-	return purchaseOrders.map(oc => {
+	return purchaseOrders.map(po => {
 		return {
-			value: oc.number,
-			label: oc.number,
+			value: po.number,
+			label: po.number,
 		};
 	});
 };

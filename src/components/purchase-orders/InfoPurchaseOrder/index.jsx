@@ -1,28 +1,28 @@
 import { useEffect } from 'react';
 import { Badge, Button, Divider, Table, Timeline } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
+import moment from 'moment';
+import DetailPoTotals from '@/components/ui/DetailPoTotals';
 import useGlobalContext from '@/hooks/useGlobalContext';
-import DetailOcTotals from '@/components/ui/DetailOcTotals';
-import styles from './InfoOC.module.css';
 import useTableColumns from '@/hooks/useTableColumns';
-import useOcContext from '@/hooks/useOcContext';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import {
 	getPurchaseOrderByNumber,
 	sendPurchaseOrderForApprove,
-} from '@/services/purchaseOrdersServices';
-import moment from 'moment';
-import { PO_TYPES } from '@/context/OC/purchaseOrdersActions';
+} from '@/services/purchaseOrderServices';
+import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
+import styles from './InfoPurchaseOrder.module.css';
 
 const { GET_ONE_PURCHASE_ORDER, UPDATE_PURCHASE_ORDER } = PO_TYPES;
 
-const InfoOC = () => {
+const InfoPurchaseOrder = () => {
 	const {
 		drawer: { title: poNumber },
 		hideDrawer,
 		showModalNotification,
 		loggedUser,
 	} = useGlobalContext();
-	const { purchaseOrder, dispatch } = useOcContext();
+	const { purchaseOrder, dispatch } = usePurchaseOrderContext();
 	const { infoOcColumns } = useTableColumns();
 
 	const fetchPurchaseOrder = async () => {
@@ -86,7 +86,7 @@ const InfoOC = () => {
 	}));
 
 	return (
-		<section className={styles.infoOC}>
+		<section className={styles.infoPo}>
 			<Divider orientation='left'>Detalle OC</Divider>
 			<Table
 				rowKey='id'
@@ -94,7 +94,7 @@ const InfoOC = () => {
 				dataSource={purchaseOrder?.items}
 				pagination={false}
 			/>
-			<DetailOcTotals purchaseOrder={purchaseOrder} />
+			<DetailPoTotals purchaseOrder={purchaseOrder} />
 			<Divider orientation='left'>Hilo de Aprobación</Divider>
 			{purchaseOrder?.events?.length > 0 ? (
 				<Timeline items={items} />
@@ -125,4 +125,4 @@ const InfoOC = () => {
 	);
 };
 
-export default InfoOC;
+export default InfoPurchaseOrder;

@@ -1,15 +1,15 @@
-.infoOC h3 {
+.infoPo h3 {
   font-size: 20px;
   padding-bottom: 2rem;
 }
 
-.infoOC .buttonsContainer {
+.infoPo .buttonsContainer {
   display: flex;
   justify-content: center;
   gap: 16px;
 }
 
-.infoOC .buttonsContainer button {
+.infoPo .buttonsContainer button {
   width: 180px;
   border-radius: 0;
 }

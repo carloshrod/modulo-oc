@@ -1,4 +1,4 @@
-import { PO_TYPES } from './purchaseOrdersActions';
+import { PO_TYPES } from './purchaseOrderActions';
 
 const {
 	GET_ALL_PURCHASE_ORDERS,
@@ -8,7 +8,7 @@ const {
 	DELETE_PURCHASE_ORDER,
 } = PO_TYPES;
 
-const purchaseOrdersReducer = (state, action) => {
+const purchaseOrderReducers = (state, action) => {
 	switch (action.type) {
 		case GET_ALL_PURCHASE_ORDERS:
 			return {
@@ -57,4 +57,4 @@ const purchaseOrdersReducer = (state, action) => {
 	}
 };
 
-export default purchaseOrdersReducer;
+export default purchaseOrderReducers;

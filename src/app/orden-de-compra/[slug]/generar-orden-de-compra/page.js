@@ -1,22 +1,22 @@
-import FormOc from '@/components/forms/FormOc';
+import FormPurchaseOrder from '@/components/forms/FormPurchaseOrder';
 import TitleForm from '@/components/ui/TitleForm';
-import styles from './GenerateOC.module.css';
 import Toolbar from '@/components/ui/Toolbar';
 import { getOneOeuvre } from '@/services/useOeuvreServices';
+import styles from './GeneratePurchaseOrderPage.module.css';
 
-const GenerateOCPage = async ({ params }) => {
+const GeneratePurchaseOrderPage = async ({ params }) => {
 	const { slug } = params;
 	const oeuvre = await getOneOeuvre(slug);
 
 	return (
-		<div className={styles.generateOc}>
+		<div className={styles.generatePo}>
 			<Toolbar />
-			<section className={styles.generateOcForm}>
+			<section className={styles.generatePoForm}>
 				<TitleForm title='Nueva Orden de Compra' />
-				<FormOc oeuvreId={oeuvre?.id} />
+				<FormPurchaseOrder oeuvreId={oeuvre?.id} />
 			</section>
 		</div>
 	);
 };
 
-export default GenerateOCPage;
+export default GeneratePurchaseOrderPage;

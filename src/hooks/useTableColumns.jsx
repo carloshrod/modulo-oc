@@ -7,18 +7,18 @@ import { TbPencilMinus } from 'react-icons/tb';
 import { GiReceiveMoney } from 'react-icons/gi';
 import useGlobalContext from './useGlobalContext';
 import FormInvoice from '@/components/forms/FormInvoice';
-import useOcContext from './useOcContext';
+import usePurchaseOrderContext from './usePurchaseOrderContext';
 import { useRouter, usePathname } from 'next/navigation';
 import moment from 'moment';
-import { getPurchaseOrderByNumber } from '@/services/purchaseOrdersServices';
-import { PO_TYPES } from '@/context/OC/purchaseOrdersActions';
+import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
+import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 
 const { GET_ONE_PURCHASE_ORDER, GET_PURCHASE_ORDER_TO_RECEIVE } = PO_TYPES;
 
 const useTableColumns = () => {
 	const { showModalConfirm, showModalNotification, showModalForm } =
 		useGlobalContext();
-	const { dispatch } = useOcContext();
+	const { dispatch } = usePurchaseOrderContext();
 	const router = useRouter();
 	const pathname = usePathname();
 
@@ -30,7 +30,7 @@ const useTableColumns = () => {
 		});
 	};
 
-	const handleReceiveOc = async poNumber => {
+	const handleReceivePo = async poNumber => {
 		const data = await getPurchaseOrderByNumber({ poNumber });
 		dispatch({
 			type: GET_PURCHASE_ORDER_TO_RECEIVE,
@@ -282,7 +282,7 @@ const useTableColumns = () => {
 						<Button
 							type='text'
 							icon={<GiReceiveMoney size={20} color='#0D6EFD' />}
-							onClick={() => handleReceiveOc(record.number)}
+							onClick={() => handleReceivePo(record.number)}
 						/>
 					</Tooltip>
 				</Space>

@@ -1,16 +1,19 @@
 'use client';
+import { useEffect } from 'react';
 import { Button, Divider, Form } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
+import moment from 'moment';
 import GeneralInfoInputs from '../GeneralInfoInputs';
 import ItemInputs from '../ItemInputs';
 import useForm from '@/hooks/useForm';
-import styles from './FormOc.module.css';
-import { useEffect } from 'react';
-import moment from 'moment';
 import useGlobalContext from '@/hooks/useGlobalContext';
 import useInputs from '@/hooks/useInputs';
+import styles from './FormPurchaseOrder.module.css';
 
-const FormOc = ({ oeuvreId = undefined, purchaseOrder = undefined }) => {
+const FormPurchaseOrder = ({
+	oeuvreId = undefined,
+	purchaseOrder = undefined,
+}) => {
 	const { showModalConfirm } = useGlobalContext();
 	const {
 		form,
@@ -98,4 +101,4 @@ const FormOc = ({ oeuvreId = undefined, purchaseOrder = undefined }) => {
 	);
 };
 
-export default FormOc;
+export default FormPurchaseOrder;

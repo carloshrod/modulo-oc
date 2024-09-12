@@ -1,14 +1,14 @@
 'use client';
+import { useEffect } from 'react';
+import { useParams } from 'next/navigation';
 import { Select, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
-import styles from './SearchInput.module.css';
-import useOcContext from '@/hooks/useOcContext';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
+import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
 import { generateOcOptions } from '@/utils/utils';
-import { getPurchaseOrderByNumber } from '@/services/purchaseOrdersServices';
-import { PO_TYPES } from '@/context/OC/purchaseOrdersActions';
 import { fetchData } from '@/services/utils';
-import { useParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
+import styles from './SearchInput.module.css';
 
 const { GET_PURCHASE_ORDER_TO_RECEIVE } = PO_TYPES;
 
@@ -18,7 +18,7 @@ const SearchInput = () => {
 		getPurchaseOrders,
 		purchaseOrderToReceive,
 		dispatch,
-	} = useOcContext();
+	} = usePurchaseOrderContext();
 	const { slug } = useParams();
 
 	const getApprovedOrdersByOeuvre = async () => {

@@ -1,16 +1,16 @@
-.receiveOC .formContainer {
+.receivePo .formContainer {
   background-color: #ffffff;
   padding: 2rem;
   border-radius: 15px;
 }
 
-.receiveOC .formContainer .formHeader {
+.receivePo .formContainer .formHeader {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-.receiveOC .selectOcMessage {
+.receivePo .selectPoMessage {
   min-height: 500px;
   display: flex;
   flex-direction: column;

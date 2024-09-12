@@ -8,14 +8,14 @@ import {
 	getAccountCosts,
 	getGeneralItems,
 	getSuppliers,
-} from '@/services/purchaseOrdersServices';
+} from '@/services/purchaseOrderServices';
 import { useEffect, useState } from 'react';
-import useOcContext from './useOcContext';
+import usePurchaseOrderContext from './usePurchaseOrderContext';
 
 const useInputs = () => {
 	const [suppliers, setSuppliers] = useState([]);
 	const [accountCosts, setAccountCosts] = useState([]);
-	const { generalItems, setGeneralItems } = useOcContext();
+	const { generalItems, setGeneralItems } = usePurchaseOrderContext();
 
 	const fetchSuppliers = async () => {
 		const res = await getSuppliers();

@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import { Button, Divider, Form } from 'antd';
 import GeneralInfoInputs from '../GeneralInfoInputs';
 import ItemInputs from '../ItemInputs';
-import useOcContext from '@/hooks/useOcContext';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import useForm from '@/hooks/useForm';
 import useInputs from '@/hooks/useInputs';
 import styles from './FormReceipt.module.css';
 
 const FormReceipt = () => {
-	const { purchaseOrderToReceive } = useOcContext();
+	const { purchaseOrderToReceive } = usePurchaseOrderContext();
 	const { form, saveReceipt, onCancel } = useForm();
 	const { RECEIPT_GEN_INFO_INPUTS, RECEIPT_ITEMS_INPUTS } = useInputs();
 

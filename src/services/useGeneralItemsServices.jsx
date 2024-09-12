@@ -1,5 +1,5 @@
 import { env } from '@/config/env';
-import useOcContext from '@/hooks/useOcContext';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import axios from 'axios';
 
 const options = {
@@ -7,7 +7,7 @@ const options = {
 };
 
 const useGeneralItemsServices = () => {
-	const { generalItems, setGeneralItems } = useOcContext();
+	const { generalItems, setGeneralItems } = usePurchaseOrderContext();
 
 	const createGeneralItem = async generalItem => {
 		const res = await axios.post(
@@ -16,7 +16,7 @@ const useGeneralItemsServices = () => {
 			options,
 		);
 		const newGeneralItem = res.data;
-		setGeneralItems([newGeneralItem, ...generalItems]);
+		setGeneralItems([...generalItems, newGeneralItem]);
 	};
 
 	return { createGeneralItem };

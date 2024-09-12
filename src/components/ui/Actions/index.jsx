@@ -4,17 +4,17 @@ import { IoDocumentTextOutline } from 'react-icons/io5';
 import { TbPencilMinus } from 'react-icons/tb';
 import { AiOutlineDelete } from 'react-icons/ai';
 import useGlobalContext from '@/hooks/useGlobalContext';
-import InfoOC from '@/components/purchase-orders/InfoOC';
-import { deletePurchaseOrder as deletePurchaseOrderService } from '@/services/purchaseOrdersServices';
-import useOcContext from '@/hooks/useOcContext';
-import { PO_TYPES } from '@/context/OC/purchaseOrdersActions';
+import InfoPurchaseOrder from '@/components/purchase-orders/InfoPurchaseOrder';
+import { deletePurchaseOrder as deletePurchaseOrderService } from '@/services/purchaseOrderServices';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
+import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 
 const { DELETE_PURCHASE_ORDER } = PO_TYPES;
 
 export const Actions = ({ record }) => {
 	const { showDrawer, showModalConfirm, showModalNotification } =
 		useGlobalContext();
-	const { dispatch } = useOcContext();
+	const { dispatch } = usePurchaseOrderContext();
 	const router = useRouter();
 	const pathname = usePathname();
 
@@ -50,7 +50,10 @@ export const Actions = ({ record }) => {
 					type='text'
 					icon={<IoDocumentTextOutline size={20} color='#0D6EFD' />}
 					onClick={() =>
-						showDrawer({ title: record.number, children: <InfoOC /> })
+						showDrawer({
+							title: record.number,
+							children: <InfoPurchaseOrder />,
+						})
 					}
 				/>
 			</Tooltip>

@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import styles from './page.module.css';
 import { fetchData } from '@/services/utils';
+import styles from './page.module.css';
 
 const OeuvresPage = async () => {
 	const oeuvres = await fetchData('/oeuvres');

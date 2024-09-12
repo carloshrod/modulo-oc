@@ -1,6 +1,6 @@
 import { Tabs } from 'antd';
-import TableOC from '@/components/purchase-orders/TableOC';
-import OCReceipt from '@/components/oc-receipt/OCReceipt';
+import TablePurchaseOrders from '@/components/purchase-orders/TablePurchaseOrders';
+import PurchaseOrderReceipt from '@/components/po-receipt/PurchaseOrderReceipt';
 import { fetchData } from '@/services/utils';
 
 const PurchaseOrderPage = async ({ params }) => {
@@ -11,12 +11,12 @@ const PurchaseOrderPage = async ({ params }) => {
 		{
 			key: '1',
 			label: 'Órdenes de Compra',
-			children: <TableOC oeuvre={oeuvre} />,
+			children: <TablePurchaseOrders oeuvre={oeuvre} />,
 		},
 		{
 			key: '2',
 			label: 'Recepción de OC',
-			children: <OCReceipt />,
+			children: <PurchaseOrderReceipt />,
 		},
 	];
 

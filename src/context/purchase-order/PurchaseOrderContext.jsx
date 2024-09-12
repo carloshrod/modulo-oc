@@ -1,11 +1,11 @@
 'use client';
 import { createContext, useReducer, useState } from 'react';
-import purchaseOrdersReducer from './purchaseOrdersReducers';
-import { PO_TYPES } from './purchaseOrdersActions';
+import purchaseOrderReducers from './purchaseOrderReducers';
+import { PO_TYPES } from './purchaseOrderActions';
 
 const { GET_ALL_PURCHASE_ORDERS } = PO_TYPES;
 
-export const OcContext = createContext(undefined);
+export const PurchaseOrderContext = createContext(undefined);
 
 const initialState = {
 	purchaseOrders: [],
@@ -13,8 +13,8 @@ const initialState = {
 	purchaseOrderToReceive: {},
 };
 
-const OcProvider = ({ children }) => {
-	const [state, dispatch] = useReducer(purchaseOrdersReducer, initialState);
+const PurchaseOrderProvider = ({ children }) => {
+	const [state, dispatch] = useReducer(purchaseOrderReducers, initialState);
 	const { purchaseOrders, purchaseOrder, purchaseOrderToReceive } = state;
 
 	// TODO: reubicar generalItems state
@@ -37,7 +37,11 @@ const OcProvider = ({ children }) => {
 		dispatch,
 	};
 
-	return <OcContext.Provider value={data}>{children}</OcContext.Provider>;
+	return (
+		<PurchaseOrderContext.Provider value={data}>
+			{children}
+		</PurchaseOrderContext.Provider>
+	);
 };
 
-export default OcProvider;
+export default PurchaseOrderProvider;

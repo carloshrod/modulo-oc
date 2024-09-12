@@ -6,8 +6,8 @@ import {
 	IoCheckmarkCircleOutline,
 	IoCloseCircleOutline,
 } from 'react-icons/io5';
-import useOcContext from '@/hooks/useOcContext';
-import { PO_TYPES } from '../OC/purchaseOrdersActions';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
+import { PO_TYPES } from '../purchase-order/purchaseOrderActions';
 
 const { GET_ONE_PURCHASE_ORDER } = PO_TYPES;
 
@@ -41,7 +41,7 @@ const GlobalProvider = ({ children }) => {
 	const [modal, setModal] = useState(initialModal);
 	const [onConfirm, setOnConfirm] = useState(null);
 	const [modalForm, setModalForm] = useState(initialModalForm);
-	const { dispatch } = useOcContext();
+	const { dispatch } = usePurchaseOrderContext();
 	const [loggedUser, setLoggedUser] = useState({});
 
 	const showDrawer = ({ title, children }) => {

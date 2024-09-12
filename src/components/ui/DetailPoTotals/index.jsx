@@ -1,6 +1,6 @@
 import { Col, Row } from 'antd';
 
-const DetailOcTotals = ({ purchaseOrder }) => {
+const DetailPoTotals = ({ purchaseOrder }) => {
 	return purchaseOrder?.total ? (
 		<section>
 			<Row justify='end'>
@@ -36,4 +36,4 @@ const DetailOcTotals = ({ purchaseOrder }) => {
 	) : null;
 };
 
-export default DetailOcTotals;
+export default DetailPoTotals;

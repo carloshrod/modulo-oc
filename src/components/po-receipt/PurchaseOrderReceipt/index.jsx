@@ -1,20 +1,20 @@
 'use client';
+import { useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Button } from 'antd';
 import { GiReceiveMoney } from 'react-icons/gi';
 import Toolbar from '@/components/ui/Toolbar';
-import InfoReceiptOC from '../InfoReceiptOC';
+import InfoReceiptPo from '../InfoReceiptPo';
 import TableToolbar from '@/components/ui/TableToolbar';
-import TableOCReceipts from '../TableOCReceipts';
-import useOcContext from '@/hooks/useOcContext';
-import { useEffect } from 'react';
-import { PO_TYPES } from '@/context/OC/purchaseOrdersActions';
-import { getPurchaseOrderByNumber } from '@/services/purchaseOrdersServices';
+import TablePoReceipts from '../TablePoReceipts';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
+import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
+import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 
 const { GET_ONE_PURCHASE_ORDER, GET_PURCHASE_ORDER_TO_RECEIVE } = PO_TYPES;
 
-const OCReceipt = () => {
-	const { purchaseOrder, dispatch } = useOcContext();
+const PurchaseOrderReceipt = () => {
+	const { purchaseOrder, dispatch } = usePurchaseOrderContext();
 	const router = useRouter();
 	const pathname = usePathname();
 
@@ -47,7 +47,7 @@ const OCReceipt = () => {
 					Recibir {purchaseOrder?.number}
 				</Button>
 			</Toolbar>
-			<InfoReceiptOC purchaseOrder={purchaseOrder} />
+			<InfoReceiptPo purchaseOrder={purchaseOrder} />
 		</>
 	) : (
 		<>
@@ -55,9 +55,9 @@ const OCReceipt = () => {
 				table='receipts'
 				onClick={() => router.push(`${pathname}/recibir-oc`)}
 			/>
-			<TableOCReceipts />
+			<TablePoReceipts />
 		</>
 	);
 };
 
-export default OCReceipt;
+export default PurchaseOrderReceipt;
