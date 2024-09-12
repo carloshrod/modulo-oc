@@ -1,12 +1,12 @@
 import FormPurchaseOrder from '@/components/forms/FormPurchaseOrder';
 import TitleForm from '@/components/ui/TitleForm';
 import Toolbar from '@/components/ui/Toolbar';
-import { getOneOeuvre } from '@/services/useOeuvreServices';
+import { fetchData } from '@/services/utils';
 import styles from './GeneratePurchaseOrderPage.module.css';
 
 const GeneratePurchaseOrderPage = async ({ params }) => {
 	const { slug } = params;
-	const oeuvre = await getOneOeuvre(slug);
+	const oeuvre = await fetchData(`/oeuvres/${slug}`);
 
 	return (
 		<div className={styles.generatePo}>
