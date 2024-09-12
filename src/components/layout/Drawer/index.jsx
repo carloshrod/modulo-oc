@@ -23,7 +23,7 @@ const CustomDrawer = () => {
 			onClose={handleClose}
 			open={drawerOpen}
 			style={{ backgroundColor: !showExtra && '#E1E1E2' }}
-			width={500}
+			width={600}
 			extra={
 				showExtra ? (
 					<Space>
