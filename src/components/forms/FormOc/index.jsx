@@ -7,13 +7,11 @@ import useForm from '@/hooks/useForm';
 import styles from './FormOc.module.css';
 import { useEffect } from 'react';
 import moment from 'moment';
-import useOcContext from '@/hooks/useOcContext';
 import useGlobalContext from '@/hooks/useGlobalContext';
 import useInputs from '@/hooks/useInputs';
 
-const FormOc = ({ ocNumber }) => {
+const FormOc = ({ oeuvreId = undefined, purchaseOrder = undefined }) => {
 	const { showModalConfirm } = useGlobalContext();
-	const { purchaseOrders } = useOcContext();
 	const {
 		form,
 		itemError,
@@ -25,24 +23,22 @@ const FormOc = ({ ocNumber }) => {
 	const { GEN_INFO_INPUTS, ITEMS_INPUTS } = useInputs();
 
 	useEffect(() => {
-		const foundedOc = purchaseOrders.find(el => {
-			return el.oc_number.toLowerCase() === ocNumber;
-		});
-
-		if (foundedOc) {
+		if (purchaseOrder) {
 			const preparedFields = {
-				...foundedOc,
-				delivery_date: moment(foundedOc.delivery_date),
+				...purchaseOrder,
+				delivery_date:
+					purchaseOrder?.delivery_date && moment(purchaseOrder?.delivery_date),
+				items: purchaseOrder?.items?.length > 0 ? purchaseOrder.items : [{}],
 			};
 			form.setFieldsValue(preparedFields);
 		}
-	}, [ocNumber, purchaseOrders]);
+	}, [purchaseOrder]);
 
 	return (
 		<div className={styles.formWrapper}>
 			<Form
 				form={form}
-				onFinish={sendForApproval}
+				onFinish={() => sendForApproval(oeuvreId)}
 				onFinishFailed={sendForApprovalFailed}
 				layout='vertical'
 				autoComplete='off'
@@ -73,7 +69,7 @@ const FormOc = ({ ocNumber }) => {
 						<Button
 							type='primary'
 							size='large'
-							onClick={saveAsDraft}
+							onClick={() => saveAsDraft(oeuvreId)}
 							style={{ width: 200 }}
 						>
 							Guardar como borrador

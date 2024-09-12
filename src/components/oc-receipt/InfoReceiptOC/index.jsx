@@ -1,15 +1,10 @@
 import { Input, Table } from 'antd';
 import useTableColumns from '@/hooks/useTableColumns';
-import { receiptsData } from '@/utils/consts';
 import styles from './InfoReceiptOC.module.css';
 
 const InfoReceiptOC = ({ purchaseOrder }) => {
-	const { id, oc_name, oc_gloss, provider_rut, provider_name } = purchaseOrder;
+	const { id, name, gloss, supplier_rut, supplier_name } = purchaseOrder;
 	const { itemsReceiptsOcColumns, receiptsHistoryColumns } = useTableColumns();
-
-	const receiptsHistory = receiptsData.filter(el => {
-		return el.oc_number === purchaseOrder.oc_number;
-	});
 
 	return (
 		<div className={styles.mainContainer}>
@@ -19,26 +14,26 @@ const InfoReceiptOC = ({ purchaseOrder }) => {
 					<div className={styles.inputsContainer}>
 						<div className={styles.inputReadOnly}>
 							<label htmlFor={id}>Nombre OC</label>
-							<Input readOnly id={id} value={oc_name} />
+							<Input readOnly id={id} value={name} />
 						</div>
 						<div className={styles.inputReadOnly}>
 							<label htmlFor={id}>Glosa OC</label>
-							<Input readOnly id={id} value={oc_gloss} />
+							<Input readOnly id={id} value={gloss} />
 						</div>
 						<div className={styles.inputReadOnly}>
 							<label htmlFor={id}>RUT Proveedor</label>
-							<Input readOnly id={id} value={provider_rut} />
+							<Input readOnly id={id} value={supplier_rut} />
 						</div>
 						<div className={styles.inputReadOnly}>
 							<label htmlFor={id}>Proveedor</label>
-							<Input readOnly id={id} value={provider_name} />
+							<Input readOnly id={id} value={supplier_name} />
 						</div>
 					</div>
 				</section>
 				<section className={styles.items}>
 					<h3>Artículos</h3>
 					<Table
-						rowKey='sku'
+						rowKey='id'
 						columns={itemsReceiptsOcColumns}
 						dataSource={purchaseOrder?.items}
 						pagination={false}
@@ -50,7 +45,7 @@ const InfoReceiptOC = ({ purchaseOrder }) => {
 				<Table
 					rowKey='id'
 					columns={receiptsHistoryColumns}
-					dataSource={receiptsHistory}
+					dataSource={[]}
 					pagination={false}
 				/>
 			</div>

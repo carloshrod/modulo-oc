@@ -17,7 +17,7 @@ const GeneralInfoInputs = ({ inputs, form }) => {
 	};
 
 	const handleCurrencyChange = value => {
-		if (value === 'Peso') {
+		if (value === 'Pesos') {
 			form.setFieldsValue({ exchange_rate: 1 }, form);
 		}
 	};
@@ -78,7 +78,7 @@ const GeneralInfoInputs = ({ inputs, form }) => {
 								label='Tasa de cambio'
 								rules={[
 									{
-										required: currencyType !== 'Peso',
+										required: currencyType !== 'Pesos',
 										message: 'La tasa de cambio es requerida',
 									},
 								]}
@@ -92,7 +92,7 @@ const GeneralInfoInputs = ({ inputs, form }) => {
 									}}
 									controls={false}
 									placeholder='Valor $'
-									disabled={currencyType === 'Peso'}
+									disabled={currencyType === 'Pesos'}
 									formatter={value =>
 										value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 									}

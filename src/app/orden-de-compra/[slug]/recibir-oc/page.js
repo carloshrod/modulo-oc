@@ -18,9 +18,9 @@ const ReceiveOCPage = () => {
 					<TitleForm title='Recepción OC' />
 					<SearchInput />
 				</div>
-				{purchaseOrderToReceive?.oc_number ? <FormReceipt /> : null}
+				{purchaseOrderToReceive?.number ? <FormReceipt /> : null}
 			</section>
-			{!purchaseOrderToReceive?.oc_number ? (
+			{!purchaseOrderToReceive?.number ? (
 				<section className={styles.selectOcMessage}>
 					<LayoutIcon />
 					<p>Selecciona una OC para realizar la recepción.</p>

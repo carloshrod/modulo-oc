@@ -7,6 +7,9 @@ import {
 	IoCloseCircleOutline,
 } from 'react-icons/io5';
 import useOcContext from '@/hooks/useOcContext';
+import { PO_TYPES } from '../OC/purchaseOrdersActions';
+
+const { GET_ONE_PURCHASE_ORDER } = PO_TYPES;
 
 export const GlobalContext = createContext(undefined);
 
@@ -38,7 +41,8 @@ const GlobalProvider = ({ children }) => {
 	const [modal, setModal] = useState(initialModal);
 	const [onConfirm, setOnConfirm] = useState(null);
 	const [modalForm, setModalForm] = useState(initialModalForm);
-	const { getPurchaseOrder } = useOcContext();
+	const { dispatch } = useOcContext();
+	const [loggedUser, setLoggedUser] = useState({});
 
 	const showDrawer = ({ title, children }) => {
 		setDrawer({
@@ -50,7 +54,10 @@ const GlobalProvider = ({ children }) => {
 
 	const hideDrawer = () => {
 		setDrawer(initialDrawer);
-		getPurchaseOrder(undefined);
+		dispatch({
+			type: GET_ONE_PURCHASE_ORDER,
+			payload: {},
+		});
 	};
 
 	const showModalConfirm = (
@@ -127,6 +134,8 @@ const GlobalProvider = ({ children }) => {
 		modalForm,
 		showModalForm,
 		hideModalForm,
+		loggedUser,
+		setLoggedUser,
 	};
 
 	return (

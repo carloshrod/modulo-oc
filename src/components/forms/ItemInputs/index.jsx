@@ -5,13 +5,12 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import FormItem from '../FormItem';
 import useGlobalContext from '@/hooks/useGlobalContext';
 import useInputs from '@/hooks/useInputs';
-import { CALCULATION_INPUTS } from '@/utils/consts';
 import styles from './ItemInputs.module.css';
 
 const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 	const IVA_RATE = 0.19;
 	const { showModalForm } = useGlobalContext();
-	const { INPUT_TYPES } = useInputs();
+	const { INPUT_TYPES, CALCULATION_INPUTS } = useInputs();
 	const exchangeRate = Form.useWatch('exchange_rate') ?? 1;
 
 	useEffect(() => {
@@ -39,7 +38,7 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 
 		const netTotal =
 			items.reduce((total, item) => total + (item?.subtotal || 0), 0) +
-			discount;
+			parseFloat(discount);
 
 		const iva = netTotal * IVA_RATE;
 		const total = netTotal + iva;
@@ -71,7 +70,7 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 
 		const netTotal =
 			items.reduce((total, item) => total + (item?.received_amount || 0), 0) +
-			discount;
+			parseFloat(discount);
 
 		const iva = netTotal * IVA_RATE;
 		const total = netTotal + iva;
@@ -136,7 +135,7 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 													]}
 													className={`noRequiredMark ${input.name === 'cost_account' ? 'costAccountSelect' : ''}`}
 													extra={
-														input.name === 'item' &&
+														input.name === 'general_item_id' &&
 														name === 0 &&
 														type === 'oc' ? (
 															<Tooltip title='Agregar artículo'>

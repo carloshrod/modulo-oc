@@ -1,28 +1,55 @@
 import { Form } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import axios from 'axios';
 import useGlobalContext from './useGlobalContext';
 import useOcContext from './useOcContext';
 import useInputs from './useInputs';
 import useGeneralItemsServices from '@/services/useGeneralItemsServices';
+import { savePurchaseOrder } from '@/services/purchaseOrdersServices';
+import { env } from '@/config/env';
 
 const useForm = () => {
 	const [form] = Form.useForm();
 	const [itemError, setItemError] = useState(false);
 	const router = useRouter();
-	const { showModalNotification, hideModalForm } = useGlobalContext();
+	const { showModalNotification, hideModalForm, loggedUser } =
+		useGlobalContext();
 	const { getPurchaseOrderToReceive } = useOcContext();
 	const { ITEMS_INPUTS } = useInputs();
 	const { createGeneralItem } = useGeneralItemsServices();
+	console.log(loggedUser);
 
-	const sendForApproval = values => {
-		console.log('Enviando a aprobación!');
-		verifyItems(values);
-		console.log(values);
-		showModalNotification({
-			notificationText: 'OC enviada a aprobación exitosamente',
-		});
-		router.back();
+	const sendForApproval = async oeuvreId => {
+		try {
+			const values = await form.getFieldsValue(true);
+			verifyItems(values);
+
+			const purchaseOrderToApprove = {
+				...values,
+				oeuvre_id: oeuvreId,
+				status: 'En revisión',
+				submittedBy: loggedUser?.id,
+			};
+
+			const res = !values.id
+				? await axios.post(
+						`${env.API_URL}/purchase-orders`,
+						purchaseOrderToApprove,
+					)
+				: await axios.put(
+						`${env.API_URL}/purchase-orders/${values.id}`,
+						purchaseOrderToApprove,
+					);
+			if (res.status === 200) {
+				showModalNotification({
+					notificationText: 'OC enviada a aprobación exitosamente',
+				});
+				router.back();
+			}
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const sendForApprovalFailed = ({ values }) => {
@@ -44,15 +71,25 @@ const useForm = () => {
 		setItemError(null);
 	};
 
-	const saveAsDraft = async () => {
+	const saveAsDraft = async oeuvreId => {
 		try {
 			const values = await form.getFieldsValue(true);
-			console.log('Datos guardados como borrador:', values);
-			showModalNotification({
-				notificationText: 'OC guardada como borrador exitosamente',
-			});
-		} catch (errorInfo) {
-			console.error('Errores de validación:', errorInfo);
+			const purchaseOrderToSave = {
+				...values,
+				oeuvre_id: oeuvreId,
+				status: 'Borrador',
+				submittedBy: loggedUser?.id,
+			};
+
+			const res = await savePurchaseOrder(purchaseOrderToSave);
+			if (res.status === 200) {
+				showModalNotification({
+					notificationText: 'OC guardada como borrador exitosamente',
+				});
+				router.back();
+			}
+		} catch (error) {
+			console.error(error);
 		}
 	};
 

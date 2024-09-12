@@ -9,54 +9,79 @@ import useGlobalContext from './useGlobalContext';
 import FormInvoice from '@/components/forms/FormInvoice';
 import useOcContext from './useOcContext';
 import { useRouter, usePathname } from 'next/navigation';
+import moment from 'moment';
+import { getPurchaseOrderByNumber } from '@/services/purchaseOrdersServices';
+import { PO_TYPES } from '@/context/OC/purchaseOrdersActions';
+
+const { GET_ONE_PURCHASE_ORDER, GET_PURCHASE_ORDER_TO_RECEIVE } = PO_TYPES;
 
 const useTableColumns = () => {
 	const { showModalConfirm, showModalNotification, showModalForm } =
 		useGlobalContext();
-	const { getPurchaseOrder, getPurchaseOrderToReceive } = useOcContext();
+	const { dispatch } = useOcContext();
 	const router = useRouter();
 	const pathname = usePathname();
 
-	const handleReceiveOc = ocNumber => {
+	const handleDisplayReceipt = async poNumber => {
+		const data = await getPurchaseOrderByNumber({ poNumber });
+		dispatch({
+			type: GET_ONE_PURCHASE_ORDER,
+			payload: data,
+		});
+	};
+
+	const handleReceiveOc = async poNumber => {
+		const data = await getPurchaseOrderByNumber({ poNumber });
+		dispatch({
+			type: GET_PURCHASE_ORDER_TO_RECEIVE,
+			payload: data,
+		});
 		router.push(`${pathname}/recibir-oc`);
-		getPurchaseOrderToReceive(ocNumber);
 	};
 
 	const ocColumns = [
 		{
 			title: 'N° OC',
-			dataIndex: 'oc_number',
+			dataIndex: 'number',
 			key: 'oc_number',
 			width: 80,
 		},
 		{
 			title: 'NOMBRE OC',
-			dataIndex: 'oc_name',
-			key: 'oc_name',
-			...getColumnSearchProps('oc_name'),
+			dataIndex: 'name',
+			key: 'name',
+			...getColumnSearchProps('name'),
 			width: 120,
+			render: value => <span>{value ?? '--'}</span>,
 		},
 		{
 			title: 'RUT PROVEEDOR',
-			dataIndex: 'provider_rut',
-			key: 'provider_rut',
-			...getColumnSearchProps('provider_rut'),
+			dataIndex: 'supplier_rut',
+			key: 'supplier_rut',
+			...getColumnSearchProps('supplier_rut'),
 			width: 145,
+			render: value => <span>{value ?? '--'}</span>,
 		},
 		{
 			title: 'NOMBRE PROVEEDOR',
-			dataIndex: 'provider_name',
-			key: 'provider_name',
-			...getColumnSearchProps('provider_name'),
+			dataIndex: 'supplier_name',
+			key: 'supplier_name',
+			...getColumnSearchProps('supplier_name'),
 			width: 175,
+			render: value => <span>{value ?? '--'}</span>,
 		},
 		{
 			title: 'FECHA CREACIÓN',
-			dataIndex: 'creation_date',
-			key: 'creation_date',
-			sorter: (a, b) => parseDate(a.creation_date) - parseDate(b.creation_date),
+			dataIndex: 'created_at',
+			key: 'created_at',
+			sorter: (a, b) => parseDate(a.created_at) - parseDate(b.created_at),
 			sortDirections: ['descend', 'ascend'],
 			width: 150,
+			render: value => (
+				<span>
+					{value ? moment(value).startOf('day').format('YYYY/MM/DD') : '--'}
+				</span>
+			),
 		},
 		{
 			title: 'FECHA APROBACIÓN',
@@ -65,6 +90,11 @@ const useTableColumns = () => {
 			sorter: (a, b) => parseDate(a.approval_date) - parseDate(b.approval_date),
 			sortDirections: ['descend', 'ascend'],
 			width: 165,
+			render: value => (
+				<span>
+					{value ? moment(value).startOf('day').format('YYYY/MM/DD') : '--'}
+				</span>
+			),
 		},
 		{
 			title: 'MONTO TOTAL',
@@ -81,8 +111,8 @@ const useTableColumns = () => {
 		},
 		{
 			title: 'ESTADO OC',
-			dataIndex: 'oc_status',
-			key: 'oc_status',
+			dataIndex: 'status',
+			key: 'status',
 			filters: [
 				{
 					text: 'En revisión',
@@ -101,7 +131,7 @@ const useTableColumns = () => {
 					value: 'Borrador',
 				},
 			],
-			onFilter: (value, record) => record.oc_status.indexOf(value) === 0,
+			onFilter: (value, record) => record.status.indexOf(value) === 0,
 			render: value => {
 				const COLORS = {
 					'En revisión': 'processing',
@@ -126,16 +156,15 @@ const useTableColumns = () => {
 	const infoOcColumns = [
 		{
 			title: 'DETALLE ARTÍCULO',
-			dataIndex: 'sku',
-			key: 'sku',
+			dataIndex: 'item_details',
+			key: 'item_details',
 			render: (_, record) => (
 				<div>
 					<p style={{ fontSize: 14, color: '#0D6EFD' }}>
-						{record.sku} ({record.measurement_unit})
+						{record.item_sku} ({record.measurement_unit?.toUpperCase()})
 					</p>
 					<p>{record.description}</p>
-					<p>{record.gloss}</p>
-					<p>{record.cost_account}</p>
+					<p>{record.account_cost_name}</p>
 				</div>
 			),
 		},
@@ -151,7 +180,7 @@ const useTableColumns = () => {
 			width: 70,
 			render: (_, record) => (
 				<p>
-					${record.unit_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+					${record.unit_price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 				</p>
 			),
 		},
@@ -162,7 +191,7 @@ const useTableColumns = () => {
 			width: 100,
 			render: (_, record) => (
 				<p>
-					${record.subtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+					${record.subtotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
 				</p>
 			),
 		},
@@ -171,49 +200,54 @@ const useTableColumns = () => {
 	const receiptsColumns = [
 		{
 			title: 'N° OC',
-			dataIndex: 'oc_number',
-			key: 'oc_number',
-			...getColumnSearchProps('oc_number'),
+			dataIndex: 'number',
+			key: 'number',
+			...getColumnSearchProps('number'),
 			width: 80,
 		},
 		{
 			title: 'NOMBRE OC',
-			dataIndex: 'oc_name',
-			key: 'oc_name',
-			...getColumnSearchProps('oc_name'),
+			dataIndex: 'name',
+			key: 'name',
+			...getColumnSearchProps('name'),
 			width: 120,
 		},
 		{
 			title: 'FECHA CREACIÓN',
-			dataIndex: 'creation_date',
-			key: 'creation_date',
-			sorter: (a, b) => parseDate(a.creation_date) - parseDate(b.creation_date),
+			dataIndex: 'created_at',
+			key: 'created_at',
+			sorter: (a, b) => parseDate(a.created_at) - parseDate(b.created_at),
 			sortDirections: ['descend', 'ascend'],
 			width: 150,
+			render: value => (
+				<span>
+					{value ? moment(value).startOf('day').format('YYYY/MM/DD') : '--'}
+				</span>
+			),
 		},
 		{
 			title: 'RUT PROVEEDOR',
-			dataIndex: 'provider_rut',
-			key: 'provider_rut',
-			...getColumnSearchProps('provider_rut'),
+			dataIndex: 'supplier_rut',
+			key: 'supplier_rut',
+			...getColumnSearchProps('supplier_rut'),
 			width: 145,
 		},
 		{
 			title: 'NOMBRE PROVEEDOR',
-			dataIndex: 'provider_name',
-			key: 'provider_name',
-			...getColumnSearchProps('provider_name'),
+			dataIndex: 'supplier_name',
+			key: 'supplier_name',
+			...getColumnSearchProps('supplier_name'),
 			width: 175,
 		},
 		{
 			title: 'MONTO OC',
-			dataIndex: 'oc_amount',
-			key: 'oc_amount',
-			sorter: (a, b) => a.oc_amount - b.oc_amount,
+			dataIndex: 'total',
+			key: 'total',
+			sorter: (a, b) => a.total - b.total,
 			sortDirections: ['descend', 'ascend'],
 			render: value => (
 				<span>
-					${value?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? ' --'}
+					${value?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? 0}
 				</span>
 			),
 			width: 135,
@@ -226,7 +260,7 @@ const useTableColumns = () => {
 			sortDirections: ['descend', 'ascend'],
 			render: value => (
 				<span>
-					${value?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? ' --'}
+					${value?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? 0}
 				</span>
 			),
 			width: 135,
@@ -241,14 +275,14 @@ const useTableColumns = () => {
 						<Button
 							type='text'
 							icon={<IoDocumentTextOutline size={20} color='#0D6EFD' />}
-							onClick={() => getPurchaseOrder(record.oc_number)}
+							onClick={() => handleDisplayReceipt(record.number)}
 						/>
 					</Tooltip>
 					<Tooltip title='Recibir OC'>
 						<Button
 							type='text'
 							icon={<GiReceiveMoney size={20} color='#0D6EFD' />}
-							onClick={() => handleReceiveOc(record.oc_number)}
+							onClick={() => handleReceiveOc(record.number)}
 						/>
 					</Tooltip>
 				</Space>
@@ -260,16 +294,15 @@ const useTableColumns = () => {
 	const itemsReceiptsOcColumns = [
 		{
 			title: 'DETALLE ARTÍCULO',
-			dataIndex: 'sku',
-			key: 'sku',
+			dataIndex: 'item_details',
+			key: 'item_details',
 			render: (_, record) => (
 				<div>
 					<p style={{ fontSize: 14, color: '#0D6EFD' }}>
-						{record.sku} ({record.measurement_unit})
+						{record.item_sku} ({record.measurement_unit.toUpperCase()})
 					</p>
 					<p>{record.description}</p>
-					<p>{record.gloss}</p>
-					<p>{record.cost_account}</p>
+					<p>{record.account_cost_name}</p>
 				</div>
 			),
 			width: 180,
@@ -312,15 +345,15 @@ const useTableColumns = () => {
 		},
 		{
 			title: 'MONTO RECIBIDO',
-			dataIndex: 'subtotal',
-			key: 'subtotal',
+			dataIndex: 'received_amount',
+			key: 'received_amount',
 			width: 140,
 			render: (_, record) => (
 				<p>
 					$
 					{record.received_amount
 						?.toString()
-						.replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? ' --'}
+						.replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? 0}
 				</p>
 			),
 			align: 'center',
@@ -333,9 +366,8 @@ const useTableColumns = () => {
 			render: (_, record) => (
 				<p>
 					$
-					{record.amount_to_receive
-						?.toString()
-						.replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? ' --'}
+					{record.subtotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') ??
+						0}
 				</p>
 			),
 			align: 'center',
@@ -345,7 +377,7 @@ const useTableColumns = () => {
 			dataIndex: 'subtotal',
 			key: 'subtotal',
 			width: 140,
-			render: (_, record) => <p>{record?.receipt_status}</p>,
+			render: (_, record) => <p>{record?.receipt_status ?? 'Sin recepción'}</p>,
 			align: 'center',
 		},
 	];

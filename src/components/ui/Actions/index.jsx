@@ -5,30 +5,42 @@ import { TbPencilMinus } from 'react-icons/tb';
 import { AiOutlineDelete } from 'react-icons/ai';
 import useGlobalContext from '@/hooks/useGlobalContext';
 import InfoOC from '@/components/purchase-orders/InfoOC';
+import { deletePurchaseOrder as deletePurchaseOrderService } from '@/services/purchaseOrdersServices';
+import useOcContext from '@/hooks/useOcContext';
+import { PO_TYPES } from '@/context/OC/purchaseOrdersActions';
+
+const { DELETE_PURCHASE_ORDER } = PO_TYPES;
 
 export const Actions = ({ record }) => {
 	const { showDrawer, showModalConfirm, showModalNotification } =
 		useGlobalContext();
+	const { dispatch } = useOcContext();
 	const router = useRouter();
 	const pathname = usePathname();
 
 	const notDisabled =
-		record.oc_status === 'Rechazada' || record.oc_status === 'Borrador';
-
-	const deleteOc = () => {
-		console.log('Eliminando OC');
-		showModalNotification({
-			notificationText: 'Orden de compra eliminada exitosamente',
-		});
-	};
+		record.status === 'Rechazada' ||
+		record.status === 'Borrador' ||
+		record.status === 'En revisión';
 
 	const handleDelete = () => {
-		showModalConfirm(() => deleteOc(), {
-			danger: true,
-			title: '¿Deseas eliminar esta Orden de Compra?',
-			subtitle: 'Si eliminas no podrás recuperar los datos',
-			okText: 'Eliminar',
-		});
+		showModalConfirm(
+			async () => {
+				const res = await deletePurchaseOrderService(record.id);
+				if (res.deletedCount !== 0) {
+					dispatch({ type: DELETE_PURCHASE_ORDER, payload: record.id });
+					showModalNotification({
+						notificationText: 'Orden de compra eliminada exitosamente',
+					});
+				}
+			},
+			{
+				danger: true,
+				title: '¿Deseas eliminar esta Orden de Compra?',
+				subtitle: 'Si eliminas no podrás recuperar los datos',
+				okText: 'Eliminar',
+			},
+		);
 	};
 
 	return (
@@ -38,7 +50,7 @@ export const Actions = ({ record }) => {
 					type='text'
 					icon={<IoDocumentTextOutline size={20} color='#0D6EFD' />}
 					onClick={() =>
-						showDrawer({ title: record.oc_number, children: <InfoOC /> })
+						showDrawer({ title: record.number, children: <InfoOC /> })
 					}
 				/>
 			</Tooltip>
@@ -52,7 +64,7 @@ export const Actions = ({ record }) => {
 						/>
 					}
 					onClick={() =>
-						router.push(`${pathname}/${record?.oc_number?.toLowerCase()}`)
+						router.push(`${pathname}/${record?.number?.toLowerCase()}`)
 					}
 					disabled={!notDisabled}
 				/>
