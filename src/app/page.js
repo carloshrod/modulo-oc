@@ -2,18 +2,18 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from 'antd';
-import useGlobalContext from '@/hooks/useGlobalContext';
+import useUiContext from '@/hooks/useUiContext';
 import {
 	approver1,
 	approver2,
 	approver3,
 	approver4,
 	noApprover,
-} from '@/context/global/users';
+} from '@/context/ui/users';
 
 export default function Home() {
 	const router = useRouter();
-	const { loggedUser, setLoggedUser } = useGlobalContext();
+	const { loggedUser, setLoggedUser } = useUiContext();
 
 	useEffect(() => {
 		if (loggedUser?.id) {

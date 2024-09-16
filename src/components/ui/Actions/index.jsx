@@ -3,18 +3,23 @@ import { Button, Space, Tooltip } from 'antd';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { TbPencilMinus } from 'react-icons/tb';
 import { AiOutlineDelete } from 'react-icons/ai';
-import useGlobalContext from '@/hooks/useGlobalContext';
+import useUiContext from '@/hooks/useUiContext';
 import InfoPurchaseOrder from '@/components/purchase-orders/InfoPurchaseOrder';
 import { deletePurchaseOrder as deletePurchaseOrderService } from '@/services/purchaseOrderServices';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
+import { UI_TYPES } from '@/context/ui/uiActions';
 
+const { SHOW_DRAWER } = UI_TYPES;
 const { DELETE_PURCHASE_ORDER } = PO_TYPES;
 
 export const Actions = ({ record }) => {
-	const { showDrawer, showModalConfirm, showModalNotification } =
-		useGlobalContext();
-	const { dispatch } = usePurchaseOrderContext();
+	const {
+		showModalConfirm,
+		showModalNotification,
+		dispatch: uiDispatch,
+	} = useUiContext();
+	const { dispatch: poDispatch } = usePurchaseOrderContext();
 	const router = useRouter();
 	const pathname = usePathname();
 
@@ -23,19 +28,28 @@ export const Actions = ({ record }) => {
 		record.status === 'Borrador' ||
 		record.status === 'En revisión';
 
+	const handleShowDrawer = () =>
+		uiDispatch({
+			type: SHOW_DRAWER,
+			payload: {
+				title: record.number,
+				children: <InfoPurchaseOrder />,
+			},
+		});
+
 	const handleDelete = () => {
 		showModalConfirm(
 			async () => {
 				const res = await deletePurchaseOrderService(record.id);
 				if (res.deletedCount !== 0) {
-					dispatch({ type: DELETE_PURCHASE_ORDER, payload: record.id });
+					poDispatch({ type: DELETE_PURCHASE_ORDER, payload: record.id });
 					showModalNotification({
 						notificationText: 'Orden de compra eliminada exitosamente',
 					});
 				}
 			},
 			{
-				danger: true,
+				warning: true,
 				title: '¿Deseas eliminar esta Orden de Compra?',
 				subtitle: 'Si eliminas no podrás recuperar los datos',
 				okText: 'Eliminar',
@@ -49,12 +63,7 @@ export const Actions = ({ record }) => {
 				<Button
 					type='text'
 					icon={<IoDocumentTextOutline size={20} color='#0D6EFD' />}
-					onClick={() =>
-						showDrawer({
-							title: record.number,
-							children: <InfoPurchaseOrder />,
-						})
-					}
+					onClick={handleShowDrawer}
 				/>
 			</Tooltip>
 			<Tooltip title={notDisabled ? 'Editar OC' : ''}>

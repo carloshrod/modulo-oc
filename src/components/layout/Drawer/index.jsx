@@ -1,17 +1,20 @@
 'use client';
 import PoPDF from '@/components/purchase-orders/PoPDF';
-import useGlobalContext from '@/hooks/useGlobalContext';
+import { UI_TYPES } from '@/context/ui/uiActions';
+import useUiContext from '@/hooks/useUiContext';
 import { Button, Drawer, Space } from 'antd';
 import { useState } from 'react';
 import { IoDownloadOutline } from 'react-icons/io5';
 
+const { SHOW_DRAWER, HIDE_DRAWER } = UI_TYPES;
+
 const CustomDrawer = () => {
 	const [showExtra, setShowExtra] = useState(true);
-	const { drawer, showDrawer, hideDrawer } = useGlobalContext();
-	const { drawerOpen, title, children } = drawer;
+	const { drawer, dispatch } = useUiContext();
+	const { isOpen, title, children } = drawer;
 
 	const handleClose = () => {
-		hideDrawer();
+		dispatch({ type: HIDE_DRAWER });
 		setTimeout(() => {
 			setShowExtra(true);
 		}, 1000);
@@ -21,7 +24,7 @@ const CustomDrawer = () => {
 		<Drawer
 			title={title}
 			onClose={handleClose}
-			open={drawerOpen}
+			open={isOpen}
 			style={{ backgroundColor: !showExtra && '#E1E1E2' }}
 			width={600}
 			extra={
@@ -34,7 +37,10 @@ const CustomDrawer = () => {
 							iconPosition='end'
 							onClick={() => {
 								setShowExtra(false);
-								showDrawer({ ...drawer, children: <PoPDF /> });
+								dispatch({
+									type: SHOW_DRAWER,
+									payload: { ...drawer, children: <PoPDF /> },
+								});
 							}}
 						>
 							Descargar PDF

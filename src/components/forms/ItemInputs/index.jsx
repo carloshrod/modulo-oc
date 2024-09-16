@@ -3,13 +3,16 @@ import { Button, Form, InputNumber, Tooltip } from 'antd';
 import { BsPlusSquare } from 'react-icons/bs';
 import { AiOutlineDelete } from 'react-icons/ai';
 import FormItem from '../FormItem';
-import useGlobalContext from '@/hooks/useGlobalContext';
+import useUiContext from '@/hooks/useUiContext';
 import useInputs from '@/hooks/useInputs';
 import styles from './ItemInputs.module.css';
+import { UI_TYPES } from '@/context/ui/uiActions';
+
+const { SHOW_MODAL_FORM } = UI_TYPES;
 
 const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 	const IVA_RATE = 0.19;
-	const { showModalForm } = useGlobalContext();
+	const { dispatch } = useUiContext();
 	const { INPUT_TYPES, CALCULATION_INPUTS } = useInputs();
 	const exchangeRate = Form.useWatch('exchange_rate') ?? 1;
 
@@ -92,6 +95,16 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 		}
 	};
 
+	const handleAddItem = () => {
+		dispatch({
+			type: SHOW_MODAL_FORM,
+			payload: {
+				title: 'Agregar Artículo',
+				children: <FormItem />,
+			},
+		});
+	};
+
 	const handleDiscountChange = (name, value) => {
 		if (name === 'discount') {
 			let newValue = value;
@@ -149,12 +162,7 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 																	icon={
 																		<BsPlusSquare size={22} color='#0D6EFD' />
 																	}
-																	onClick={() =>
-																		showModalForm({
-																			title: 'Agregar Artículo',
-																			children: <FormItem />,
-																		})
-																	}
+																	onClick={handleAddItem}
 																/>
 															</Tooltip>
 														) : null

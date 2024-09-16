@@ -1,11 +1,14 @@
 'use client';
-import useGlobalContext from '@/hooks/useGlobalContext';
+import { UI_TYPES } from '@/context/ui/uiActions';
+import useUiContext from '@/hooks/useUiContext';
 import { Modal } from 'antd';
+
+const { HIDE_MODAL } = UI_TYPES;
 
 const CustomModal = () => {
 	const {
 		modal: {
-			modalOpen,
+			isOpen,
 			danger,
 			title,
 			subtitle,
@@ -14,18 +17,25 @@ const CustomModal = () => {
 			icon,
 			notificationText,
 			success,
+			onConfirm,
 		},
-		hideModal,
-		confirmModal,
-	} = useGlobalContext();
+		dispatch,
+	} = useUiContext();
+
+	const confirmModal = () => {
+		if (onConfirm) {
+			console.log('Confirming');
+			onConfirm();
+		}
+	};
 
 	return (
 		<Modal
 			closeIcon={false}
 			centered
-			open={modalOpen}
+			open={isOpen}
 			onOk={confirmModal}
-			onCancel={hideModal}
+			onCancel={() => dispatch({ type: HIDE_MODAL })}
 			cancelButtonProps={{
 				size: 'large',
 				type: 'primary',

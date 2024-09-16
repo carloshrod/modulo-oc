@@ -5,26 +5,31 @@ import { AiOutlineDelete } from 'react-icons/ai';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { TbPencilMinus } from 'react-icons/tb';
 import { GiReceiveMoney } from 'react-icons/gi';
-import useGlobalContext from './useGlobalContext';
+import useUiContext from './useUiContext';
 import FormInvoice from '@/components/forms/FormInvoice';
 import usePurchaseOrderContext from './usePurchaseOrderContext';
 import { useRouter, usePathname } from 'next/navigation';
 import moment from 'moment';
 import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
+import { UI_TYPES } from '@/context/ui/uiActions';
 
+const { SHOW_MODAL_FORM } = UI_TYPES;
 const { GET_ONE_PURCHASE_ORDER, GET_PURCHASE_ORDER_TO_RECEIVE } = PO_TYPES;
 
 const useTableColumns = () => {
-	const { showModalConfirm, showModalNotification, showModalForm } =
-		useGlobalContext();
-	const { dispatch } = usePurchaseOrderContext();
+	const {
+		showModalConfirm,
+		showModalNotification,
+		dispatch: uiDispatch,
+	} = useUiContext();
+	const { dispatch: poDispatch } = usePurchaseOrderContext();
 	const router = useRouter();
 	const pathname = usePathname();
 
 	const handleDisplayReceipt = async poNumber => {
 		const data = await getPurchaseOrderByNumber({ poNumber });
-		dispatch({
+		poDispatch({
 			type: GET_ONE_PURCHASE_ORDER,
 			payload: data,
 		});
@@ -32,7 +37,7 @@ const useTableColumns = () => {
 
 	const handleReceivePo = async poNumber => {
 		const data = await getPurchaseOrderByNumber({ poNumber });
-		dispatch({
+		poDispatch({
 			type: GET_PURCHASE_ORDER_TO_RECEIVE,
 			payload: data,
 		});
@@ -475,9 +480,12 @@ const useTableColumns = () => {
 							type='text'
 							icon={<TbPencilMinus size={20} color='#0D6EFD' />}
 							onClick={() =>
-								showModalForm({
-									title: 'Ingresar N° Factura',
-									children: <FormInvoice />,
+								uiDispatch({
+									type: SHOW_MODAL_FORM,
+									payload: {
+										title: 'Ingresar N° Factura',
+										children: <FormInvoice />,
+									},
 								})
 							}
 						/>
@@ -493,7 +501,7 @@ const useTableColumns = () => {
 											notificationText: 'Recepción anulada exitosamente',
 										}),
 									{
-										danger: true,
+										warning: true,
 										title: '¿Deseas anular esta Recepción?',
 										subtitle:
 											'Si anulas, esta recepción dejará de ser editable.',

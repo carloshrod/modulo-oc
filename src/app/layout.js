@@ -1,7 +1,7 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
-import GlobalProvider from '@/context/global/GlobalContext';
+import UiProvider from '@/context/ui/UiContext';
 import PurchaseOrderProvider from '@/context/purchase-order/PurchaseOrderContext';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -14,13 +14,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang='en'>
-			<PurchaseOrderProvider>
-				<GlobalProvider>
+			<UiProvider>
+				<PurchaseOrderProvider>
 					<body className={inter.className}>
 						<AntdRegistry>{children}</AntdRegistry>
 					</body>
-				</GlobalProvider>
-			</PurchaseOrderProvider>
+				</PurchaseOrderProvider>
+			</UiProvider>
 		</html>
 	);
 }

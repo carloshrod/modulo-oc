@@ -3,7 +3,7 @@ import { Badge, Button, Divider, Table, Timeline } from 'antd';
 import { ClockCircleOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import DetailPoTotals from '@/components/ui/DetailPoTotals';
-import useGlobalContext from '@/hooks/useGlobalContext';
+import useUiContext from '@/hooks/useUiContext';
 import useTableColumns from '@/hooks/useTableColumns';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import {
@@ -12,22 +12,24 @@ import {
 } from '@/services/purchaseOrderServices';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import styles from './InfoPurchaseOrder.module.css';
+import { UI_TYPES } from '@/context/ui/uiActions';
 
+const { HIDE_DRAWER } = UI_TYPES;
 const { GET_ONE_PURCHASE_ORDER, UPDATE_PURCHASE_ORDER } = PO_TYPES;
 
 const InfoPurchaseOrder = () => {
 	const {
 		drawer: { title: poNumber },
-		hideDrawer,
 		showModalNotification,
 		loggedUser,
-	} = useGlobalContext();
-	const { purchaseOrder, dispatch } = usePurchaseOrderContext();
+		dispatch: uiDispatch,
+	} = useUiContext();
+	const { purchaseOrder, dispatch: poDispatch } = usePurchaseOrderContext();
 	const { infoOcColumns } = useTableColumns();
 
 	const fetchPurchaseOrder = async () => {
 		const data = await getPurchaseOrderByNumber({ poNumber });
-		dispatch({
+		poDispatch({
 			type: GET_ONE_PURCHASE_ORDER,
 			payload: data,
 		});
@@ -44,14 +46,14 @@ const InfoPurchaseOrder = () => {
 		});
 		if (data) {
 			console.log(data);
-			dispatch({
+			poDispatch({
 				type: UPDATE_PURCHASE_ORDER,
 				payload: data.purchaseOrder,
 			});
 			showModalNotification({
 				notificationText: data.message,
 			});
-			hideDrawer();
+			uiDispatch({ type: HIDE_DRAWER });
 		}
 	};
 
@@ -114,7 +116,7 @@ const InfoPurchaseOrder = () => {
 							showModalNotification({
 								notificationText: 'OC rechazada exitosamente',
 							});
-							hideDrawer();
+							uiDispatch({ type: HIDE_DRAWER });
 						}}
 					>
 						Rechazar

@@ -1,9 +1,12 @@
+import { UI_TYPES } from '@/context/ui/uiActions';
 import useForm from '@/hooks/useForm';
-import useGlobalContext from '@/hooks/useGlobalContext';
+import useUiContext from '@/hooks/useUiContext';
 import { Button, Form, Input } from 'antd';
 
+const { HIDE_MODAL_FORM } = UI_TYPES;
+
 const FormItem = () => {
-	const { hideModalForm } = useGlobalContext();
+	const { dispatch } = useUiContext();
 	const { form, addItem } = useForm();
 
 	return (
@@ -41,7 +44,7 @@ const FormItem = () => {
 					type='primary'
 					size='large'
 					ghost
-					onClick={hideModalForm}
+					onClick={() => dispatch({ type: HIDE_MODAL_FORM })}
 					style={{ width: 130, marginRight: 12 }}
 				>
 					Cancelar

@@ -2,7 +2,7 @@ import { Form } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
-import useGlobalContext from './useGlobalContext';
+import useUiContext from './useUiContext';
 import usePurchaseOrderContext from './usePurchaseOrderContext';
 import useInputs from './useInputs';
 import {
@@ -11,16 +11,22 @@ import {
 } from '@/services/purchaseOrderServices';
 import { env } from '@/config/env';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
+import { UI_TYPES } from '@/context/ui/uiActions';
 
+const { HIDE_MODAL_FORM } = UI_TYPES;
 const { CREATE_GENERAL_ITEM } = PO_TYPES;
 
 const useForm = () => {
 	const [form] = Form.useForm();
 	const [itemError, setItemError] = useState(false);
 	const router = useRouter();
-	const { showModalNotification, hideModalForm, loggedUser } =
-		useGlobalContext();
-	const { getPurchaseOrderToReceive, dispatch } = usePurchaseOrderContext();
+	const {
+		showModalNotification,
+		dispatch: uiDispatch,
+		loggedUser,
+	} = useUiContext();
+	const { getPurchaseOrderToReceive, dispatch: poDispatch } =
+		usePurchaseOrderContext();
 	const { ITEMS_INPUTS } = useInputs();
 	console.log(loggedUser);
 
@@ -104,7 +110,7 @@ const useForm = () => {
 
 	const addInvoice = values => {
 		console.log(values);
-		hideModalForm();
+		uiDispatch({ type: HIDE_MODAL_FORM });
 		showModalNotification({
 			notificationText: 'Factura ingresada exitosamente',
 		});
@@ -114,8 +120,8 @@ const useForm = () => {
 		try {
 			const data = await createGeneralItem(values);
 			if (data) {
-				dispatch({ type: CREATE_GENERAL_ITEM, payload: data });
-				hideModalForm();
+				poDispatch({ type: CREATE_GENERAL_ITEM, payload: data });
+				uiDispatch({ type: HIDE_MODAL_FORM });
 				showModalNotification({
 					notificationText: 'Artículo agregado exitosamente',
 				});

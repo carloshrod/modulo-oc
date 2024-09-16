@@ -6,7 +6,7 @@ import moment from 'moment';
 import GeneralInfoInputs from '../GeneralInfoInputs';
 import ItemInputs from '../ItemInputs';
 import useForm from '@/hooks/useForm';
-import useGlobalContext from '@/hooks/useGlobalContext';
+import useUiContext from '@/hooks/useUiContext';
 import useInputs from '@/hooks/useInputs';
 import styles from './FormPurchaseOrder.module.css';
 
@@ -14,7 +14,7 @@ const FormPurchaseOrder = ({
 	oeuvreId = undefined,
 	purchaseOrder = undefined,
 }) => {
-	const { showModalConfirm } = useGlobalContext();
+	const { showModalConfirm } = useUiContext();
 	const {
 		form,
 		itemError,
