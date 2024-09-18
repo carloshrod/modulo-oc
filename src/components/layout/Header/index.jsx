@@ -1,10 +1,16 @@
 'use client';
 import { Breadcrumb, Button, Layout } from 'antd';
-import { BiArrowBack, BiSolidChart, BiSolidUser } from 'react-icons/bi';
+import {
+	BiArrowBack,
+	BiSolidChart,
+	BiSolidUser,
+	BiLogOut,
+} from 'react-icons/bi';
 import { PiBuildingsFill } from 'react-icons/pi';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { formatTitle, generateBreadcrumbs } from '@/utils/utils';
 import styles from './Header.module.css';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 
 const { Header } = Layout;
 
@@ -18,6 +24,7 @@ const CustomHeader = () => {
 		params?.oc_number ||
 		pathname.includes('recibir');
 	const bcItems = generateBreadcrumbs(pathname);
+	const { loggedUser, setLoggedUser } = usePurchaseOrderContext();
 
 	return (
 		<Header
@@ -44,9 +51,20 @@ const CustomHeader = () => {
 					</span>
 					<span className={styles.fullName}>
 						<BiSolidUser size={16} />
-						Nombre Apellido
+						{loggedUser.full_name}
 					</span>
 					<span>12 Ene 2023 17:38</span>
+					<Button
+						type='text'
+						icon={<BiLogOut size={20} />}
+						iconPosition='start'
+						onClick={() => {
+							localStorage.removeItem('loggedUser');
+							router.push('/');
+							setLoggedUser({});
+						}}
+						style={{ color: '#718096' }}
+					/>
 				</section>
 			</section>
 			{pathname === `/orden-de-compra/${params?.slug}` ? (

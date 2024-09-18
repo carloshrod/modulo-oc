@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useReducer, useState } from 'react';
+import { createContext, useReducer } from 'react';
 import { HiOutlineTrash } from 'react-icons/hi2';
 import {
 	IoNotificationsOutline,
@@ -41,8 +41,6 @@ export const initialState = {
 const UiProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(uiReducers, initialState);
 	const { drawer, modal, modalForm } = state;
-
-	const [loggedUser, setLoggedUser] = useState({});
 
 	const showModalConfirm = (
 		onConfirmCallback,
@@ -97,11 +95,9 @@ const UiProvider = ({ children }) => {
 	const data = {
 		drawer,
 		modal,
+		modalForm,
 		showModalConfirm,
 		showModalNotification,
-		modalForm,
-		loggedUser,
-		setLoggedUser,
 		dispatch,
 	};
 

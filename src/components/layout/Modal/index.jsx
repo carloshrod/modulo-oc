@@ -24,7 +24,6 @@ const CustomModal = () => {
 
 	const confirmModal = () => {
 		if (onConfirm) {
-			console.log('Confirming');
 			onConfirm();
 		}
 	};

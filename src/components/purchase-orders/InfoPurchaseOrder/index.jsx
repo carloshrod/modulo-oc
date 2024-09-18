@@ -21,10 +21,13 @@ const InfoPurchaseOrder = () => {
 	const {
 		drawer: { title: poNumber },
 		showModalNotification,
-		loggedUser,
 		dispatch: uiDispatch,
 	} = useUiContext();
-	const { purchaseOrder, dispatch: poDispatch } = usePurchaseOrderContext();
+	const {
+		loggedUser,
+		purchaseOrder,
+		dispatch: poDispatch,
+	} = usePurchaseOrderContext();
 	const { infoOcColumns } = useTableColumns();
 
 	const fetchPurchaseOrder = async () => {

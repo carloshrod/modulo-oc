@@ -20,15 +20,13 @@ const useForm = () => {
 	const [form] = Form.useForm();
 	const [itemError, setItemError] = useState(false);
 	const router = useRouter();
+	const { showModalNotification, dispatch: uiDispatch } = useUiContext();
 	const {
-		showModalNotification,
-		dispatch: uiDispatch,
 		loggedUser,
-	} = useUiContext();
-	const { getPurchaseOrderToReceive, dispatch: poDispatch } =
-		usePurchaseOrderContext();
+		getPurchaseOrderToReceive,
+		dispatch: poDispatch,
+	} = usePurchaseOrderContext();
 	const { ITEMS_INPUTS } = useInputs();
-	console.log(loggedUser);
 
 	const sendForApproval = async oeuvreId => {
 		try {

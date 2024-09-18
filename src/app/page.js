@@ -2,7 +2,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from 'antd';
-import useUiContext from '@/hooks/useUiContext';
 import {
 	approver1,
 	approver2,
@@ -10,10 +9,15 @@ import {
 	approver4,
 	noApprover,
 } from '@/context/ui/users';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 
 export default function Home() {
 	const router = useRouter();
-	const { loggedUser, setLoggedUser } = useUiContext();
+	const { loggedUser, setLoggedUser } = usePurchaseOrderContext();
+
+	useEffect(() => {
+		localStorage.setItem('loggedUser', JSON.stringify(loggedUser));
+	}, [loggedUser]);
 
 	useEffect(() => {
 		if (loggedUser?.id) {

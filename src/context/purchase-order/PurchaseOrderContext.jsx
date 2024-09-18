@@ -1,5 +1,5 @@
 'use client';
-import { createContext, useReducer } from 'react';
+import { createContext, useEffect, useReducer, useState } from 'react';
 import purchaseOrderReducers from './purchaseOrderReducers';
 
 export const PurchaseOrderContext = createContext(undefined);
@@ -20,7 +20,18 @@ const PurchaseOrderProvider = ({ children }) => {
 		generalItems,
 	} = state;
 
+	const [loggedUser, setLoggedUser] = useState({});
+
+	useEffect(() => {
+		const storedUser = localStorage.getItem('loggedUser');
+		if (storedUser) {
+			setLoggedUser(JSON.parse(storedUser));
+		}
+	}, []);
+
 	const data = {
+		loggedUser,
+		setLoggedUser,
 		purchaseOrders,
 		purchaseOrder,
 		purchaseOrderToReceive,
