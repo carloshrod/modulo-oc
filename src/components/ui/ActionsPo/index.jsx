@@ -19,14 +19,15 @@ export const ActionsPo = ({ record }) => {
 		showModalNotification,
 		dispatch: uiDispatch,
 	} = useUiContext();
-	const { dispatch: poDispatch } = usePurchaseOrderContext();
+	const { loggedUser, dispatch: poDispatch } = usePurchaseOrderContext();
 	const router = useRouter();
 	const pathname = usePathname();
 
-	const notDisabled =
-		record.status === 'Rechazada' ||
-		record.status === 'Borrador' ||
-		record.status === 'En revisión';
+	const isEditable =
+		record.status === 'Borrador' && record?.user_create === loggedUser?.id;
+
+	const isDeletable =
+		record.status === 'Borrador' || record.status === 'Aprobada';
 
 	const handleShowDrawer = () =>
 		uiDispatch({
@@ -66,32 +67,32 @@ export const ActionsPo = ({ record }) => {
 					onClick={handleShowDrawer}
 				/>
 			</Tooltip>
-			<Tooltip title={notDisabled ? 'Editar OC' : ''}>
+			<Tooltip title={isEditable ? 'Editar OC' : ''}>
 				<Button
 					type='text'
 					icon={
 						<TbPencilMinus
 							size={20}
-							color={notDisabled ? '#0D6EFD' : '#A0AEC0'}
+							color={isEditable ? '#0D6EFD' : '#A0AEC0'}
 						/>
 					}
 					onClick={() =>
 						router.push(`${pathname}/${record?.number?.toLowerCase()}`)
 					}
-					disabled={!notDisabled}
+					disabled={!isEditable}
 				/>
 			</Tooltip>
-			<Tooltip title={notDisabled ? 'Eliminar OC' : ''}>
+			<Tooltip title={isDeletable ? 'Eliminar OC' : ''}>
 				<Button
 					type='text'
 					icon={
 						<AiOutlineDelete
 							size={20}
-							color={notDisabled ? '#E53535' : '#FCBABA'}
+							color={isDeletable ? '#E53535' : '#FCBABA'}
 						/>
 					}
 					onClick={handleDelete}
-					disabled={!notDisabled}
+					disabled={!isDeletable}
 				/>
 			</Tooltip>
 		</Space>
