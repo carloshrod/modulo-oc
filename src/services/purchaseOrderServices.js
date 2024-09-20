@@ -53,12 +53,13 @@ export const sendPurchaseOrderForApprove = async options => {
 	}
 };
 
-export const deletePurchaseOrder = async purchaseOrderId => {
+export const cancelPurchaseOrder = async (purchaseOrderId, canceledBy) => {
 	try {
 		const res = await axios.delete(
 			`${env.API_URL}/purchase-orders/${purchaseOrderId}`,
+			canceledBy,
 		);
-		return res.data;
+		return res;
 	} catch (error) {
 		console.error(error);
 	}

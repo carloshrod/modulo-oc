@@ -109,17 +109,33 @@ const useTableColumns = () => {
 					text: 'Borrador',
 					value: 'Borrador',
 				},
+				{
+					text: 'Cancelada',
+					value: 'Cancelada',
+				},
+				{
+					text: 'Cerrada',
+					value: 'Cerrada',
+				},
 			],
 			onFilter: (value, record) => record.status.indexOf(value) === 0,
 			render: value => {
 				const COLORS = {
-					'En revisión': 'processing',
-					Aprobada: 'success',
-					Rechazada: 'error',
-					Borrador: 'warning',
+					'En revisión': '#0D6EFD',
+					Aprobada: '#05A660',
+					Rechazada: '#E53535',
+					Borrador: '#FFC107',
+					Cerrada: '#A0AEC0',
+					Cancelada: 'volcano',
 				};
 
-				return <Badge status={COLORS[value]} text={value} />;
+				return (
+					<Badge
+						color={COLORS[value]}
+						text={value}
+						style={{ color: value === 'Cerrada' ? '#899197' : '' }}
+					/>
+				);
 			},
 			width: 120,
 		},

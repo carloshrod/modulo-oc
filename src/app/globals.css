@@ -75,3 +75,7 @@ a {
 .ant-form-item.costAccountSelect .ant-select-selection-placeholder {
   color: #0D6EFD !important;
 }
+
+.closed-row {
+  color: #899197 !important;
+}

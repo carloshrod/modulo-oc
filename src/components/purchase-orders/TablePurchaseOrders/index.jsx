@@ -43,7 +43,14 @@ const TablePurchaseOrders = ({ oeuvre }) => {
 				onClick={() => router.push(`${pathname}/generar-orden-de-compra`)}
 			/>
 			<div className='mainTableContainer'>
-				<Table rowKey='id' columns={poColumns} dataSource={purchaseOrders} />
+				<Table
+					rowKey='id'
+					columns={poColumns}
+					dataSource={purchaseOrders}
+					rowClassName={record =>
+						record.status === 'Cerrada' ? 'closed-row' : ''
+					}
+				/>
 			</div>
 		</>
 	);

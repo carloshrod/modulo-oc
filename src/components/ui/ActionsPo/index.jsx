@@ -5,13 +5,13 @@ import { TbPencilMinus } from 'react-icons/tb';
 import { AiOutlineDelete } from 'react-icons/ai';
 import useUiContext from '@/hooks/useUiContext';
 import InfoPurchaseOrder from '@/components/purchase-orders/InfoPurchaseOrder';
-import { deletePurchaseOrder as deletePurchaseOrderService } from '@/services/purchaseOrderServices';
+import { cancelPurchaseOrder } from '@/services/purchaseOrderServices';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import { UI_TYPES } from '@/context/ui/uiActions';
 
 const { SHOW_DRAWER } = UI_TYPES;
-const { DELETE_PURCHASE_ORDER } = PO_TYPES;
+const { UPDATE_PURCHASE_ORDER } = PO_TYPES;
 
 export const ActionsPo = ({ record }) => {
 	const {
@@ -41,11 +41,14 @@ export const ActionsPo = ({ record }) => {
 	const handleDelete = () => {
 		showModalConfirm(
 			async () => {
-				const res = await deletePurchaseOrderService(record.id);
-				if (res.deletedCount !== 0) {
-					poDispatch({ type: DELETE_PURCHASE_ORDER, payload: record.id });
+				const res = await cancelPurchaseOrder(record.id, loggedUser?.id);
+				if (res.status === 200) {
+					poDispatch({
+						type: UPDATE_PURCHASE_ORDER,
+						payload: { ...record, status: res.data.newStatus },
+					});
 					showModalNotification({
-						notificationText: 'Orden de compra eliminada exitosamente',
+						notificationText: res.data.message,
 					});
 				}
 			},
