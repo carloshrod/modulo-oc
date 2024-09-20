@@ -54,6 +54,7 @@ const CustomModal = () => {
 					alignItems: 'center',
 					marginTop: confirmed && 40,
 					marginBottom: 40,
+					padding: '0 20px',
 				}}
 			>
 				<div
