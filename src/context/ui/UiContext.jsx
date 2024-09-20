@@ -89,7 +89,7 @@ const UiProvider = ({ children }) => {
 		});
 		setTimeout(() => {
 			dispatch({ type: HIDE_MODAL });
-		}, 1500);
+		}, 3000);
 	};
 
 	const data = {
