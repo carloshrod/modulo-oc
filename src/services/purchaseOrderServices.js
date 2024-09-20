@@ -25,12 +25,19 @@ export const savePurchaseOrder = async purchaseOrder => {
 				purchaseOrder,
 			);
 
-	if (res.status === 200) {
-		return res;
-	}
+	return res;
 };
 
-// TODO: add saveAndSendPoForApprove service
+export const SendPoForApproveFromForm = async purchaseOrder => {
+	const res = !purchaseOrder.id
+		? await axios.post(`${env.API_URL}/purchase-orders`, purchaseOrder)
+		: await axios.put(
+				`${env.API_URL}/purchase-orders/${purchaseOrder.id}`,
+				purchaseOrder,
+			);
+
+	return res;
+};
 
 export const sendPurchaseOrderForApprove = async options => {
 	try {

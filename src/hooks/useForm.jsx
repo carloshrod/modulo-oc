@@ -1,15 +1,14 @@
 import { Form } from 'antd';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import axios from 'axios';
 import useUiContext from './useUiContext';
 import usePurchaseOrderContext from './usePurchaseOrderContext';
 import useInputs from './useInputs';
 import {
 	createGeneralItem,
+	SendPoForApproveFromForm,
 	savePurchaseOrder,
 } from '@/services/purchaseOrderServices';
-import { env } from '@/config/env';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import { UI_TYPES } from '@/context/ui/uiActions';
 import { validatePoItems } from '@/utils/utils';
@@ -41,15 +40,8 @@ const useForm = () => {
 				discount: values?.discount ?? 0,
 			};
 
-			const res = !values.id
-				? await axios.post(
-						`${env.API_URL}/purchase-orders`,
-						purchaseOrderToApprove,
-					)
-				: await axios.put(
-						`${env.API_URL}/purchase-orders/${values.id}`,
-						purchaseOrderToApprove,
-					);
+			const res = await SendPoForApproveFromForm(purchaseOrderToApprove);
+
 			if (res.status === 200) {
 				showModalNotification({
 					notificationText: 'OC enviada a aprobación exitosamente',
@@ -59,7 +51,7 @@ const useForm = () => {
 		} catch (error) {
 			console.error(error);
 			const errorMessage =
-				error?.response?.data?.errors[0]?.msg ?? 'Ocurrió un error inesperado';
+				error?.response?.data?.message ?? 'Ocurrió un error inesperado';
 			showModalNotification({
 				success: false,
 				notificationText: errorMessage,
@@ -104,7 +96,7 @@ const useForm = () => {
 		} catch (error) {
 			console.error(error);
 			const errorMessage =
-				error?.response?.data?.errors[0]?.msg ?? 'Ocurrió un error inesperado';
+				error?.response?.data?.message ?? 'Ocurrió un error inesperado';
 			showModalNotification({
 				success: false,
 				notificationText: errorMessage,
