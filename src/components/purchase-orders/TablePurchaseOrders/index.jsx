@@ -14,7 +14,7 @@ const { GET_ALL_PURCHASE_ORDERS, GET_ONE_PURCHASE_ORDER } = PO_TYPES;
 const TablePurchaseOrders = ({ oeuvre }) => {
 	const { drawer } = useUiContext();
 	const { purchaseOrders, dispatch } = usePurchaseOrderContext();
-	const { ocColumns } = useTableColumns();
+	const { poColumns } = useTableColumns();
 	const router = useRouter();
 	const pathname = usePathname();
 
@@ -43,7 +43,7 @@ const TablePurchaseOrders = ({ oeuvre }) => {
 				onClick={() => router.push(`${pathname}/generar-orden-de-compra`)}
 			/>
 			<div className='mainTableContainer'>
-				<Table rowKey='id' columns={ocColumns} dataSource={purchaseOrders} />
+				<Table rowKey='id' columns={poColumns} dataSource={purchaseOrders} />
 			</div>
 		</>
 	);

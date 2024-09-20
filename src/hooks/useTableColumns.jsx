@@ -44,7 +44,7 @@ const useTableColumns = () => {
 		router.push(`${pathname}/recibir-oc`);
 	};
 
-	const ocColumns = [
+	const poColumns = [
 		{
 			title: 'N° OC',
 			dataIndex: 'number',
@@ -158,7 +158,7 @@ const useTableColumns = () => {
 		},
 	];
 
-	const infoOcColumns = [
+	const infoPoColumns = [
 		{
 			title: 'DETALLE ARTÍCULO',
 			dataIndex: 'item_details',
@@ -177,6 +177,7 @@ const useTableColumns = () => {
 			title: 'CANTIDAD',
 			dataIndex: 'quantity',
 			key: 'quantity',
+			render: (_, record) => <p>{record?.quantity ?? '--'}</p>,
 		},
 		{
 			title: 'PU',
@@ -185,7 +186,10 @@ const useTableColumns = () => {
 			width: 70,
 			render: (_, record) => (
 				<p>
-					${record.unit_price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+					$
+					{record.unit_price
+						?.toString()
+						.replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? 0}
 				</p>
 			),
 		},
@@ -196,7 +200,9 @@ const useTableColumns = () => {
 			width: 100,
 			render: (_, record) => (
 				<p>
-					${record.subtotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+					$
+					{record.subtotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') ??
+						0}
 				</p>
 			),
 		},
@@ -296,7 +302,7 @@ const useTableColumns = () => {
 		},
 	];
 
-	const itemsReceiptsOcColumns = [
+	const itemsReceiptsPoColumns = [
 		{
 			title: 'DETALLE ARTÍCULO',
 			dataIndex: 'item_details',
@@ -518,10 +524,10 @@ const useTableColumns = () => {
 	];
 
 	return {
-		ocColumns,
-		infoOcColumns,
+		poColumns,
+		infoPoColumns,
 		receiptsColumns,
-		itemsReceiptsOcColumns,
+		itemsReceiptsPoColumns,
 		receiptsHistoryColumns,
 	};
 };

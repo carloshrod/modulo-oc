@@ -28,7 +28,7 @@ const InfoPurchaseOrder = () => {
 		purchaseOrder,
 		dispatch: poDispatch,
 	} = usePurchaseOrderContext();
-	const { infoOcColumns } = useTableColumns();
+	const { infoPoColumns } = useTableColumns();
 
 	const fetchPurchaseOrder = async () => {
 		const data = await getPurchaseOrderByNumber({ poNumber });
@@ -95,7 +95,7 @@ const InfoPurchaseOrder = () => {
 			<Divider orientation='left'>Detalle OC</Divider>
 			<Table
 				rowKey='id'
-				columns={infoOcColumns}
+				columns={infoPoColumns}
 				dataSource={purchaseOrder?.items}
 				pagination={false}
 			/>

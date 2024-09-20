@@ -4,7 +4,7 @@ import styles from './InfoReceiptPO.module.css';
 
 const InfoReceiptPo = ({ purchaseOrder }) => {
 	const { id, name, gloss, supplier_rut, supplier_name } = purchaseOrder;
-	const { itemsReceiptsOcColumns, receiptsHistoryColumns } = useTableColumns();
+	const { itemsReceiptsPoColumns, receiptsHistoryColumns } = useTableColumns();
 
 	return (
 		<div className={styles.mainContainer}>
@@ -34,7 +34,7 @@ const InfoReceiptPo = ({ purchaseOrder }) => {
 					<h3>Artículos</h3>
 					<Table
 						rowKey='id'
-						columns={itemsReceiptsOcColumns}
+						columns={itemsReceiptsPoColumns}
 						dataSource={purchaseOrder?.items}
 						pagination={false}
 					/>
