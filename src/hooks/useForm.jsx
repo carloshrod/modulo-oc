@@ -12,6 +12,7 @@ import {
 import { env } from '@/config/env';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import { UI_TYPES } from '@/context/ui/uiActions';
+import { validatePoItems } from '@/utils/utils';
 
 const { HIDE_MODAL_FORM } = UI_TYPES;
 const { CREATE_GENERAL_ITEM } = PO_TYPES;
@@ -31,13 +32,13 @@ const useForm = () => {
 	const sendForApproval = async oeuvreId => {
 		try {
 			const values = await form.getFieldsValue(true);
-			verifyItems(values);
 
 			const purchaseOrderToApprove = {
 				...values,
 				oeuvre_id: oeuvreId,
-				status: 'En revisión',
 				submittedBy: loggedUser?.id,
+				status: 'En revisión',
+				discount: values?.discount ?? 0,
 			};
 
 			const res = !values.id
@@ -57,15 +58,16 @@ const useForm = () => {
 			}
 		} catch (error) {
 			console.error(error);
+			const errorMessage =
+				error?.response?.data?.errors[0]?.msg ?? 'Ocurrió un error inesperado';
+			showModalNotification({
+				success: false,
+				notificationText: errorMessage,
+			});
 		}
 	};
 
 	const sendForApprovalFailed = ({ values }) => {
-		console.log(values);
-		verifyItems(values);
-	};
-
-	const verifyItems = values => {
 		const items = values.items || [];
 		const isComplete = items.some(item => {
 			return ITEMS_INPUTS.every(input => item[input.name]);
@@ -82,11 +84,14 @@ const useForm = () => {
 	const saveAsDraft = async oeuvreId => {
 		try {
 			const values = await form.getFieldsValue(true);
+			const validItems = validatePoItems(values?.items);
+
 			const purchaseOrderToSave = {
 				...values,
 				oeuvre_id: oeuvreId,
-				status: 'Borrador',
 				submittedBy: loggedUser?.id,
+				status: 'Borrador',
+				items: validItems,
 			};
 
 			const res = await savePurchaseOrder(purchaseOrderToSave);
@@ -98,6 +103,12 @@ const useForm = () => {
 			}
 		} catch (error) {
 			console.error(error);
+			const errorMessage =
+				error?.response?.data?.errors[0]?.msg ?? 'Ocurrió un error inesperado';
+			showModalNotification({
+				success: false,
+				notificationText: errorMessage,
+			});
 		}
 	};
 
@@ -116,7 +127,8 @@ const useForm = () => {
 
 	const addItem = async values => {
 		try {
-			const data = await createGeneralItem(values);
+			const itemToCreate = { ...values, user_create: loggedUser?.id };
+			const data = await createGeneralItem(itemToCreate);
 			if (data) {
 				poDispatch({ type: CREATE_GENERAL_ITEM, payload: data });
 				uiDispatch({ type: HIDE_MODAL_FORM });
@@ -127,7 +139,8 @@ const useForm = () => {
 		} catch (error) {
 			console.error(error);
 			showModalNotification({
-				notificationText: 'Error al agregar artículo',
+				notificationText:
+					error?.response?.data?.message ?? 'Error al agregar artículo',
 				success: false,
 			});
 		}
