@@ -11,6 +11,8 @@ import { useParams, usePathname, useRouter } from 'next/navigation';
 import { formatTitle, generateBreadcrumbs } from '@/utils/utils';
 import styles from './Header.module.css';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
+import moment from 'moment';
+import 'moment/locale/es';
 
 const { Header } = Layout;
 
@@ -25,6 +27,8 @@ const CustomHeader = () => {
 		pathname.includes('recibir');
 	const bcItems = generateBreadcrumbs(pathname);
 	const { loggedUser, setLoggedUser } = usePurchaseOrderContext();
+
+	const today = moment(new Date()).format('DD MMM YYYY HH:mm');
 
 	return (
 		<Header
@@ -53,7 +57,7 @@ const CustomHeader = () => {
 						<BiSolidUser size={16} />
 						{loggedUser.full_name}
 					</span>
-					<span>12 Ene 2023 17:38</span>
+					<span>{today}</span>
 					<Button
 						type='text'
 						icon={<BiLogOut size={20} />}
