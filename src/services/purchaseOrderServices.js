@@ -18,20 +18,19 @@ export const getPurchaseOrderByNumber = async ({
 };
 
 export const savePurchaseOrder = async purchaseOrder => {
-	try {
-		const res = !purchaseOrder?.id
-			? await axios.post(`${env.API_URL}/purchase-orders`, purchaseOrder)
-			: await axios.put(
-					`${env.API_URL}/purchase-orders/${purchaseOrder.id}`,
-					purchaseOrder,
-				);
-		if (res.status === 200) {
-			return res;
-		}
-	} catch (error) {
-		console.error(error);
+	const res = !purchaseOrder?.id
+		? await axios.post(`${env.API_URL}/purchase-orders`, purchaseOrder)
+		: await axios.put(
+				`${env.API_URL}/purchase-orders/${purchaseOrder.id}`,
+				purchaseOrder,
+			);
+
+	if (res.status === 200) {
+		return res;
 	}
 };
+
+// TODO: add saveAndSendPoForApprove service
 
 export const sendPurchaseOrderForApprove = async options => {
 	try {
@@ -59,12 +58,8 @@ export const deletePurchaseOrder = async purchaseOrderId => {
 };
 
 export const createGeneralItem = async generalItem => {
-	try {
-		const res = await axios.post(`${env.API_URL}/general-items`, generalItem);
-		if (res.status === 200) {
-			return res.data;
-		}
-	} catch (error) {
-		console.error(error);
+	const res = await axios.post(`${env.API_URL}/general-items`, generalItem);
+	if (res.status === 200) {
+		return res.data;
 	}
 };
