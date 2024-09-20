@@ -9,11 +9,9 @@ import useForm from '@/hooks/useForm';
 import useUiContext from '@/hooks/useUiContext';
 import useInputs from '@/hooks/useInputs';
 import styles from './FormPurchaseOrder.module.css';
+import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
 
-const FormPurchaseOrder = ({
-	oeuvreId = undefined,
-	purchaseOrder = undefined,
-}) => {
+const FormPurchaseOrder = ({ oeuvreId = undefined, poNumber = undefined }) => {
 	const { showModalConfirm } = useUiContext();
 	const {
 		form,
@@ -25,17 +23,31 @@ const FormPurchaseOrder = ({
 	} = useForm();
 	const { GEN_INFO_INPUTS, ITEMS_INPUTS } = useInputs();
 
-	useEffect(() => {
-		if (purchaseOrder) {
+	const setPurchaseOrderToEdit = async () => {
+		const purchaseOrderToEdit = await getPurchaseOrderByNumber({
+			poNumber,
+			includeEvents: false,
+		});
+		if (purchaseOrderToEdit) {
 			const preparedFields = {
-				...purchaseOrder,
+				...purchaseOrderToEdit,
 				delivery_date:
-					purchaseOrder?.delivery_date && moment(purchaseOrder?.delivery_date),
-				items: purchaseOrder?.items?.length > 0 ? purchaseOrder.items : [{}],
+					purchaseOrderToEdit?.delivery_date &&
+					moment(purchaseOrderToEdit?.delivery_date),
+				items:
+					purchaseOrderToEdit?.items?.length > 0
+						? purchaseOrderToEdit.items
+						: [{}],
 			};
 			form.setFieldsValue(preparedFields);
 		}
-	}, [purchaseOrder]);
+	};
+
+	useEffect(() => {
+		if (poNumber) {
+			setPurchaseOrderToEdit();
+		}
+	}, [poNumber]);
 
 	return (
 		<div className={styles.formWrapper}>

@@ -30,13 +30,14 @@ const PurchaseOrderProvider = ({ children }) => {
 	}, []);
 
 	const data = {
-		loggedUser,
-		setLoggedUser,
 		purchaseOrders,
 		purchaseOrder,
 		purchaseOrderToReceive,
 		generalItems,
 		dispatch,
+
+		loggedUser,
+		setLoggedUser,
 	};
 
 	return (

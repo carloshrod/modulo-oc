@@ -1,26 +1,23 @@
 import FormPurchaseOrder from '@/components/forms/FormPurchaseOrder';
 import TitleForm from '@/components/ui/TitleForm';
 import Toolbar from '@/components/ui/Toolbar';
-import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
 import { fetchData } from '@/services/utils';
 import styles from './EditPurchaseOrderPage.module.css';
 
 const EditPurchaseOrderPage = async props => {
-	const { params } = props;
-	const title = params.oc_number?.replace('oc-', 'OC ');
-	const poNumber = params.oc_number?.replace('editar-', '');
-	const oeuvre = await fetchData(`/oeuvres/${params?.slug}`);
-	const data = await getPurchaseOrderByNumber({
-		poNumber,
-		includeEvents: false,
-	});
+	const {
+		params: { oc_number, slug },
+	} = props;
+	const title = oc_number?.replace('oc-', 'OC ');
+	const poNumber = oc_number?.replace('editar-', '');
+	const oeuvre = await fetchData(`/oeuvres/${slug}`);
 
 	return (
 		<div className={styles.editPo}>
 			<Toolbar />
 			<section className={styles.editPoForm}>
 				<TitleForm title={title} />
-				<FormPurchaseOrder oeuvreId={oeuvre.id} purchaseOrder={data} />
+				<FormPurchaseOrder oeuvreId={oeuvre.id} poNumber={poNumber} />
 			</section>
 		</div>
 	);

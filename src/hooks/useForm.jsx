@@ -78,7 +78,7 @@ const useForm = () => {
 			const values = await form.getFieldsValue(true);
 			const validItems = validatePoItems(values?.items);
 
-			const purchaseOrderToSave = {
+			const purchaseOrder = {
 				...values,
 				oeuvre_id: oeuvreId,
 				submittedBy: loggedUser?.id,
@@ -86,7 +86,7 @@ const useForm = () => {
 				items: validItems,
 			};
 
-			const res = await savePurchaseOrder(purchaseOrderToSave);
+			const res = await savePurchaseOrder(purchaseOrder);
 			if (res.status === 200) {
 				showModalNotification({
 					notificationText: 'OC guardada como borrador exitosamente',
