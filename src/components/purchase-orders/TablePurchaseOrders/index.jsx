@@ -1,13 +1,14 @@
 'use client';
 import { usePathname, useRouter } from 'next/navigation';
-import TableToolbar from '@/components/ui/TableToolbar';
-import useTableColumns from '@/hooks/useTableColumns';
-import { Table } from 'antd';
-import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import { useEffect } from 'react';
-import { fetchData } from '@/services/utils';
-import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
+import { Table } from 'antd';
+import TableToolbar from '@/components/ui/TableToolbar';
 import useUiContext from '@/hooks/useUiContext';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
+import useTableColumns from '@/hooks/useTableColumns';
+import { fetchData } from '@/services/utils';
+import { generatePoExcelData } from '@/utils/utils';
+import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 
 const { GET_ALL_PURCHASE_ORDERS, GET_ONE_PURCHASE_ORDER } = PO_TYPES;
 
@@ -39,7 +40,7 @@ const TablePurchaseOrders = ({ oeuvre }) => {
 		<>
 			<TableToolbar
 				table='oc'
-				showTable={true}
+				excelData={generatePoExcelData(purchaseOrders)}
 				onClick={() => router.push(`${pathname}/generar-orden-de-compra`)}
 			/>
 			<div className='mainTableContainer'>

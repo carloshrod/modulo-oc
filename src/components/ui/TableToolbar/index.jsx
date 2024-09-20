@@ -1,8 +1,9 @@
 import { Button } from 'antd';
 import { IoAdd, IoDownloadOutline } from 'react-icons/io5';
+import { downloadExcel } from '@/utils/utils';
 import styles from './Toolbar.module.css';
 
-const TableToolbar = ({ table, onClick }) => {
+const TableToolbar = ({ table, excelData, onClick }) => {
 	const BTN_LABELS = {
 		oc: 'Generar OC',
 		receipts: 'Recibir OC',
@@ -16,7 +17,7 @@ const TableToolbar = ({ table, onClick }) => {
 					ghost
 					icon={<IoDownloadOutline size={20} />}
 					iconPosition='end'
-					onClick={() => console.log('Descargando excel!')}
+					onClick={() => downloadExcel(excelData)}
 				>
 					Descargar Excel
 				</Button>
