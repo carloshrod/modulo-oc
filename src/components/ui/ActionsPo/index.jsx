@@ -13,7 +13,7 @@ import { UI_TYPES } from '@/context/ui/uiActions';
 const { SHOW_DRAWER } = UI_TYPES;
 const { DELETE_PURCHASE_ORDER } = PO_TYPES;
 
-export const Actions = ({ record }) => {
+export const ActionsPo = ({ record }) => {
 	const {
 		showModalConfirm,
 		showModalNotification,

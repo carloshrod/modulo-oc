@@ -48,7 +48,6 @@ const InfoPurchaseOrder = () => {
 			submittedBy: loggedUser.id,
 		});
 		if (data) {
-			console.log(data);
 			poDispatch({
 				type: UPDATE_PURCHASE_ORDER,
 				payload: data.purchaseOrder,

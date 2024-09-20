@@ -1,21 +1,15 @@
-import { Actions } from '@/components/ui/Actions';
-import { getColumnSearchProps, parseDate } from '@/components/utils';
 import { Badge, Button, Space, Tooltip } from 'antd';
 import { AiOutlineDelete } from 'react-icons/ai';
-import { IoDocumentTextOutline } from 'react-icons/io5';
 import { TbPencilMinus } from 'react-icons/tb';
-import { GiReceiveMoney } from 'react-icons/gi';
-import useUiContext from './useUiContext';
-import FormInvoice from '@/components/forms/FormInvoice';
-import usePurchaseOrderContext from './usePurchaseOrderContext';
-import { useRouter, usePathname } from 'next/navigation';
 import moment from 'moment';
-import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
-import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
+import { ActionsPo } from '@/components/ui/ActionsPo';
+import FormInvoice from '@/components/forms/FormInvoice';
+import useUiContext from './useUiContext';
+import { getColumnSearchProps, parseDate } from '@/components/utils';
 import { UI_TYPES } from '@/context/ui/uiActions';
+import ActionsReceipts from '@/components/ui/ActionsReceipts';
 
 const { SHOW_MODAL_FORM } = UI_TYPES;
-const { GET_ONE_PURCHASE_ORDER, GET_PURCHASE_ORDER_TO_RECEIVE } = PO_TYPES;
 
 const useTableColumns = () => {
 	const {
@@ -23,26 +17,6 @@ const useTableColumns = () => {
 		showModalNotification,
 		dispatch: uiDispatch,
 	} = useUiContext();
-	const { dispatch: poDispatch } = usePurchaseOrderContext();
-	const router = useRouter();
-	const pathname = usePathname();
-
-	const handleDisplayReceipt = async poNumber => {
-		const data = await getPurchaseOrderByNumber({ poNumber });
-		poDispatch({
-			type: GET_ONE_PURCHASE_ORDER,
-			payload: data,
-		});
-	};
-
-	const handleReceivePo = async poNumber => {
-		const data = await getPurchaseOrderByNumber({ poNumber });
-		poDispatch({
-			type: GET_PURCHASE_ORDER_TO_RECEIVE,
-			payload: data,
-		});
-		router.push(`${pathname}/recibir-oc`);
-	};
 
 	const poColumns = [
 		{
@@ -153,7 +127,7 @@ const useTableColumns = () => {
 			title: 'ACCIONES',
 			key: 'actions',
 			className: 'actions',
-			render: (_, record) => <Actions record={record} />,
+			render: (_, record) => <ActionsPo record={record} />,
 			width: 140,
 		},
 	];
@@ -280,24 +254,7 @@ const useTableColumns = () => {
 			title: 'ACCIONES',
 			key: 'actions',
 			className: 'actions',
-			render: (_, record) => (
-				<Space>
-					<Tooltip title='Ver recepción'>
-						<Button
-							type='text'
-							icon={<IoDocumentTextOutline size={20} color='#0D6EFD' />}
-							onClick={() => handleDisplayReceipt(record.number)}
-						/>
-					</Tooltip>
-					<Tooltip title='Recibir OC'>
-						<Button
-							type='text'
-							icon={<GiReceiveMoney size={20} color='#0D6EFD' />}
-							onClick={() => handleReceivePo(record.number)}
-						/>
-					</Tooltip>
-				</Space>
-			),
+			render: (_, record) => <ActionsReceipts record={record} />,
 			width: 100,
 		},
 	];
