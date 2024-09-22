@@ -1,34 +1,38 @@
 'use client';
 import PoPDF from '@/components/purchase-orders/PoPDF';
 import { UI_TYPES } from '@/context/ui/uiActions';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import useUiContext from '@/hooks/useUiContext';
 import { Button, Drawer, Space } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoDownloadOutline } from 'react-icons/io5';
 
 const { SHOW_DRAWER, HIDE_DRAWER } = UI_TYPES;
 
 const CustomDrawer = () => {
-	const [showExtra, setShowExtra] = useState(true);
+	const [showExtra, setShowExtra] = useState(false);
 	const { drawer, dispatch } = useUiContext();
 	const { isOpen, title, children } = drawer;
+	const { purchaseOrder } = usePurchaseOrderContext();
+	const isApproved = purchaseOrder?.status === 'Aprobada';
 
-	const handleClose = () => {
-		dispatch({ type: HIDE_DRAWER });
-		setTimeout(() => {
+	useEffect(() => {
+		if (isOpen) {
 			setShowExtra(true);
-		}, 1000);
-	};
+		} else {
+			setShowExtra(false);
+		}
+	}, [isOpen]);
 
 	return (
 		<Drawer
 			title={title}
-			onClose={handleClose}
+			onClose={() => dispatch({ type: HIDE_DRAWER })}
 			open={isOpen}
-			style={{ backgroundColor: !showExtra && '#E1E1E2' }}
+			style={{ backgroundColor: !showExtra && isApproved && '#E1E1E2' }}
 			width={600}
 			extra={
-				showExtra ? (
+				showExtra && isApproved ? (
 					<Space>
 						<Button
 							type='primary'
