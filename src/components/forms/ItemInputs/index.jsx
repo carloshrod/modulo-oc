@@ -25,7 +25,8 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 		const items = form.getFieldValue('items');
 		const item = items[name];
 		const subtotal =
-			(item?.quantity || 0) * ((item?.unit_price || 0) * exchangeRate);
+			parseInt(item?.quantity ?? 0) *
+			(parseFloat(item?.unit_price ?? 0) * parseFloat(exchangeRate));
 		form.setFieldsValue({
 			items: items.map((field, index) =>
 				index === name ? { ...field, subtotal } : field,
@@ -37,14 +38,16 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 
 	const updateCalculations = () => {
 		const items = form.getFieldValue('items') || [];
-		const discount = form.getFieldValue('discount') || 0;
+		const discount = form.getFieldValue('discount') ?? 0;
 
 		const netTotal =
-			items.reduce((total, item) => total + (item?.subtotal || 0), 0) +
-			parseFloat(discount);
+			items.reduce(
+				(total, item) => parseFloat(total) + parseFloat(item?.subtotal ?? 0),
+				0,
+			) + parseFloat(discount);
 
-		const iva = netTotal * IVA_RATE;
-		const total = netTotal + iva;
+		const iva = parseFloat(netTotal * IVA_RATE);
+		const total = parseFloat(netTotal + iva);
 
 		form.setFieldsValue({
 			net_total: netTotal,
@@ -57,7 +60,8 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 		const items = form.getFieldValue('items');
 		const item = items[name];
 		const receivedAmount =
-			(item?.received_quantity || 0) * (item?.unit_price || 0);
+			parseInt(item?.received_quantity ?? 0) *
+			parseFloat(item?.unit_price ?? 0);
 		form.setFieldsValue({
 			items: items.map((field, index) =>
 				index === name ? { ...field, received_amount: receivedAmount } : field,
@@ -69,14 +73,17 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 
 	const updateReceiptCalculations = () => {
 		const items = form.getFieldValue('items') || [];
-		const discount = form.getFieldValue('discount') || 0;
+		const discount = form.getFieldValue('discount') ?? 0;
 
 		const netTotal =
-			items.reduce((total, item) => total + (item?.received_amount || 0), 0) +
-			parseFloat(discount);
+			items.reduce(
+				(total, item) =>
+					parseFloat(total) + parseFloat(item?.received_amount ?? 0),
+				0,
+			) + parseFloat(discount);
 
-		const iva = netTotal * IVA_RATE;
-		const total = netTotal + iva;
+		const iva = parseFloat(netTotal * IVA_RATE);
+		const total = parseFloat(netTotal + iva);
 
 		form.setFieldsValue({
 			net_total: netTotal,
