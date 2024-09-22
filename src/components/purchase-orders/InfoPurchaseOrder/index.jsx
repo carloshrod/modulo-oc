@@ -13,8 +13,9 @@ import {
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import styles from './InfoPurchaseOrder.module.css';
 import { UI_TYPES } from '@/context/ui/uiActions';
+import FormRejectPo from '@/components/forms/FormRejectPo';
 
-const { HIDE_DRAWER } = UI_TYPES;
+const { HIDE_DRAWER, SHOW_MODAL_FORM } = UI_TYPES;
 const { GET_ONE_PURCHASE_ORDER, UPDATE_PURCHASE_ORDER } = PO_TYPES;
 
 const InfoPurchaseOrder = () => {
@@ -44,7 +45,7 @@ const InfoPurchaseOrder = () => {
 
 	const handleApproval = async () => {
 		const data = await sendPurchaseOrderForApprove({
-			poId: purchaseOrder.id,
+			purchaseOrderId: purchaseOrder.id,
 			submittedBy: loggedUser.id,
 		});
 		if (data) {
@@ -59,6 +60,16 @@ const InfoPurchaseOrder = () => {
 		}
 	};
 
+	const handleRejection = () => {
+		uiDispatch({
+			type: SHOW_MODAL_FORM,
+			payload: {
+				title: 'Rechazar OC',
+				children: <FormRejectPo purchaseOrderId={purchaseOrder.id} />,
+			},
+		});
+	};
+
 	const EVENT_COLORS = {
 		Aprobada: '#05A660',
 		Rechazada: '#E53535',
@@ -71,7 +82,8 @@ const InfoPurchaseOrder = () => {
 			<div style={{ fontWeight: 500 }}>
 				<p>{event.status}</p>
 				<div style={{ fontSize: 12, color: '#899197' }}>
-					{index !== 0 &&
+					{event.status === 'Envío a aprobación' &&
+					event?.approver_details?.approver_role &&
 					event?.approver_details?.approver_role !== 'approver4' ? (
 						<Badge
 							color='blue'
@@ -80,6 +92,13 @@ const InfoPurchaseOrder = () => {
 						/>
 					) : null}
 					<p>{event?.user?.full_name}</p>
+					{event?.comments ? (
+						<Badge
+							color='grey'
+							text={`Comentarios: ${event?.comments}`}
+							style={{ fontSize: 12, color: '#899197' }}
+						/>
+					) : null}
 					<p>
 						{event?.created_at &&
 							moment(event?.created_at).startOf('day').format('YYYY/MM/DD')}
@@ -111,16 +130,7 @@ const InfoPurchaseOrder = () => {
 					<Button type='primary' size='large' onClick={handleApproval}>
 						Aprobar
 					</Button>
-					<Button
-						danger
-						size='large'
-						onClick={() => {
-							showModalNotification({
-								notificationText: 'OC rechazada exitosamente',
-							});
-							uiDispatch({ type: HIDE_DRAWER });
-						}}
-					>
+					<Button danger size='large' onClick={handleRejection}>
 						Rechazar
 					</Button>
 				</div>

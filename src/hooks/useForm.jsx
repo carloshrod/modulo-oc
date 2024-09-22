@@ -8,13 +8,14 @@ import {
 	createGeneralItem,
 	SendPoForApproveFromForm,
 	savePurchaseOrder,
+	rejectPurchaseOrder,
 } from '@/services/purchaseOrderServices';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import { UI_TYPES } from '@/context/ui/uiActions';
 import { validatePoItems } from '@/utils/utils';
 
-const { HIDE_MODAL_FORM } = UI_TYPES;
-const { CREATE_GENERAL_ITEM } = PO_TYPES;
+const { HIDE_MODAL_FORM, HIDE_DRAWER } = UI_TYPES;
+const { UPDATE_PURCHASE_ORDER, CREATE_GENERAL_ITEM } = PO_TYPES;
 
 const useForm = () => {
 	const [form] = Form.useForm();
@@ -44,7 +45,7 @@ const useForm = () => {
 
 			if (res.status === 200) {
 				showModalNotification({
-					notificationText: 'OC enviada a aprobación exitosamente',
+					notificationText: res.data.message,
 				});
 				router.back();
 			}
@@ -104,6 +105,37 @@ const useForm = () => {
 		}
 	};
 
+	const rejectPo = async (purchaseOrderId, rejectedBy) => {
+		try {
+			const values = await form.getFieldsValue(true);
+
+			const data = await rejectPurchaseOrder(purchaseOrderId, {
+				rejectedBy,
+				comments: values.comments,
+			});
+
+			if (data) {
+				poDispatch({
+					type: UPDATE_PURCHASE_ORDER,
+					payload: data.purchaseOrder,
+				});
+				uiDispatch({ type: HIDE_MODAL_FORM });
+				showModalNotification({
+					notificationText: data.message,
+				});
+				uiDispatch({ type: HIDE_DRAWER });
+			}
+		} catch (error) {
+			console.error(error);
+			const errorMessage =
+				error?.response?.data?.message ?? 'Ocurrió un error inesperado';
+			showModalNotification({
+				success: false,
+				notificationText: errorMessage,
+			});
+		}
+	};
+
 	const onCancel = () => {
 		setItemError(false);
 		router.back();
@@ -151,6 +183,7 @@ const useForm = () => {
 		sendForApproval,
 		sendForApprovalFailed,
 		saveAsDraft,
+		rejectPo,
 		onCancel,
 		addInvoice,
 		addItem,
