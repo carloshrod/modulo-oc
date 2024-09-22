@@ -23,8 +23,20 @@ export const ActionsPo = ({ record }) => {
 	const router = useRouter();
 	const pathname = usePathname();
 
-	const isEditable =
-		record.status === 'Borrador' && record?.user_create === loggedUser?.id;
+	const canCreatorEdit =
+		record?.user_create === loggedUser?.id && record.status === 'Borrador';
+
+	const canApproverEdit =
+		record?.current_approver?.user_id === loggedUser?.id &&
+		record.status === 'En revisión';
+
+	const userResponsible = record?.current_approver
+		? record?.current_approver?.user_id
+		: record?.user_create;
+	const poRejectedIsEditable =
+		record.status === 'Rechazada' && userResponsible === loggedUser?.id;
+
+	const isEditable = canCreatorEdit || canApproverEdit || poRejectedIsEditable;
 
 	const isDeletable =
 		record.status === 'Borrador' || record.status === 'Aprobada';
