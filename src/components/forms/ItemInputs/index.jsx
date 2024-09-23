@@ -27,6 +27,7 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 		const subtotal =
 			parseInt(item?.quantity ?? 0) *
 			(parseFloat(item?.unit_price ?? 0) * parseFloat(exchangeRate));
+
 		form.setFieldsValue({
 			items: items.map((field, index) =>
 				index === name ? { ...field, subtotal } : field,
@@ -56,15 +57,53 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 		});
 	};
 
-	const updateReceivedAmount = name => {
+	const updateReceivedValues = (name, field, value) => {
 		const items = form.getFieldValue('items');
 		const item = items[name];
-		const receivedAmount =
-			parseInt(item?.received_quantity ?? 0) *
-			parseFloat(item?.unit_price ?? 0);
+		const quantity = item?.quantity ?? 0;
+		const subtotal = item?.subtotal ?? 0;
+		const unitPrice = parseFloat(item?.unit_price ?? 0);
+
+		let receivedQuantity = parseInt(item?.received_quantity ?? 0);
+		let receivedAmount = parseFloat(item?.received_amount ?? 0);
+
+		if (field === 'received_quantity') {
+			receivedQuantity = value;
+			receivedAmount = receivedQuantity * unitPrice;
+
+			if (receivedAmount > subtotal) {
+				receivedAmount = subtotal;
+				receivedQuantity = receivedAmount / unitPrice;
+			}
+
+			if (receivedQuantity > quantity) {
+				receivedQuantity = quantity;
+				receivedAmount = receivedQuantity * unitPrice;
+			}
+		} else if (field === 'received_amount') {
+			receivedAmount = value;
+
+			if (receivedAmount > subtotal) {
+				receivedAmount = subtotal;
+			}
+
+			receivedQuantity = receivedAmount / unitPrice;
+
+			if (receivedQuantity > quantity) {
+				receivedQuantity = quantity;
+				receivedAmount = receivedQuantity * unitPrice;
+			}
+		}
+
 		form.setFieldsValue({
 			items: items.map((field, index) =>
-				index === name ? { ...field, received_amount: receivedAmount } : field,
+				index === name
+					? {
+							...field,
+							received_quantity: receivedQuantity,
+							received_amount: receivedAmount,
+						}
+					: field,
 			),
 		});
 
@@ -73,7 +112,7 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 
 	const updateReceiptCalculations = () => {
 		const items = form.getFieldValue('items') || [];
-		const discount = form.getFieldValue('discount') ?? 0;
+		const discount = form.getFieldValue('discount') || 0;
 
 		const netTotal =
 			items.reduce(
@@ -95,10 +134,11 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 	const handleValueChange = (name, field, value) => {
 		const items = form.getFieldValue('items');
 		items[name][field] = value;
+
 		if (type === 'oc') {
 			updateSubtotal(name);
 		} else {
-			updateReceivedAmount(name);
+			updateReceivedValues(name, field, value);
 		}
 	};
 
@@ -184,7 +224,8 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 														onChange:
 															input.name === 'quantity' ||
 															input.name === 'unit_price' ||
-															input.name === 'received_quantity'
+															input.name === 'received_quantity' ||
+															input.name === 'received_amount'
 																? value =>
 																		handleValueChange(name, input.name, value)
 																: () => null,
