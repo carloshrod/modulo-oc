@@ -9,6 +9,7 @@ import {
 	SendPoForApproveFromForm,
 	savePurchaseOrder,
 	rejectPurchaseOrder,
+	receivePurchaseOrder,
 } from '@/services/purchaseOrderServices';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import { UI_TYPES } from '@/context/ui/uiActions';
@@ -22,11 +23,7 @@ const useForm = () => {
 	const [itemError, setItemError] = useState(false);
 	const router = useRouter();
 	const { showModalNotification, dispatch: uiDispatch } = useUiContext();
-	const {
-		loggedUser,
-		getPurchaseOrderToReceive,
-		dispatch: poDispatch,
-	} = usePurchaseOrderContext();
+	const { loggedUser, dispatch: poDispatch } = usePurchaseOrderContext();
 	const { ITEMS_INPUTS } = useInputs();
 
 	const sendForApproval = async oeuvreId => {
@@ -170,11 +167,29 @@ const useForm = () => {
 		}
 	};
 
-	const saveReceipt = values => {
-		console.log('Guardando recepción!');
-		console.log(values);
-		showModalNotification({ notificationText: 'OC recibida exitosamente' });
-		getPurchaseOrderToReceive(undefined);
+	const saveReceipt = async values => {
+		try {
+			const { items, receipt_date, doc_type, doc_number, net_total } = values;
+			const res = await receivePurchaseOrder({
+				items,
+				receipt_date,
+				doc_type,
+				doc_number,
+				discount: values?.discount ?? 0,
+				net_total,
+			});
+			if (res.status === 200) {
+				showModalNotification({ notificationText: res.data.message });
+				router.back();
+			}
+		} catch (error) {
+			console.error(error);
+			showModalNotification({
+				notificationText:
+					error?.response?.data?.message ?? 'Error al recibir OC',
+				success: false,
+			});
+		}
 	};
 
 	return {

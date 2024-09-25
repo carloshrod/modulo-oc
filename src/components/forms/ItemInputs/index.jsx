@@ -60,7 +60,7 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 	const updateReceivedValues = (name, field, value) => {
 		const items = form.getFieldValue('items');
 		const item = items[name];
-		const quantity = item?.quantity ?? 0;
+		const quantity_to_receive = item?.quantity_to_receive ?? 0;
 		const subtotal = item?.subtotal ?? 0;
 		const unitPrice = parseFloat(item?.unit_price ?? 0);
 
@@ -76,8 +76,8 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 				receivedQuantity = receivedAmount / unitPrice;
 			}
 
-			if (receivedQuantity > quantity) {
-				receivedQuantity = quantity;
+			if (receivedQuantity > quantity_to_receive) {
+				receivedQuantity = quantity_to_receive;
 				receivedAmount = receivedQuantity * unitPrice;
 			}
 		} else if (field === 'received_amount') {
@@ -89,8 +89,8 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 
 			receivedQuantity = receivedAmount / unitPrice;
 
-			if (receivedQuantity > quantity) {
-				receivedQuantity = quantity;
+			if (receivedQuantity > quantity_to_receive) {
+				receivedQuantity = quantity_to_receive;
 				receivedAmount = receivedQuantity * unitPrice;
 			}
 		}

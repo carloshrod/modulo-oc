@@ -242,9 +242,9 @@ const useTableColumns = () => {
 		},
 		{
 			title: 'MONTO OC',
-			dataIndex: 'total',
-			key: 'total',
-			sorter: (a, b) => a.total - b.total,
+			dataIndex: 'net_total',
+			key: 'net_total',
+			sorter: (a, b) => a.net_total - b.net_total,
 			sortDirections: ['descend', 'ascend'],
 			render: value => (
 				<span>
@@ -329,13 +329,13 @@ const useTableColumns = () => {
 		},
 		{
 			title: 'MONTO RECIBIDO',
-			dataIndex: 'received_amount',
-			key: 'received_amount',
+			dataIndex: 'total_received_amount',
+			key: 'total_received_amount',
 			width: 140,
 			render: (_, record) => (
 				<p>
 					$
-					{record.received_amount
+					{record.total_received_amount
 						?.toString()
 						.replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? 0}
 				</p>
@@ -344,24 +344,25 @@ const useTableColumns = () => {
 		},
 		{
 			title: 'MONTO POR RECIBIR',
-			dataIndex: 'subtotal',
-			key: 'subtotal',
+			dataIndex: 'amount_to_receive',
+			key: 'amount_to_receive',
 			width: 140,
 			render: (_, record) => (
 				<p>
 					$
-					{record.subtotal?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') ??
-						0}
+					{record.amount_to_receive
+						?.toString()
+						.replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? 0}
 				</p>
 			),
 			align: 'center',
 		},
 		{
 			title: 'ESTADO RECEPCIÓN',
-			dataIndex: 'subtotal',
-			key: 'subtotal',
+			dataIndex: 'receipt_status',
+			key: 'receipt_status',
 			width: 140,
-			render: (_, record) => <p>{record?.receipt_status ?? 'Sin recepción'}</p>,
+			render: (_, record) => <p>{record?.receipt_status ?? '--'}</p>,
 			align: 'center',
 		},
 	];
@@ -421,9 +422,9 @@ const useTableColumns = () => {
 			width: 70,
 		},
 		{
-			title: 'ESTADO RECEPCIÓN',
-			dataIndex: 'receipt_status',
-			key: 'receipt_status',
+			title: 'ESTADO FACTURACIÓN',
+			dataIndex: 'invoice_status',
+			key: 'invoice_status',
 			filters: [
 				{
 					text: 'Recepción sin factura',
@@ -438,7 +439,7 @@ const useTableColumns = () => {
 					value: 'Anulada',
 				},
 			],
-			onFilter: (value, record) => record.receipt_status.indexOf(value) === 0,
+			onFilter: (value, record) => record.invoice_status.indexOf(value) === 0,
 			width: 120,
 		},
 		{

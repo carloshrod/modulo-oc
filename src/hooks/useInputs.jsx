@@ -241,7 +241,7 @@ const useInputs = () => {
 			readOnly: true,
 		},
 		{
-			name: 'reception_date',
+			name: 'receipt_date',
 			label: 'Fecha de recepción',
 			message: 'La fecha de recepción es requerida',
 			type: 'date',
@@ -306,7 +306,7 @@ const useInputs = () => {
 			readOnly: true,
 		},
 		{
-			name: 'quantity',
+			name: 'quantity_to_receive',
 			label: 'Cantidad OC',
 			type: 'text',
 			readOnly: true,

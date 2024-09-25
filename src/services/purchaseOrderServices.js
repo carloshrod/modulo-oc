@@ -78,6 +78,18 @@ export const cancelPurchaseOrder = async (purchaseOrderId, canceledBy) => {
 	}
 };
 
+export const receivePurchaseOrder = async data => {
+	try {
+		const res = await axios.post(
+			`${env.API_URL}/purchase-orders/receive`,
+			data,
+		);
+		return res;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 export const createGeneralItem = async generalItem => {
 	const res = await axios.post(`${env.API_URL}/general-items`, generalItem);
 	if (res.status === 200) {
