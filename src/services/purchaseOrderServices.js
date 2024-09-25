@@ -96,3 +96,25 @@ export const createGeneralItem = async generalItem => {
 		return res.data;
 	}
 };
+
+export const getReceiptsByPurchaseOrder = async purchaseOrderId => {
+	try {
+		const res = await axios.get(`${env.API_URL}/receipts/${purchaseOrderId}`);
+		if (res.status === 200) {
+			return res.data;
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const addInvoice = async (receiptId, data) => {
+	try {
+		const res = await axios.patch(`${env.API_URL}/receipts/${receiptId}`, data);
+		if (res.status === 200) {
+			return res.data;
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};

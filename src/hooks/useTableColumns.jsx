@@ -1,28 +1,17 @@
-import { Badge, Button, Space, Tooltip } from 'antd';
-import { AiOutlineDelete } from 'react-icons/ai';
-import { TbPencilMinus } from 'react-icons/tb';
+import { Badge } from 'antd';
 import moment from 'moment';
 import { ActionsPo } from '@/components/ui/ActionsPo';
-import FormInvoice from '@/components/forms/FormInvoice';
-import useUiContext from './useUiContext';
 import { getColumnSearchProps, parseDate } from '@/components/utils';
-import { UI_TYPES } from '@/context/ui/uiActions';
 import ActionsReceipts from '@/components/ui/ActionsReceipts';
-
-const { SHOW_MODAL_FORM } = UI_TYPES;
+import ActionsHistoryReceipts from '@/components/ui/ActionsHistoryReceipts';
 
 const useTableColumns = () => {
-	const {
-		showModalConfirm,
-		showModalNotification,
-		dispatch: uiDispatch,
-	} = useUiContext();
-
 	const poColumns = [
 		{
 			title: 'N° OC',
 			dataIndex: 'number',
 			key: 'oc_number',
+			...getColumnSearchProps('number'),
 			width: 80,
 		},
 		{
@@ -255,9 +244,9 @@ const useTableColumns = () => {
 		},
 		{
 			title: 'MONTO RECEPCIONADO',
-			dataIndex: 'received_amount',
-			key: 'received_amount',
-			sorter: (a, b) => a.received_amount - b.received_amount,
+			dataIndex: 'total_received_amount',
+			key: 'total_received_amount',
+			sorter: (a, b) => a.total_received_amount - b.total_received_amount,
 			sortDirections: ['descend', 'ascend'],
 			render: value => (
 				<span>
@@ -370,10 +359,15 @@ const useTableColumns = () => {
 	const receiptsHistoryColumns = [
 		{
 			title: 'FECHA DE RECEPCIÓN',
-			dataIndex: 'reception_date',
-			key: 'reception_date',
-			...getColumnSearchProps('reception_date'),
+			dataIndex: 'receipt_date',
+			key: 'receipt_date',
+			...getColumnSearchProps('receipt_date'),
 			width: 70,
+			render: value => (
+				<span>
+					{value ? moment(value).startOf('day').format('YYYY/MM/DD') : '--'}
+				</span>
+			),
 		},
 		{
 			title: 'TIPO DE DOCUMENTO',
@@ -391,12 +385,12 @@ const useTableColumns = () => {
 		},
 		{
 			title: 'ARTÍCULO',
-			dataIndex: 'item',
-			key: 'item',
-			...getColumnSearchProps('sku'),
+			dataIndex: 'item_sku',
+			key: 'item_sku',
+			...getColumnSearchProps('item_sku'),
 			render: (_, record) => (
 				<p>
-					{record.sku} {record.oc_name}
+					{record.item_sku} {record.item_name}
 				</p>
 			),
 			width: 120,
@@ -405,7 +399,8 @@ const useTableColumns = () => {
 			title: 'CANTIDAD RECIBIDA',
 			dataIndex: 'received_quantity',
 			key: 'received_quantity',
-			...getColumnSearchProps('received_quantity'),
+			sorter: (a, b) => a.received_quantity - b.received_quantity,
+			sortDirections: ['descend', 'ascend'],
 			width: 70,
 		},
 		{
@@ -423,8 +418,8 @@ const useTableColumns = () => {
 		},
 		{
 			title: 'ESTADO FACTURACIÓN',
-			dataIndex: 'invoice_status',
-			key: 'invoice_status',
+			dataIndex: 'status',
+			key: 'status',
 			filters: [
 				{
 					text: 'Recepción sin factura',
@@ -439,7 +434,7 @@ const useTableColumns = () => {
 					value: 'Anulada',
 				},
 			],
-			onFilter: (value, record) => record.invoice_status.indexOf(value) === 0,
+			onFilter: (value, record) => record.status.indexOf(value) === 0,
 			width: 120,
 		},
 		{
@@ -448,51 +443,13 @@ const useTableColumns = () => {
 			key: 'invoice_number',
 			...getColumnSearchProps('invoice_number'),
 			width: 70,
+			render: value => <span>{value ?? '--'}</span>,
 		},
 		{
 			title: 'ACCIONES',
 			key: 'actions',
 			className: 'actions',
-			render: (_, record) => (
-				<Space size='small'>
-					<Tooltip title='Ingresar factura'>
-						<Button
-							type='text'
-							icon={<TbPencilMinus size={20} color='#0D6EFD' />}
-							onClick={() =>
-								uiDispatch({
-									type: SHOW_MODAL_FORM,
-									payload: {
-										title: 'Ingresar N° Factura',
-										children: <FormInvoice />,
-									},
-								})
-							}
-						/>
-					</Tooltip>
-					<Tooltip title='Anular recepción'>
-						<Button
-							type='text'
-							icon={<AiOutlineDelete size={20} color='#E53535' />}
-							onClick={() =>
-								showModalConfirm(
-									() =>
-										showModalNotification({
-											notificationText: 'Recepción anulada exitosamente',
-										}),
-									{
-										warning: true,
-										title: '¿Deseas anular esta Recepción?',
-										subtitle:
-											'Si anulas, esta recepción dejará de ser editable.',
-										okText: 'Anular',
-									},
-								)
-							}
-						/>
-					</Tooltip>
-				</Space>
-			),
+			render: (_, record) => <ActionsHistoryReceipts record={record} />,
 			width: 70,
 		},
 	];

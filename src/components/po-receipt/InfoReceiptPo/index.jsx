@@ -1,10 +1,28 @@
 import { Input, Table } from 'antd';
 import useTableColumns from '@/hooks/useTableColumns';
 import styles from './InfoReceiptPO.module.css';
+import { getReceiptsByPurchaseOrder } from '@/services/purchaseOrderServices';
+import { useEffect } from 'react';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
+import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
+
+const { GET_RECEIPTS } = PO_TYPES;
 
 const InfoReceiptPo = ({ purchaseOrder }) => {
 	const { id, name, gloss, supplier_rut, supplier_name } = purchaseOrder;
 	const { itemsReceiptsPoColumns, receiptsHistoryColumns } = useTableColumns();
+	const { receipts, dispatch } = usePurchaseOrderContext();
+
+	const fetchReceipts = async () => {
+		if (purchaseOrder?.id) {
+			const data = await getReceiptsByPurchaseOrder(purchaseOrder.id);
+			dispatch({ type: GET_RECEIPTS, payload: data });
+		}
+	};
+
+	useEffect(() => {
+		fetchReceipts();
+	}, []);
 
 	return (
 		<div className={styles.mainContainer}>
@@ -45,7 +63,7 @@ const InfoReceiptPo = ({ purchaseOrder }) => {
 				<Table
 					rowKey='id'
 					columns={receiptsHistoryColumns}
-					dataSource={[]}
+					dataSource={receipts}
 					pagination={false}
 				/>
 			</div>

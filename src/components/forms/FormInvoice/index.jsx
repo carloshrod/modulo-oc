@@ -5,8 +5,8 @@ import { Button, Form, Input } from 'antd';
 
 const { HIDE_MODAL_FORM } = UI_TYPES;
 
-const FormInvoice = () => {
-	const { form, addInvoice } = useForm();
+const FormInvoice = ({ receipt }) => {
+	const { form, submitInvoice } = useForm();
 	const { dispatch } = useUiContext();
 
 	return (
@@ -18,7 +18,7 @@ const FormInvoice = () => {
 				modifier: 'public',
 			}}
 			clearOnDestroy
-			onFinish={addInvoice}
+			onFinish={() => submitInvoice(receipt)}
 		>
 			<Form.Item
 				name='invoice_number'

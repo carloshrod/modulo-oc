@@ -10,13 +10,14 @@ import {
 	savePurchaseOrder,
 	rejectPurchaseOrder,
 	receivePurchaseOrder,
+	addInvoice,
 } from '@/services/purchaseOrderServices';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import { UI_TYPES } from '@/context/ui/uiActions';
 import { validatePoItems } from '@/utils/utils';
 
 const { HIDE_MODAL_FORM, HIDE_DRAWER } = UI_TYPES;
-const { UPDATE_PURCHASE_ORDER, CREATE_GENERAL_ITEM } = PO_TYPES;
+const { UPDATE_PURCHASE_ORDER, CREATE_GENERAL_ITEM, UPDATE_RECEIPT } = PO_TYPES;
 
 const useForm = () => {
 	const [form] = Form.useForm();
@@ -138,12 +139,32 @@ const useForm = () => {
 		router.back();
 	};
 
-	const addInvoice = values => {
-		console.log(values);
-		uiDispatch({ type: HIDE_MODAL_FORM });
-		showModalNotification({
-			notificationText: 'Factura ingresada exitosamente',
-		});
+	const submitInvoice = async receipt => {
+		try {
+			const values = await form.getFieldsValue(true);
+			const data = await addInvoice(receipt?.id, values);
+			if (data) {
+				poDispatch({
+					type: UPDATE_RECEIPT,
+					payload: {
+						...receipt,
+						invoice_number: values.invoice_number,
+						status: 'Recepción con factura',
+					},
+				});
+				uiDispatch({ type: HIDE_MODAL_FORM });
+				showModalNotification({
+					notificationText: data?.message,
+				});
+			}
+		} catch (error) {
+			console.error(error);
+			showModalNotification({
+				notificationText:
+					error?.response?.data?.message ?? 'Error al agregar artículo',
+				success: false,
+			});
+		}
 	};
 
 	const addItem = async values => {
@@ -200,7 +221,7 @@ const useForm = () => {
 		saveAsDraft,
 		rejectPo,
 		onCancel,
-		addInvoice,
+		submitInvoice,
 		addItem,
 		saveReceipt,
 	};
