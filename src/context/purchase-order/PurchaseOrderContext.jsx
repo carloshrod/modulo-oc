@@ -9,6 +9,7 @@ const initialState = {
 	purchaseOrder: {},
 	purchaseOrderToReceive: {},
 	generalItems: [],
+	receipts: [],
 };
 
 const PurchaseOrderProvider = ({ children }) => {
@@ -18,6 +19,7 @@ const PurchaseOrderProvider = ({ children }) => {
 		purchaseOrder,
 		purchaseOrderToReceive,
 		generalItems,
+		receipts,
 	} = state;
 
 	const [loggedUser, setLoggedUser] = useState({});
@@ -34,6 +36,7 @@ const PurchaseOrderProvider = ({ children }) => {
 		purchaseOrder,
 		purchaseOrderToReceive,
 		generalItems,
+		receipts,
 		dispatch,
 
 		loggedUser,

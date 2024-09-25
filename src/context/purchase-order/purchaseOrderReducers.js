@@ -8,6 +8,8 @@ const {
 	DELETE_PURCHASE_ORDER,
 	GET_ALL_GENERAL_ITEMS,
 	CREATE_GENERAL_ITEM,
+	GET_RECEIPTS,
+	UPDATE_RECEIPT,
 } = PO_TYPES;
 
 const purchaseOrderReducers = (state, action) => {
@@ -65,6 +67,25 @@ const purchaseOrderReducers = (state, action) => {
 			return {
 				...state,
 				generalItems: [action.payload, ...state.generalItems],
+			};
+		}
+
+		case GET_RECEIPTS: {
+			return {
+				...state,
+				receipts: action.payload,
+			};
+		}
+
+		case UPDATE_RECEIPT: {
+			const { receipts } = state;
+			const receipt = action.payload;
+
+			const newData = receipts.map(r => (r.id === receipt.id ? receipt : r));
+
+			return {
+				...state,
+				receipts: newData,
 			};
 		}
 
