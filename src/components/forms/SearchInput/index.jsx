@@ -20,7 +20,8 @@ const SearchInput = () => {
 	const getApprovedOrdersByOeuvre = async () => {
 		const oeuvre = await fetchData(`/oeuvres/${slug}`);
 		const data = await fetchData(`/purchase-orders/${oeuvre?.id}`);
-		const approvedOrders = data.filter(po => po.status === 'Aprobada');
+		const approvedOrders =
+			data?.length > 0 && data.filter(po => po.status === 'Aprobada');
 		dispatch({
 			type: GET_ALL_PURCHASE_ORDERS,
 			payload: approvedOrders,
