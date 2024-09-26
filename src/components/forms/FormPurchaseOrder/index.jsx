@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Divider, Form } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 import moment from 'moment';
@@ -10,6 +10,7 @@ import useUiContext from '@/hooks/useUiContext';
 import useInputs from '@/hooks/useInputs';
 import styles from './FormPurchaseOrder.module.css';
 import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
+import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 
 const FormPurchaseOrder = ({ oeuvreId = undefined, poNumber = undefined }) => {
 	const { showModalConfirm } = useUiContext();
@@ -21,24 +22,23 @@ const FormPurchaseOrder = ({ oeuvreId = undefined, poNumber = undefined }) => {
 		saveAsDraft,
 		onCancel,
 	} = useForm();
+	const { loggedUser } = usePurchaseOrderContext();
 	const { GEN_INFO_INPUTS, ITEMS_INPUTS } = useInputs();
+	const [purchaseOrderToEdit, setpurchaseOrderToEdit] = useState({});
+	const isLastApprover = loggedUser?.approver_role === 'approver4';
 
 	const setPurchaseOrderToEdit = async () => {
-		const purchaseOrderToEdit = await getPurchaseOrderByNumber({
+		const data = await getPurchaseOrderByNumber({
 			oeuvreId,
 			poNumber,
 			includeEvents: false,
 		});
-		if (purchaseOrderToEdit) {
+		setpurchaseOrderToEdit(data);
+		if (data) {
 			const preparedFields = {
-				...purchaseOrderToEdit,
-				delivery_date:
-					purchaseOrderToEdit?.delivery_date &&
-					moment(purchaseOrderToEdit?.delivery_date),
-				items:
-					purchaseOrderToEdit?.items?.length > 0
-						? purchaseOrderToEdit.items
-						: [{}],
+				...data,
+				delivery_date: data?.delivery_date && moment(data?.delivery_date),
+				items: data?.items?.length > 0 ? data.items : [{}],
 			};
 			form.setFieldsValue(preparedFields);
 		}
@@ -87,6 +87,7 @@ const FormPurchaseOrder = ({ oeuvreId = undefined, poNumber = undefined }) => {
 							size='large'
 							onClick={() => saveAsDraft(oeuvreId)}
 							style={{ width: 200 }}
+							disabled={poNumber && purchaseOrderToEdit?.status !== 'Borrador'}
 						>
 							Guardar como borrador
 						</Button>
@@ -98,9 +99,8 @@ const FormPurchaseOrder = ({ oeuvreId = undefined, poNumber = undefined }) => {
 							iconPosition='end'
 							onClick={() =>
 								showModalConfirm(() => form.submit(), {
-									title: '¿Deseas enviar OC a aprobación?',
-									subtitle:
-										'Se enviará un correo a los aprobadores responsables para revisar tu OC.',
+									title: `${isLastApprover ? '¿Deseas aprobar esta OC?' : '¿Deseas enviar OC a aprobación?'}`,
+									subtitle: `${isLastApprover ? 'La OC podrá comenzar a ser recepcionada.' : 'Se enviará un correo a los aprobadores responsables para revisar tu OC.'}`,
 									okText: 'Aceptar',
 								})
 							}
