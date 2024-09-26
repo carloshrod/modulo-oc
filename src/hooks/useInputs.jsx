@@ -3,7 +3,7 @@ import {
 	generateAccountCostsOptions,
 	generateItemOptions,
 	generateSupplierOptions,
-} from '@/utils/utils';
+} from '@/utils/selectOptions';
 import { useEffect, useState } from 'react';
 import usePurchaseOrderContext from './usePurchaseOrderContext';
 import { fetchData } from '@/services/utils';

@@ -8,7 +8,7 @@ import {
 } from 'react-icons/bi';
 import { PiBuildingsFill } from 'react-icons/pi';
 import { useParams, usePathname, useRouter } from 'next/navigation';
-import { formatTitle, generateBreadcrumbs } from '@/utils/utils';
+import { formatTitle, generateBreadcrumbs } from '@/utils/ui';
 import styles from './Header.module.css';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import moment from 'moment';

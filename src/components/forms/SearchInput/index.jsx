@@ -5,7 +5,7 @@ import { Select, Space } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
-import { generateOcOptions } from '@/utils/utils';
+import { generateOcOptions } from '@/utils/selectOptions';
 import { fetchData } from '@/services/utils';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import styles from './SearchInput.module.css';

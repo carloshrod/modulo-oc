@@ -14,7 +14,7 @@ import {
 } from '@/services/purchaseOrderServices';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import { UI_TYPES } from '@/context/ui/uiActions';
-import { validatePoItems } from '@/utils/utils';
+import { validatePoItems } from '@/utils/purchaseOrder';
 
 const { HIDE_MODAL_FORM, HIDE_DRAWER } = UI_TYPES;
 const { UPDATE_PURCHASE_ORDER, CREATE_GENERAL_ITEM, UPDATE_RECEIPT } = PO_TYPES;

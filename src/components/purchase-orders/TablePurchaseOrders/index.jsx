@@ -7,7 +7,7 @@ import useUiContext from '@/hooks/useUiContext';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import useTableColumns from '@/hooks/useTableColumns';
 import { fetchData } from '@/services/utils';
-import { generatePoExcelData } from '@/utils/utils';
+import { generatePoExcelData } from '@/utils/documents';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 
 const { GET_ALL_PURCHASE_ORDERS, GET_ONE_PURCHASE_ORDER } = PO_TYPES;
