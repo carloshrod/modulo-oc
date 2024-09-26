@@ -5,6 +5,18 @@ const DetailPoTotals = ({ purchaseOrder }) => {
 		<section>
 			<Row justify='end'>
 				<Col style={{ padding: 16, fontSize: 12, fontWeight: 500 }}>
+					Descuento
+				</Col>
+				<Col style={{ width: 100, padding: 16, fontSize: 12, fontWeight: 500 }}>
+					$
+					{purchaseOrder.discount
+						?.toString()
+						.replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? ' --'}
+				</Col>
+			</Row>
+
+			<Row justify='end'>
+				<Col style={{ padding: 16, fontSize: 12, fontWeight: 500 }}>
 					Total Neto
 				</Col>
 				<Col style={{ width: 100, padding: 16, fontSize: 12, fontWeight: 500 }}>
