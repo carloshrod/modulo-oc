@@ -83,7 +83,13 @@ export const ActionsPo = ({ record }) => {
 					disabled={!isEditable}
 				/>
 			</Tooltip>
-			<Tooltip title={isDeletable ? 'Eliminar OC' : ''}>
+			<Tooltip
+				title={
+					isDeletable
+						? `${record?.status === 'Borrador' ? 'Cancelar' : 'Cerrar'} OC`
+						: ''
+				}
+			>
 				<Button
 					type='text'
 					icon={
