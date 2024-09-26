@@ -5,6 +5,7 @@ import { getReceiptsByPurchaseOrder } from '@/services/purchaseOrderServices';
 import { useEffect } from 'react';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
+import CustomEmpty from '@/components/ui/CustomEmpty';
 
 const { GET_RECEIPTS } = PO_TYPES;
 
@@ -55,6 +56,9 @@ const InfoReceiptPo = ({ purchaseOrder }) => {
 						columns={itemsReceiptsPoColumns}
 						dataSource={purchaseOrder?.items}
 						pagination={false}
+						locale={{
+							emptyText: <CustomEmpty itemName='artículos' />,
+						}}
 					/>
 				</section>
 			</div>
@@ -65,6 +69,9 @@ const InfoReceiptPo = ({ purchaseOrder }) => {
 					columns={receiptsHistoryColumns}
 					dataSource={receipts}
 					pagination={false}
+					locale={{
+						emptyText: <CustomEmpty itemName='recepciones' />,
+					}}
 				/>
 			</div>
 		</div>

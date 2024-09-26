@@ -1,3 +1,4 @@
+import CustomEmpty from '@/components/ui/CustomEmpty';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import useTableColumns from '@/hooks/useTableColumns';
 import { Table } from 'antd';
@@ -16,6 +17,9 @@ const TablePoReceipts = () => {
 				rowKey='id'
 				columns={receiptsColumns}
 				dataSource={approvedOrders}
+				locale={{
+					emptyText: <CustomEmpty itemName='OCs' />,
+				}}
 			/>
 		</div>
 	);

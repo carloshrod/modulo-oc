@@ -9,6 +9,7 @@ import useTableColumns from '@/hooks/useTableColumns';
 import { fetchData } from '@/services/utils';
 import { generatePoExcelData } from '@/utils/documents';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
+import CustomEmpty from '@/components/ui/CustomEmpty';
 
 const { GET_ALL_PURCHASE_ORDERS, GET_ONE_PURCHASE_ORDER } = PO_TYPES;
 
@@ -51,6 +52,9 @@ const TablePurchaseOrders = ({ oeuvre }) => {
 					rowClassName={record =>
 						record.status === 'Cerrada' ? 'closed-row' : ''
 					}
+					locale={{
+						emptyText: <CustomEmpty itemName='OCs' />,
+					}}
 				/>
 			</div>
 		</>

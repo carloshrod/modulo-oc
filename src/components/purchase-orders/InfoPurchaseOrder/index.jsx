@@ -14,6 +14,7 @@ import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import styles from './InfoPurchaseOrder.module.css';
 import { UI_TYPES } from '@/context/ui/uiActions';
 import FormRejectPo from '@/components/forms/FormRejectPo';
+import CustomEmpty from '@/components/ui/CustomEmpty';
 
 const { HIDE_DRAWER, SHOW_MODAL_FORM } = UI_TYPES;
 const { GET_ONE_PURCHASE_ORDER, UPDATE_PURCHASE_ORDER } = PO_TYPES;
@@ -116,13 +117,16 @@ const InfoPurchaseOrder = () => {
 				columns={infoPoColumns}
 				dataSource={purchaseOrder?.items}
 				pagination={false}
+				locale={{
+					emptyText: <CustomEmpty itemName='artículos' />,
+				}}
 			/>
 			<DetailPoTotals purchaseOrder={purchaseOrder} />
 			<Divider orientation='left'>Hilo de Aprobación</Divider>
 			{purchaseOrder?.events?.length > 0 ? (
 				<Timeline items={items} />
 			) : (
-				<h3>Sin datos</h3>
+				<CustomEmpty />
 			)}
 			{purchaseOrder?.current_approver === loggedUser?.id &&
 			purchaseOrder?.status === 'En revisión' ? (
