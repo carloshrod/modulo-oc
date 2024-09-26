@@ -52,9 +52,9 @@ export const ActionsPo = ({ record }) => {
 			},
 			{
 				warning: true,
-				title: '¿Deseas eliminar esta Orden de Compra?',
-				subtitle: 'Si eliminas no podrás recuperar los datos',
-				okText: 'Eliminar',
+				title: `¿Deseas ${record?.status === 'Borrador' ? 'cancelar' : 'cerrar'} esta Orden de Compra?`,
+				subtitle: 'Si lo haces no podrás revertirlo',
+				okText: 'Aceptar',
 			},
 		);
 	};
