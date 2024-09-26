@@ -1,10 +1,10 @@
-import FormInvoice from '@/components/forms/FormInvoice';
-import { UI_TYPES } from '@/context/ui/uiActions';
-import useUiContext from '@/hooks/useUiContext';
-import { Button, Space, Tooltip } from 'antd';
 import React from 'react';
+import { Button, Space, Tooltip } from 'antd';
+import { IoDocumentTextOutline } from 'react-icons/io5';
 import { AiOutlineDelete } from 'react-icons/ai';
-import { TbPencilMinus } from 'react-icons/tb';
+import FormInvoice from '@/components/forms/FormInvoice';
+import useUiContext from '@/hooks/useUiContext';
+import { UI_TYPES } from '@/context/ui/uiActions';
 
 const { SHOW_MODAL_FORM } = UI_TYPES;
 
@@ -23,7 +23,7 @@ const ActionsHistoryReceipts = ({ record }) => {
 				<Button
 					type='text'
 					icon={
-						<TbPencilMinus
+						<IoDocumentTextOutline
 							size={20}
 							color={isEditable ? '#0D6EFD' : '#A0AEC0'}
 						/>
