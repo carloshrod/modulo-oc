@@ -66,9 +66,9 @@ const useTableColumns = () => {
 		},
 		{
 			title: 'MONTO TOTAL',
-			dataIndex: 'total',
-			key: 'total',
-			sorter: (a, b) => a.total - b.total,
+			dataIndex: 'net_total',
+			key: 'net_total',
+			sorter: (a, b) => a.net_total - b.net_total,
 			sortDirections: ['descend', 'ascend'],
 			render: value => (
 				<span>
