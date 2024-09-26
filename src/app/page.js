@@ -35,46 +35,46 @@ export default function Home() {
 				type='primary'
 				size='large'
 				ghost
-				style={{ width: 130 }}
+				style={{ width: 300, fontWeight: 700 }}
 				onClick={() => setLoggedUser(noApprover)}
 			>
-				No Aprobador
+				Administrador - No Aprobador
 			</Button>
 			<Button
 				type='primary'
 				size='large'
 				ghost
-				style={{ width: 130 }}
+				style={{ width: 300, fontWeight: 700 }}
 				onClick={() => setLoggedUser(approver1)}
 			>
-				Aprobador 1
+				Usuario Obra - Aprobador 1
 			</Button>
 			<Button
 				type='primary'
 				size='large'
 				ghost
-				style={{ width: 130 }}
+				style={{ width: 300, fontWeight: 700 }}
 				onClick={() => setLoggedUser(approver2)}
 			>
-				Aprobador 2
+				Usuario Bodeguero - Aprobador 2
 			</Button>
 			<Button
 				type='primary'
 				size='large'
 				ghost
-				style={{ width: 130 }}
+				style={{ width: 300, fontWeight: 700 }}
 				onClick={() => setLoggedUser(approver3)}
 			>
-				Aprobador 3
+				Usuario Obra - Aprobador 3
 			</Button>
 			<Button
 				type='primary'
 				size='large'
 				ghost
-				style={{ width: 130 }}
+				style={{ width: 300, fontWeight: 700 }}
 				onClick={() => setLoggedUser(approver4)}
 			>
-				Aprobador 4
+				Administrador - Aprobador 4
 			</Button>
 		</main>
 	);

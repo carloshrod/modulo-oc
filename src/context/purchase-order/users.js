@@ -17,7 +17,7 @@ export const approver2 = {
 	id: 3,
 	email: 'chrod.dev@gmail.com',
 	full_name: 'Pedro Pérez',
-	role: 'USUARIO-OBRA',
+	role: 'USUARIO-BODEGUERO',
 	approver_role: 'approver2',
 };
 

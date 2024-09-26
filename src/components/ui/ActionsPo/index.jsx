@@ -9,6 +9,7 @@ import { cancelPurchaseOrder } from '@/services/purchaseOrderServices';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import { UI_TYPES } from '@/context/ui/uiActions';
+import { checkIsDeletable, checkIsEditable } from '@/components/utils';
 
 const { SHOW_DRAWER } = UI_TYPES;
 const { UPDATE_PURCHASE_ORDER } = PO_TYPES;
@@ -23,23 +24,8 @@ export const ActionsPo = ({ record }) => {
 	const router = useRouter();
 	const pathname = usePathname();
 
-	const canCreatorEdit =
-		record?.user_create === loggedUser?.id && record.status === 'Borrador';
-
-	const canApproverEdit =
-		record?.current_approver?.user_id === loggedUser?.id &&
-		record.status === 'En revisión';
-
-	const userResponsible = record?.current_approver
-		? record?.current_approver?.user_id
-		: record?.user_create;
-	const poRejectedIsEditable =
-		record.status === 'Rechazada' && userResponsible === loggedUser?.id;
-
-	const isEditable = canCreatorEdit || canApproverEdit || poRejectedIsEditable;
-
-	const isDeletable =
-		record.status === 'Borrador' || record.status === 'Aprobada';
+	const isEditable = checkIsEditable(record, loggedUser);
+	const isDeletable = checkIsDeletable(record, loggedUser);
 
 	const handleShowDrawer = () =>
 		uiDispatch({

@@ -45,3 +45,34 @@ export const formatTitle = part => {
 		.map(word => word.charAt(0).toUpperCase() + word.slice(1))
 		.join(' ');
 };
+
+export const checkIsEditable = (purchaseOrder, loggedUser) => {
+	const canCreatorEdit =
+		purchaseOrder?.user_create === loggedUser?.id &&
+		purchaseOrder.status === 'Borrador';
+
+	const canApproverEdit =
+		purchaseOrder?.current_approver?.user_id === loggedUser?.id &&
+		purchaseOrder.status === 'En revisión';
+
+	const userResponsible = purchaseOrder?.current_approver
+		? purchaseOrder?.current_approver?.user_id
+		: purchaseOrder?.user_create;
+
+	const poRejectedIsEditable =
+		purchaseOrder.status === 'Rechazada' && userResponsible === loggedUser?.id;
+
+	return canCreatorEdit || canApproverEdit || poRejectedIsEditable;
+};
+
+export const checkIsDeletable = (purchaseOrder, loggedUser) => {
+	const canDelete =
+		loggedUser?.role === 'USUARIO-OBRA' ||
+		loggedUser?.role === 'USUARIO-BODEGUERO';
+
+	return (
+		(purchaseOrder.status === 'Borrador' ||
+			purchaseOrder.status === 'Aprobada') &&
+		canDelete
+	);
+};
