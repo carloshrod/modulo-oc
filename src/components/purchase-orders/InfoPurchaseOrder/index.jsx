@@ -22,6 +22,7 @@ const { GET_ONE_PURCHASE_ORDER, UPDATE_PURCHASE_ORDER } = PO_TYPES;
 const InfoPurchaseOrder = ({ oeuvreId }) => {
 	const {
 		drawer: { title: poNumber },
+		showModalConfirm,
 		showModalNotification,
 		dispatch: uiDispatch,
 	} = useUiContext();
@@ -31,6 +32,7 @@ const InfoPurchaseOrder = ({ oeuvreId }) => {
 		dispatch: poDispatch,
 	} = usePurchaseOrderContext();
 	const { infoPoColumns } = useTableColumns();
+	const isLastApprover = loggedUser.approver_role === 'approver4';
 
 	const fetchPurchaseOrder = async () => {
 		const data = await getPurchaseOrderByNumber({ oeuvreId, poNumber });
@@ -44,21 +46,30 @@ const InfoPurchaseOrder = ({ oeuvreId }) => {
 		fetchPurchaseOrder();
 	}, [poNumber, purchaseOrder?.id]);
 
-	const handleApproval = async () => {
-		const data = await sendPurchaseOrderForApprove({
-			purchaseOrderId: purchaseOrder.id,
-			submittedBy: loggedUser.id,
-		});
-		if (data) {
-			poDispatch({
-				type: UPDATE_PURCHASE_ORDER,
-				payload: data.purchaseOrder,
-			});
-			showModalNotification({
-				notificationText: data.message,
-			});
-			uiDispatch({ type: HIDE_DRAWER });
-		}
+	const handleApproval = () => {
+		showModalConfirm(
+			async () => {
+				const data = await sendPurchaseOrderForApprove({
+					purchaseOrderId: purchaseOrder.id,
+					submittedBy: loggedUser.id,
+				});
+				if (data) {
+					poDispatch({
+						type: UPDATE_PURCHASE_ORDER,
+						payload: data.purchaseOrder,
+					});
+					showModalNotification({
+						notificationText: data.message,
+					});
+					uiDispatch({ type: HIDE_DRAWER });
+				}
+			},
+			{
+				title: `${isLastApprover ? '¿Deseas aprobar esta OC?' : '¿Deseas enviar OC a aprobación?'}`,
+				subtitle: `${isLastApprover ? 'La OC podrá comenzar a ser recepcionada.' : 'Se enviará un correo a los aprobadores responsables para revisar tu OC.'}`,
+				okText: 'Aceptar',
+			},
+		);
 	};
 
 	const handleRejection = () => {
