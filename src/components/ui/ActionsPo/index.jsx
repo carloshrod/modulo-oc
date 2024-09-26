@@ -32,7 +32,7 @@ export const ActionsPo = ({ record }) => {
 			type: SHOW_DRAWER,
 			payload: {
 				title: record.number,
-				children: <InfoPurchaseOrder />,
+				children: <InfoPurchaseOrder oeuvreId={record?.oeuvre_id} />,
 			},
 		});
 

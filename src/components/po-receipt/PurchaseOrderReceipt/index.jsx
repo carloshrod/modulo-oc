@@ -13,7 +13,7 @@ import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 
 const { GET_ONE_PURCHASE_ORDER, GET_PURCHASE_ORDER_TO_RECEIVE } = PO_TYPES;
 
-const PurchaseOrderReceipt = () => {
+const PurchaseOrderReceipt = ({ oeuvreId }) => {
 	const { purchaseOrder, dispatch } = usePurchaseOrderContext();
 	const router = useRouter();
 	const pathname = usePathname();
@@ -25,6 +25,7 @@ const PurchaseOrderReceipt = () => {
 
 	const handleReceiveOc = async () => {
 		const data = await getPurchaseOrderByNumber({
+			oeuvreId,
 			poNumber: purchaseOrder?.number,
 		});
 		dispatch({ type: GET_PURCHASE_ORDER_TO_RECEIVE, payload: data });

@@ -14,7 +14,10 @@ const ActionsReceipts = ({ record }) => {
 	const pathname = usePathname();
 
 	const handleDisplayReceipt = async poNumber => {
-		const data = await getPurchaseOrderByNumber({ poNumber });
+		const data = await getPurchaseOrderByNumber({
+			oeuvreId: record?.oeuvre_id,
+			poNumber,
+		});
 		poDispatch({
 			type: GET_ONE_PURCHASE_ORDER,
 			payload: data,
@@ -22,7 +25,10 @@ const ActionsReceipts = ({ record }) => {
 	};
 
 	const handleReceivePo = async poNumber => {
-		const data = await getPurchaseOrderByNumber({ poNumber });
+		const data = await getPurchaseOrderByNumber({
+			oeuvreId: record?.oeuvre_id,
+			poNumber,
+		});
 		poDispatch({
 			type: GET_PURCHASE_ORDER_TO_RECEIVE,
 			payload: data,

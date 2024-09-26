@@ -16,7 +16,7 @@ const PurchaseOrderPage = async ({ params }) => {
 		{
 			key: '2',
 			label: 'Recepción de OC',
-			children: <PurchaseOrderReceipt />,
+			children: <PurchaseOrderReceipt oeuvreId={oeuvre?.id} />,
 		},
 	];
 

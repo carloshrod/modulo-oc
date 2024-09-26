@@ -19,7 +19,7 @@ import CustomEmpty from '@/components/ui/CustomEmpty';
 const { HIDE_DRAWER, SHOW_MODAL_FORM } = UI_TYPES;
 const { GET_ONE_PURCHASE_ORDER, UPDATE_PURCHASE_ORDER } = PO_TYPES;
 
-const InfoPurchaseOrder = () => {
+const InfoPurchaseOrder = ({ oeuvreId }) => {
 	const {
 		drawer: { title: poNumber },
 		showModalNotification,
@@ -33,7 +33,7 @@ const InfoPurchaseOrder = () => {
 	const { infoPoColumns } = useTableColumns();
 
 	const fetchPurchaseOrder = async () => {
-		const data = await getPurchaseOrderByNumber({ poNumber });
+		const data = await getPurchaseOrderByNumber({ oeuvreId, poNumber });
 		poDispatch({
 			type: GET_ONE_PURCHASE_ORDER,
 			payload: data,

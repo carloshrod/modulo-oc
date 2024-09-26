@@ -25,6 +25,7 @@ const FormPurchaseOrder = ({ oeuvreId = undefined, poNumber = undefined }) => {
 
 	const setPurchaseOrderToEdit = async () => {
 		const purchaseOrderToEdit = await getPurchaseOrderByNumber({
+			oeuvreId,
 			poNumber,
 			includeEvents: false,
 		});

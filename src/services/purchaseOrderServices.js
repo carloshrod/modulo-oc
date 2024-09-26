@@ -2,12 +2,13 @@ import axios from 'axios';
 import { env } from '@/config/env';
 
 export const getPurchaseOrderByNumber = async ({
+	oeuvreId,
 	poNumber,
 	includeEvents = true,
 }) => {
 	try {
 		const res = await axios.get(
-			`${env.API_URL}/purchase-orders/po-number/${poNumber}?includeEvents=${includeEvents}`,
+			`${env.API_URL}/purchase-orders/${oeuvreId}/${poNumber}?includeEvents=${includeEvents}`,
 		);
 		if (res.status === 200) {
 			return res.data;
