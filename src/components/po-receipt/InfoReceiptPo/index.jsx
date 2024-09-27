@@ -9,10 +9,10 @@ import CustomEmpty from '@/components/ui/CustomEmpty';
 
 const { GET_RECEIPTS } = PO_TYPES;
 
-const InfoReceiptPo = ({ purchaseOrder }) => {
+const InfoReceiptPo = () => {
+	const { purchaseOrder, receipts, dispatch } = usePurchaseOrderContext();
 	const { id, name, gloss, supplier_rut, supplier_name } = purchaseOrder;
 	const { itemsReceiptsPoColumns, receiptsHistoryColumns } = useTableColumns();
-	const { receipts, dispatch } = usePurchaseOrderContext();
 
 	const fetchReceipts = async () => {
 		if (purchaseOrder?.id) {

@@ -119,3 +119,14 @@ export const addInvoice = async (receiptId, data) => {
 		console.error(error);
 	}
 };
+
+export const cancelReceipt = async receiptId => {
+	try {
+		const res = await axios.delete(`${env.API_URL}/receipts/${receiptId}`);
+		if (res.status === 200) {
+			return res.data;
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};

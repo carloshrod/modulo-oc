@@ -48,7 +48,7 @@ const PurchaseOrderReceipt = ({ oeuvreId }) => {
 					Recibir {purchaseOrder?.number}
 				</Button>
 			</Toolbar>
-			<InfoReceiptPo purchaseOrder={purchaseOrder} />
+			<InfoReceiptPo />
 		</>
 	) : (
 		<>
