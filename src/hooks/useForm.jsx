@@ -14,7 +14,7 @@ import {
 } from '@/services/purchaseOrderServices';
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import { UI_TYPES } from '@/context/ui/uiActions';
-import { validatePoItems } from '@/utils/purchaseOrder';
+import { validateItemReceipts, validatePoItems } from '@/utils/purchaseOrder';
 
 const { HIDE_MODAL_FORM, HIDE_DRAWER } = UI_TYPES;
 const { UPDATE_PURCHASE_ORDER, CREATE_GENERAL_ITEM, UPDATE_RECEIPT } = PO_TYPES;
@@ -191,6 +191,13 @@ const useForm = () => {
 	const saveReceipt = async values => {
 		try {
 			const { items, receipt_date, doc_type, doc_number, net_total } = values;
+			if (!validateItemReceipts(items)) {
+				return showModalNotification({
+					notificationText:
+						'La cantidad y el monto de al menos uno de los artículos debe ser mayor a cero',
+					success: false,
+				});
+			}
 			const res = await receivePurchaseOrder({
 				items,
 				receipt_date,
