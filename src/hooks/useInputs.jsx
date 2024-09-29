@@ -11,7 +11,7 @@ import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 
 const { GET_ALL_GENERAL_ITEMS } = PO_TYPES;
 
-const useInputs = () => {
+const useInputs = (oeuvre = undefined) => {
 	const [suppliers, setSuppliers] = useState([]);
 	const [accountCosts, setAccountCosts] = useState([]);
 	const { generalItems, dispatch } = usePurchaseOrderContext();
@@ -29,15 +29,17 @@ const useInputs = () => {
 	};
 
 	const fetchAccountCosts = async () => {
-		const data = await fetchData('/account-costs');
-		if (data) setAccountCosts(data);
+		if (oeuvre?.id_company) {
+			const data = await fetchData(`/account-costs/${oeuvre?.id_company}`);
+			if (data) setAccountCosts(data);
+		}
 	};
 
 	useEffect(() => {
 		fetchSuppliers();
 		fetchGeneralItems();
 		fetchAccountCosts();
-	}, []);
+	}, [oeuvre?.id_company]);
 
 	const INPUT_TYPES = {
 		text: ({ placeholder, readOnly, ...props }) => (

@@ -57,7 +57,7 @@ export const generateAccountCostsOptions = accountCosts => {
 				title: accountCosts[i].family_name,
 				options: accountCosts[i].accounts.map(account => {
 					return {
-						label: account.name,
+						label: `${account.identifier} - ${account.name}`,
 						value: account.id,
 					};
 				}),

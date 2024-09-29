@@ -17,7 +17,7 @@ const EditPurchaseOrderPage = async props => {
 			<Toolbar />
 			<section className={styles.editPoForm}>
 				<TitleForm title={title} />
-				<FormPurchaseOrder oeuvreId={oeuvre?.id} poNumber={poNumber} />
+				<FormPurchaseOrder oeuvre={oeuvre} poNumber={poNumber} />
 			</section>
 		</div>
 	);

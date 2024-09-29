@@ -13,7 +13,7 @@ const GeneratePurchaseOrderPage = async ({ params }) => {
 			<Toolbar />
 			<section className={styles.generatePoForm}>
 				<TitleForm title='Nueva Orden de Compra' />
-				<FormPurchaseOrder oeuvreId={oeuvre?.id} />
+				<FormPurchaseOrder oeuvre={oeuvre} />
 			</section>
 		</div>
 	);

@@ -12,7 +12,7 @@ import styles from './FormPurchaseOrder.module.css';
 import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 
-const FormPurchaseOrder = ({ oeuvreId = undefined, poNumber = undefined }) => {
+const FormPurchaseOrder = ({ oeuvre = undefined, poNumber = undefined }) => {
 	const { showModalConfirm } = useUiContext();
 	const {
 		form,
@@ -23,13 +23,13 @@ const FormPurchaseOrder = ({ oeuvreId = undefined, poNumber = undefined }) => {
 		onCancel,
 	} = useForm();
 	const { loggedUser } = usePurchaseOrderContext();
-	const { GEN_INFO_INPUTS, ITEMS_INPUTS } = useInputs();
+	const { GEN_INFO_INPUTS, ITEMS_INPUTS } = useInputs(oeuvre);
 	const [purchaseOrderToEdit, setpurchaseOrderToEdit] = useState({});
 	const isLastApprover = loggedUser?.approver_role === 'approver4';
 
 	const setPurchaseOrderToEdit = async () => {
 		const data = await getPurchaseOrderByNumber({
-			oeuvreId,
+			oeuvreId: oeuvre?.id,
 			poNumber,
 			includeEvents: false,
 		});
@@ -54,7 +54,7 @@ const FormPurchaseOrder = ({ oeuvreId = undefined, poNumber = undefined }) => {
 		<div className={styles.formWrapper}>
 			<Form
 				form={form}
-				onFinish={() => sendForApproval(oeuvreId)}
+				onFinish={() => sendForApproval(oeuvre?.id)}
 				onFinishFailed={sendForApprovalFailed}
 				layout='vertical'
 				autoComplete='off'
@@ -85,7 +85,7 @@ const FormPurchaseOrder = ({ oeuvreId = undefined, poNumber = undefined }) => {
 						<Button
 							type='primary'
 							size='large'
-							onClick={() => saveAsDraft(oeuvreId)}
+							onClick={() => saveAsDraft(oeuvre?.id)}
 							style={{ width: 200 }}
 							disabled={poNumber && purchaseOrderToEdit?.status !== 'Borrador'}
 						>
