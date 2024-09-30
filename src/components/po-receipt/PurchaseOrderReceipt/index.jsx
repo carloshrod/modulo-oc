@@ -5,7 +5,6 @@ import { Button } from 'antd';
 import { GiReceiveMoney } from 'react-icons/gi';
 import Toolbar from '@/components/ui/Toolbar';
 import InfoReceiptPo from '../InfoReceiptPo';
-import TableToolbar from '@/components/ui/TableToolbar';
 import TablePoReceipts from '../TablePoReceipts';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
@@ -51,13 +50,7 @@ const PurchaseOrderReceipt = ({ oeuvreId }) => {
 			<InfoReceiptPo />
 		</>
 	) : (
-		<>
-			<TableToolbar
-				table='receipts'
-				onClick={() => router.push(`${pathname}/recibir-oc`)}
-			/>
-			<TablePoReceipts />
-		</>
+		<TablePoReceipts oeuvreId={oeuvreId} />
 	);
 };
 

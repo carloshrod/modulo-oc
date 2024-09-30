@@ -3,32 +3,91 @@ import ExcelJS from 'exceljs';
 
 export const generatePoExcelData = purchaseOrders => {
 	try {
-		const poExcelData =
-			purchaseOrders?.length > 0 &&
-			purchaseOrders?.map(po => {
-				return {
-					'N° OC': po.number,
-					'Nombre OC': po.name,
-					'Rut Proveedor': po.supplier_rut ?? '--',
-					'Nombre Proveedor': po.supplier_name ?? '--',
-					'Fecha de Creación': po?.created_at
-						? moment(po.created_at).format('YYYY/MM/DD')
-						: '--',
-					'Fecha de Aprobación': po?.approval_date
-						? moment(po.approval_date).format('YYYY/MM/DD')
-						: '--',
-					'Monto Total': `$ ${new Intl.NumberFormat('es-ES').format(po.total) ?? '--'}`,
-					'Estado OC': po.status,
-				};
+		if (purchaseOrders?.length > 0) {
+			const poExcelData = [];
+
+			purchaseOrders?.forEach(po => {
+				po?.items?.forEach(item => {
+					const data = {
+						'N° OC': po.number,
+						'NOMBRE OC': po.name,
+						FECHA: po?.created_at
+							? moment(po.created_at).format('YYYY/MM/DD')
+							: '--',
+						'RUT PROVEEDOR': po.supplier_rut ?? '--',
+						PROVEEDOR: po.supplier_name ?? '--',
+						SKU: item?.general_item?.sku,
+						ARTÍCULO: item?.general_item?.name,
+						DESCRIPCIÓN: item?.description,
+						'UNIDAD DE MEDIDA': item.measurement_unit,
+						MONEDA: po.currency_type,
+						'ESTADO OC': po.status,
+						CANTIDAD: item.quantity,
+						'CANTIDAD RECEP.': item.received_quantity ?? 0,
+						'CANTIDAD POR RECEP.': item.quantity_to_receive,
+						'PRECIO UNITARIO': item.unit_price,
+						MONTO: item.subtotal,
+						'MONTO RECEP.': item.received_amount ?? 0,
+						'MONTO POR RECEP.': item.amount_to_receive,
+						'CUENTA DE COSTOS': item?.account_cost?.identifier,
+					};
+
+					poExcelData.push(data);
+				});
 			});
 
-		return poExcelData;
+			return poExcelData;
+		}
 	} catch (error) {
 		console.error(error);
 	}
 };
 
-export const downloadExcel = async data => {
+export const generatePoReceiptsExcelData = purchaseOrders => {
+	try {
+		if (purchaseOrders?.length > 0) {
+			const poReceiptsExcelData = [];
+
+			purchaseOrders?.forEach(po => {
+				po?.itemReceipts?.forEach(itemReceipt => {
+					const data = {
+						'ID RECEP.': itemReceipt.id,
+						'FECHA DE CREACIÓN': itemReceipt.created_at
+							? moment(itemReceipt.created_at).format('YYYY/MM/DD')
+							: '--',
+						'FECHA RECEP.': itemReceipt.receipt_date
+							? moment(itemReceipt.receipt_date).format('YYYY/MM/DD')
+							: '--',
+						'TIPO DOCUMENTO': itemReceipt.doc_type,
+						'N° DOCUMENTO': itemReceipt.doc_number,
+						'ESTADO RECEPCIÓN': itemReceipt.status,
+						'N° ORDEN DE COMPRA': po.number,
+						'RUT PROVEEDOR': po.supplier_rut ?? '--',
+						PROVEEDOR: po.supplier_name ?? '--',
+						SKU: itemReceipt?.item?.general_item?.sku,
+						ARTÍCULO: itemReceipt?.item?.general_item?.name,
+						DESCRIPCIÓN: itemReceipt?.item?.description,
+						'UNIDAD DE MEDIDA': itemReceipt?.item?.measurement_unit,
+						'CANTIDAD RECEP.': itemReceipt.received_quantity ?? 0,
+						'PRECIO UNITARIO': itemReceipt?.item?.unit_price,
+						'MONTO RECIBIDO': itemReceipt.received_amount ?? 0,
+						'CUENTA DE COSTOS': itemReceipt?.item?.account_cost?.identifier,
+						'NOMBRE CUENTA': itemReceipt?.item?.account_cost?.name,
+						'NOMBRE OBRA': po.oeuvre.oeuvre_name,
+					};
+
+					poReceiptsExcelData.push(data);
+				});
+			});
+
+			return poReceiptsExcelData;
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const downloadExcel = async (data, prefix) => {
 	try {
 		if (data?.length > 0) {
 			const workbook = new ExcelJS.Workbook();
@@ -36,13 +95,8 @@ export const downloadExcel = async data => {
 
 			const headers = Object.keys(data[0]);
 			worksheet.addRow(headers);
-			headers.forEach((header, index) => {
+			headers.forEach((_header, index) => {
 				const cell = worksheet.getCell(1, index + 1);
-				cell.fill = {
-					type: 'pattern',
-					pattern: 'solid',
-					fgColor: { argb: '0D6EFD' },
-				};
 				cell.font = { bold: true };
 				cell.alignment = { vertical: 'middle', horizontal: 'center' };
 			});
@@ -50,7 +104,7 @@ export const downloadExcel = async data => {
 			data.forEach(item => {
 				const row = worksheet.addRow(Object.values(item));
 				row.eachCell(cell => {
-					cell.alignment = { vertical: 'middle', horizontal: 'center' }; // Centrando el contenido en cada celda
+					cell.alignment = { vertical: 'middle', horizontal: 'center' };
 				});
 			});
 
@@ -63,7 +117,7 @@ export const downloadExcel = async data => {
 
 			const link = document.createElement('a');
 			link.href = URL.createObjectURL(blob);
-			link.download = `OCS-${moment(new Date()).format('YYYYMMDDHHmmss')}.xlsx`;
+			link.download = `${prefix}-${moment(new Date()).format('YYYYMMDDHHmmss')}.xlsx`;
 			link.click();
 		}
 	} catch (error) {

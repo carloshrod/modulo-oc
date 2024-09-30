@@ -1,18 +1,50 @@
 import { Button, Tooltip } from 'antd';
 import { IoAdd, IoDownloadOutline } from 'react-icons/io5';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
-import { downloadExcel } from '@/utils/documents';
+import {
+	downloadExcel,
+	generatePoExcelData,
+	generatePoReceiptsExcelData,
+} from '@/utils/documents';
 import styles from './Toolbar.module.css';
+import { fetchData } from '@/services/utils';
 
-const TableToolbar = ({ table, excelData, onClick }) => {
+const TableToolbar = ({ oeuvreId, table, noData, onClick }) => {
 	const { loggedUser } = usePurchaseOrderContext();
-	const BTN_LABELS = {
-		oc: 'Generar OC',
-		receipts: 'Recibir OC',
+	const isTableOc = table === 'oc';
+	const disableGenerateOc =
+		isTableOc && loggedUser?.approver_role === 'approver4';
+
+	const getPurchaseOrdersByOeuvre = async () => {
+		return await fetchData(`/purchase-orders/${oeuvreId}?includeItems=true`);
 	};
 
-	const disableGenerateOc =
-		table === 'oc' && loggedUser?.approver_role === 'approver4';
+	const getPoWithReceipts = async () => {
+		return await fetchData(
+			`/purchase-orders/${oeuvreId}?includeItemReceipts=true`,
+		);
+	};
+
+	const handleDownloadExcel = async () => {
+		try {
+			const data = isTableOc
+				? await getPurchaseOrdersByOeuvre()
+				: await getPoWithReceipts();
+
+			const excelData =
+				data &&
+				(isTableOc
+					? generatePoExcelData(data)
+					: generatePoReceiptsExcelData(data));
+
+			if (excelData) {
+				const prefix = isTableOc ? 'OCS' : 'RCPS';
+				downloadExcel(excelData, prefix);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	return (
 		<section className={styles.toolbar}>
@@ -22,7 +54,8 @@ const TableToolbar = ({ table, excelData, onClick }) => {
 					ghost
 					icon={<IoDownloadOutline size={20} />}
 					iconPosition='end'
-					onClick={() => downloadExcel(excelData)}
+					onClick={handleDownloadExcel}
+					disabled={noData}
 				>
 					Descargar Excel
 				</Button>
@@ -37,9 +70,9 @@ const TableToolbar = ({ table, excelData, onClick }) => {
 						type='primary'
 						icon={<IoAdd size={30} />}
 						onClick={onClick}
-						disabled={disableGenerateOc}
+						disabled={disableGenerateOc || noData}
 					>
-						{BTN_LABELS[table]}
+						{isTableOc ? 'Generar OC' : 'Recibir OC'}
 					</Button>
 				</Tooltip>
 			</div>
