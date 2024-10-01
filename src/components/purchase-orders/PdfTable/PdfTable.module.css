@@ -1,0 +1,26 @@
+.tableContainer {
+  margin-top: 12px;
+}
+
+.tableContainer table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableContainer th,
+.tableContainer td {
+  padding: 8px;
+  border: none;
+}
+
+.tableContainer table,
+.tableContainer table th,
+.tableContainer table td {
+  border: 1px solid black;
+}
+
+.tableContainer table .notes {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 32px;
+}

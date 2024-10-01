@@ -1,8 +1,6 @@
 .pdfContainer {
-  height: 500px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 16px;
   margin-bottom: 24px;
   background-color: #fff;
 }

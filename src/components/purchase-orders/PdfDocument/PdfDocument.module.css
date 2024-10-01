@@ -1,0 +1,76 @@
+.pdf {
+  font-size: 10px;
+}
+
+.pdf .header {
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pdf h2,
+.pdf h5 {
+  text-align: center;
+}
+
+.pdf .supplierInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.pdf .supplierInfo div .row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.pdf .supplierInfo .label {
+  font-weight: bold;
+}
+
+.pdf .supplierInfo .left .label {
+  width: 60px;
+}
+
+.pdf .supplierInfo .right .label {
+  width: 80px;
+}
+
+.pdf .bottomInfo {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.pdf .bottomInfo .subtitle {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+
+.pdf .bottomInfo div .row {
+  display: flex;
+  gap: 8px;
+}
+
+.pdf .bottomInfo .label {
+  font-weight: bold;
+}
+
+.pdf .bottomInfo .right,
+.pdf .bottomInfo .left {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 0 1;
+  justify-content: space-between;
+}
+
+.pdf .bottomInfo .left .label {
+  width: 60px;
+}
+
+.pdf .bottomInfo .right .label {
+  width: 80px;
+}
