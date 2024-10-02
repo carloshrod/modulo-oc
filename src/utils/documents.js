@@ -23,11 +23,11 @@ export const generatePoExcelData = purchaseOrders => {
 						MONEDA: po.currency_type,
 						'ESTADO OC': po.status,
 						CANTIDAD: item.quantity,
-						'CANTIDAD RECEP.': item.received_quantity ?? 0,
+						'CANTIDAD RECEP.': item.total_received_quantity ?? 0,
 						'CANTIDAD POR RECEP.': item.quantity_to_receive,
 						'PRECIO UNITARIO': item.unit_price,
 						MONTO: item.subtotal,
-						'MONTO RECEP.': item.received_amount ?? 0,
+						'MONTO RECEP.': item.total_received_amount ?? 0,
 						'MONTO POR RECEP.': item.amount_to_receive,
 						'CUENTA DE COSTOS': item?.account_cost?.identifier,
 					};
