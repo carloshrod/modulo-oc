@@ -9,7 +9,6 @@ const GeneralInfoInputs = ({ inputs, form }) => {
 	const { INPUT_TYPES } = useInputs();
 
 	const normFile = e => {
-		console.log('Upload event:', e);
 		if (Array.isArray(e)) {
 			return e;
 		}
@@ -110,7 +109,13 @@ const GeneralInfoInputs = ({ inputs, form }) => {
 						getValueFromEvent={normFile}
 						extra='Sólo en formatos PDF, JPG, PNG, XLXS'
 					>
-						<Upload name='logo' listType='picture' multiple maxCount={5}>
+						<Upload
+							name='logo'
+							listType='picture'
+							multiple
+							maxCount={5}
+							accept='.pdf,.jpg,.jpeg,.png,.xlsx'
+						>
 							<Button
 								icon={<UploadOutlined />}
 								style={{ whiteSpace: 'normal', height: '38px' }}

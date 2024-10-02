@@ -30,7 +30,7 @@ export default function Home() {
 			style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: 24 }}
 		>
 			<h3>Home</h3>
-			<h4>Iniciar sesión como:</h4>
+			<h3>Iniciar sesión como:</h3>
 			<Button
 				type='primary'
 				size='large'
@@ -40,6 +40,9 @@ export default function Home() {
 			>
 				Administrador - No Aprobador
 			</Button>
+			<h4 style={{ color: '#1677FF' }}>
+				Usuarios aprobadores de la obra con ID 1 - OBRA SIN PERIODO TERMINO:
+			</h4>
 			<Button
 				type='primary'
 				size='large'

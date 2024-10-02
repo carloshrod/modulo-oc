@@ -15,6 +15,7 @@ import {
 import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import { UI_TYPES } from '@/context/ui/uiActions';
 import { validateItemReceipts, validatePoItems } from '@/utils/purchaseOrder';
+import { generateFormData } from './generateFormData';
 
 const { HIDE_MODAL_FORM, HIDE_DRAWER } = UI_TYPES;
 const { UPDATE_PURCHASE_ORDER, CREATE_GENERAL_ITEM, UPDATE_RECEIPT } = PO_TYPES;
@@ -30,6 +31,10 @@ const useForm = () => {
 	const sendForApproval = async oeuvreId => {
 		try {
 			const values = await form.getFieldsValue(true);
+			const filesToKeep = [];
+			values?.attachments?.map(file => {
+				return 'id' in file && filesToKeep.push(file.id);
+			});
 
 			const purchaseOrderToApprove = {
 				...values,
@@ -37,9 +42,11 @@ const useForm = () => {
 				submittedBy: loggedUser?.id,
 				status: 'En revisión',
 				discount: values?.discount ?? 0,
+				filesToKeep,
 			};
 
-			const res = await SendPoForApproveFromForm(purchaseOrderToApprove);
+			const formData = generateFormData(purchaseOrderToApprove);
+			const res = await SendPoForApproveFromForm(formData, values?.id);
 
 			if (res.status === 200) {
 				showModalNotification({
@@ -77,15 +84,23 @@ const useForm = () => {
 			const values = await form.getFieldsValue(true);
 			const validItems = validatePoItems(values?.items);
 
+			const filesToKeep = [];
+			values?.attachments?.map(file => {
+				return 'id' in file && filesToKeep.push(file.id);
+			});
+
 			const purchaseOrder = {
 				...values,
 				oeuvre_id: oeuvreId,
 				submittedBy: loggedUser?.id,
 				status: 'Borrador',
 				items: validItems,
+				filesToKeep,
 			};
 
-			const res = await savePurchaseOrder(purchaseOrder);
+			const formData = generateFormData(purchaseOrder);
+			const res = await savePurchaseOrder(formData, values?.id);
+
 			if (res.status === 200) {
 				showModalNotification({
 					notificationText: 'OC guardada como borrador exitosamente',

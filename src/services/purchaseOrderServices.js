@@ -18,24 +18,18 @@ export const getPurchaseOrderByNumber = async ({
 	}
 };
 
-export const savePurchaseOrder = async purchaseOrder => {
-	const res = !purchaseOrder?.id
+export const savePurchaseOrder = async (purchaseOrder, poId) => {
+	const res = !poId
 		? await axios.post(`${env.API_URL}/purchase-orders`, purchaseOrder)
-		: await axios.put(
-				`${env.API_URL}/purchase-orders/${purchaseOrder.id}`,
-				purchaseOrder,
-			);
+		: await axios.put(`${env.API_URL}/purchase-orders/${poId}`, purchaseOrder);
 
 	return res;
 };
 
-export const SendPoForApproveFromForm = async purchaseOrder => {
-	const res = !purchaseOrder.id
+export const SendPoForApproveFromForm = async (purchaseOrder, poId) => {
+	const res = !poId
 		? await axios.post(`${env.API_URL}/purchase-orders`, purchaseOrder)
-		: await axios.put(
-				`${env.API_URL}/purchase-orders/${purchaseOrder.id}`,
-				purchaseOrder,
-			);
+		: await axios.put(`${env.API_URL}/purchase-orders/${poId}`, purchaseOrder);
 
 	return res;
 };
