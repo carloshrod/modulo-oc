@@ -70,7 +70,7 @@ const TableToolbar = ({ oeuvreId, table, noData, onClick }) => {
 						type='primary'
 						icon={<IoAdd size={30} />}
 						onClick={onClick}
-						disabled={disableGenerateOc || noData}
+						disabled={disableGenerateOc || (!isTableOc && noData)}
 					>
 						{isTableOc ? 'Generar OC' : 'Recibir OC'}
 					</Button>
