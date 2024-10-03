@@ -35,20 +35,14 @@ export const SendPoForApproveFromForm = async (purchaseOrder, poId) => {
 };
 
 export const sendPurchaseOrderForApprove = async options => {
-	try {
-		const { purchaseOrderId, submittedBy } = options;
-		const res = await axios.patch(
-			`${env.API_URL}/purchase-orders/${purchaseOrderId}`,
-			{
-				submittedBy,
-			},
-		);
-		if (res.status === 200) {
-			return res.data;
-		}
-	} catch (error) {
-		console.error(error);
-	}
+	const { purchaseOrderId, submittedBy } = options;
+	const res = await axios.patch(
+		`${env.API_URL}/purchase-orders/${purchaseOrderId}`,
+		{
+			submittedBy,
+		},
+	);
+	return res;
 };
 
 export const rejectPurchaseOrder = async (purchaseOrderId, data) => {

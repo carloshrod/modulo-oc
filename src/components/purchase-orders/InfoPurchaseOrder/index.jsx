@@ -49,19 +49,29 @@ const InfoPurchaseOrder = ({ oeuvreId }) => {
 	const handleApproval = () => {
 		showModalConfirm(
 			async () => {
-				const data = await sendPurchaseOrderForApprove({
-					purchaseOrderId: purchaseOrder.id,
-					submittedBy: loggedUser.id,
-				});
-				if (data) {
-					poDispatch({
-						type: UPDATE_PURCHASE_ORDER,
-						payload: data.purchaseOrder,
+				try {
+					const res = await sendPurchaseOrderForApprove({
+						purchaseOrderId: purchaseOrder.id,
+						submittedBy: loggedUser.id,
 					});
+					if (res.status === 200) {
+						poDispatch({
+							type: UPDATE_PURCHASE_ORDER,
+							payload: res.data.purchaseOrder,
+						});
+						showModalNotification({
+							notificationText: res.data.message,
+						});
+						uiDispatch({ type: HIDE_DRAWER });
+					}
+				} catch (error) {
+					console.error(error);
+					const errorMessage =
+						error?.response?.data?.message ?? 'Ocurrió un error inesperado';
 					showModalNotification({
-						notificationText: data.message,
+						success: false,
+						notificationText: errorMessage,
 					});
-					uiDispatch({ type: HIDE_DRAWER });
 				}
 			},
 			{
