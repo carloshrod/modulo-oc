@@ -218,7 +218,7 @@ const useForm = () => {
 				receipt_date,
 				doc_type,
 				doc_number,
-				discount: values?.discount ?? 0,
+				discount: values?.discount || 0,
 				net_total,
 			});
 			if (res.status === 200) {
