@@ -6,15 +6,13 @@ import FormItem from '../FormItem';
 import useUiContext from '@/hooks/useUiContext';
 import useInputs from '@/hooks/useInputs';
 import styles from './ItemInputs.module.css';
-import { UI_TYPES } from '@/context/ui/uiActions';
-
-const { SHOW_MODAL_FORM } = UI_TYPES;
 
 const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 	const IVA_RATE = 0.19;
-	const { dispatch } = useUiContext();
+	const { showModalForm } = useUiContext();
 	const { INPUT_TYPES, CALCULATION_INPUTS } = useInputs();
-	const exchangeRate = Form.useWatch('exchange_rate') ?? 1;
+	const exchangeRate =
+		Form.useWatch('exchange_rate') || form.getFieldValue('exchange_rate');
 
 	useEffect(() => {
 		const items = form.getFieldValue('items');
@@ -69,16 +67,19 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 
 		if (field === 'received_quantity') {
 			receivedQuantity = value;
-			receivedAmount = receivedQuantity * unitPrice;
+			receivedAmount =
+				receivedQuantity * (unitPrice * parseFloat(exchangeRate));
 
 			if (receivedAmount > subtotal) {
 				receivedAmount = subtotal;
-				receivedQuantity = receivedAmount / unitPrice;
+				receivedQuantity =
+					receivedAmount / (unitPrice * parseFloat(exchangeRate));
 			}
 
 			if (receivedQuantity > quantity_to_receive) {
 				receivedQuantity = quantity_to_receive;
-				receivedAmount = receivedQuantity * unitPrice;
+				receivedAmount =
+					receivedQuantity * (unitPrice * parseFloat(exchangeRate));
 			}
 		} else if (field === 'received_amount') {
 			receivedAmount = value;
@@ -87,11 +88,13 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 				receivedAmount = subtotal;
 			}
 
-			receivedQuantity = receivedAmount / unitPrice;
+			receivedQuantity =
+				receivedAmount / (unitPrice * parseFloat(exchangeRate));
 
 			if (receivedQuantity > quantity_to_receive) {
 				receivedQuantity = quantity_to_receive;
-				receivedAmount = receivedQuantity * unitPrice;
+				receivedAmount =
+					receivedQuantity * (unitPrice * parseFloat(exchangeRate));
 			}
 		}
 
@@ -113,6 +116,8 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 	const updateReceiptCalculations = () => {
 		const items = form.getFieldValue('items') || [];
 		const discount = form.getFieldValue('discount') || 0;
+
+		console.log(exchangeRate);
 
 		const netTotal =
 			items.reduce(
@@ -143,12 +148,9 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 	};
 
 	const handleAddItem = () => {
-		dispatch({
-			type: SHOW_MODAL_FORM,
-			payload: {
-				title: 'Agregar Artículo',
-				children: <FormItem />,
-			},
+		showModalForm({
+			title: 'Agregar Artículo',
+			children: <FormItem />,
 		});
 	};
 
