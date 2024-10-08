@@ -7,14 +7,11 @@ import {
 import { useEffect, useState } from 'react';
 import usePurchaseOrderContext from './usePurchaseOrderContext';
 import { fetchData } from '@/services/utils';
-import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
-
-const { GET_ALL_GENERAL_ITEMS } = PO_TYPES;
 
 const useInputs = (oeuvre = undefined) => {
 	const [suppliers, setSuppliers] = useState([]);
 	const [accountCosts, setAccountCosts] = useState([]);
-	const { generalItems, dispatch } = usePurchaseOrderContext();
+	const { generalItems, setGeneralItems } = usePurchaseOrderContext();
 
 	const fetchSuppliers = async () => {
 		const data = await fetchData('/suppliers');
@@ -24,7 +21,7 @@ const useInputs = (oeuvre = undefined) => {
 	const fetchGeneralItems = async () => {
 		const data = await fetchData('/general-items');
 		if (data) {
-			dispatch({ type: GET_ALL_GENERAL_ITEMS, payload: data });
+			setGeneralItems(data);
 		}
 	};
 

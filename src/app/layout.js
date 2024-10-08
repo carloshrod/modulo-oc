@@ -1,8 +1,8 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
-import UiProvider from '@/context/ui/UiContext';
-import PurchaseOrderProvider from '@/context/purchase-order/PurchaseOrderContext';
+import UiProvider from '@/context/UiContext';
+import PurchaseOrderProvider from '@/context/PurchaseOrderContext';
 
 const inter = Inter({ subsets: ['latin'] });
 

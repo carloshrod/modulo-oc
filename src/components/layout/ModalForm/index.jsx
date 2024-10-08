@@ -1,14 +1,11 @@
 'use client';
 import { Modal } from 'antd';
 import useUiContext from '@/hooks/useUiContext';
-import { UI_TYPES } from '@/context/ui/uiActions';
-
-const { HIDE_MODAL_FORM } = UI_TYPES;
 
 const ModalForm = () => {
 	const {
 		modalForm: { isOpen, title, children },
-		dispatch,
+		hideModalForm,
 	} = useUiContext();
 
 	return (
@@ -21,7 +18,7 @@ const ModalForm = () => {
 				autoFocus: true,
 				htmlType: 'submit',
 			}}
-			onCancel={() => dispatch({ type: HIDE_MODAL_FORM })}
+			onCancel={hideModalForm}
 			destroyOnClose
 			centered
 			width={450}

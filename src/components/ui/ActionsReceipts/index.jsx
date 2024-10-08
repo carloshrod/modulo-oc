@@ -4,12 +4,10 @@ import { GiReceiveMoney } from 'react-icons/gi';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
-import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
-
-const { GET_ONE_PURCHASE_ORDER, GET_PURCHASE_ORDER_TO_RECEIVE } = PO_TYPES;
 
 const ActionsReceipts = ({ record }) => {
-	const { dispatch: poDispatch } = usePurchaseOrderContext();
+	const { setPurchaseOrder, setPurchaseOrderToReceive } =
+		usePurchaseOrderContext();
 	const router = useRouter();
 	const pathname = usePathname();
 
@@ -18,10 +16,8 @@ const ActionsReceipts = ({ record }) => {
 			oeuvreId: record?.oeuvre_id,
 			poNumber,
 		});
-		poDispatch({
-			type: GET_ONE_PURCHASE_ORDER,
-			payload: data,
-		});
+
+		setPurchaseOrder(data);
 	};
 
 	const handleReceivePo = async poNumber => {
@@ -29,10 +25,7 @@ const ActionsReceipts = ({ record }) => {
 			oeuvreId: record?.oeuvre_id,
 			poNumber,
 		});
-		poDispatch({
-			type: GET_PURCHASE_ORDER_TO_RECEIVE,
-			payload: data,
-		});
+		setPurchaseOrderToReceive(data);
 		router.push(`${pathname}/recibir-oc`);
 	};
 

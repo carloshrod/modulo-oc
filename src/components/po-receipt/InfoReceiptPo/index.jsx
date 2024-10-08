@@ -4,20 +4,17 @@ import styles from './InfoReceiptPO.module.css';
 import { getReceiptsByPurchaseOrder } from '@/services/purchaseOrderServices';
 import { useEffect } from 'react';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
-import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import CustomEmpty from '@/components/ui/CustomEmpty';
 
-const { GET_RECEIPTS } = PO_TYPES;
-
 const InfoReceiptPo = () => {
-	const { purchaseOrder, receipts, dispatch } = usePurchaseOrderContext();
+	const { purchaseOrder, receipts, setReceipts } = usePurchaseOrderContext();
 	const { id, name, gloss, supplier_rut, supplier_name } = purchaseOrder;
 	const { itemsReceiptsPoColumns, receiptsHistoryColumns } = useTableColumns();
 
 	const fetchReceipts = async () => {
 		if (purchaseOrder?.id) {
 			const data = await getReceiptsByPurchaseOrder(purchaseOrder.id);
-			dispatch({ type: GET_RECEIPTS, payload: data });
+			setReceipts(data);
 		}
 	};
 

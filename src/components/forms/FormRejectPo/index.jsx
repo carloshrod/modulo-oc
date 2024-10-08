@@ -1,15 +1,12 @@
-import { UI_TYPES } from '@/context/ui/uiActions';
+import { Button, Form, Input } from 'antd';
 import useForm from '@/hooks/useForm';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import useUiContext from '@/hooks/useUiContext';
-import { Button, Form, Input } from 'antd';
 const { TextArea } = Input;
-
-const { HIDE_MODAL_FORM } = UI_TYPES;
 
 const FormRejectPo = ({ purchaseOrderId }) => {
 	const { form, rejectPo } = useForm();
-	const { dispatch } = useUiContext();
+	const { hideModalForm } = useUiContext();
 	const { loggedUser } = usePurchaseOrderContext();
 
 	return (
@@ -47,7 +44,7 @@ const FormRejectPo = ({ purchaseOrderId }) => {
 					type='primary'
 					size='large'
 					ghost
-					onClick={() => dispatch({ type: HIDE_MODAL_FORM })}
+					onClick={hideModalForm}
 					style={{ width: 130, marginRight: 12 }}
 				>
 					Cancelar

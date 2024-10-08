@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { UiContext } from '@/context/ui/UiContext';
+import { UiContext } from '@/context/UiContext';
 
 const useUiContext = () => useContext(UiContext);
 

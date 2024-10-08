@@ -1,9 +1,6 @@
 'use client';
-import { UI_TYPES } from '@/context/ui/uiActions';
 import useUiContext from '@/hooks/useUiContext';
 import { Modal } from 'antd';
-
-const { HIDE_MODAL } = UI_TYPES;
 
 const CustomModal = () => {
 	const {
@@ -19,7 +16,7 @@ const CustomModal = () => {
 			success,
 			onConfirm,
 		},
-		dispatch,
+		hideModal,
 	} = useUiContext();
 
 	const confirmModal = () => {
@@ -34,7 +31,7 @@ const CustomModal = () => {
 			centered
 			open={isOpen}
 			onOk={confirmModal}
-			onCancel={() => dispatch({ type: HIDE_MODAL })}
+			onCancel={hideModal}
 			cancelButtonProps={{
 				size: 'large',
 				type: 'primary',

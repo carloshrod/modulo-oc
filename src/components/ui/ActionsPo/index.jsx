@@ -7,20 +7,12 @@ import useUiContext from '@/hooks/useUiContext';
 import InfoPurchaseOrder from '@/components/purchase-orders/InfoPurchaseOrder';
 import { cancelPurchaseOrder } from '@/services/purchaseOrderServices';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
-import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
-import { UI_TYPES } from '@/context/ui/uiActions';
 import { checkIsDeletable, checkIsEditable } from '@/components/utils';
 
-const { SHOW_DRAWER } = UI_TYPES;
-const { UPDATE_PURCHASE_ORDER } = PO_TYPES;
-
 export const ActionsPo = ({ record }) => {
-	const {
-		showModalConfirm,
-		showModalNotification,
-		dispatch: uiDispatch,
-	} = useUiContext();
-	const { loggedUser, dispatch: poDispatch } = usePurchaseOrderContext();
+	const { showModalConfirm, showModalNotification, showDrawer } =
+		useUiContext();
+	const { loggedUser, updatePurchaseOrder } = usePurchaseOrderContext();
 	const router = useRouter();
 	const pathname = usePathname();
 
@@ -28,12 +20,9 @@ export const ActionsPo = ({ record }) => {
 	const isDeletable = checkIsDeletable(record, loggedUser);
 
 	const handleShowDrawer = () =>
-		uiDispatch({
-			type: SHOW_DRAWER,
-			payload: {
-				title: record.number,
-				children: <InfoPurchaseOrder oeuvreId={record?.oeuvre_id} />,
-			},
+		showDrawer({
+			title: record.number,
+			children: <InfoPurchaseOrder oeuvreId={record?.oeuvre_id} />,
 		});
 
 	const handleDelete = () => {
@@ -41,10 +30,7 @@ export const ActionsPo = ({ record }) => {
 			async () => {
 				const res = await cancelPurchaseOrder(record.id, loggedUser?.id);
 				if (res.status === 200) {
-					poDispatch({
-						type: UPDATE_PURCHASE_ORDER,
-						payload: { ...record, status: res.data.newStatus },
-					});
+					updatePurchaseOrder({ ...record, status: res.data.newStatus });
 					showModalNotification({
 						notificationText: res.data.message,
 					});

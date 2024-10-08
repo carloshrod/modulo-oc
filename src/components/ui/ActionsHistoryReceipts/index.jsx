@@ -4,25 +4,21 @@ import { IoDocumentTextOutline } from 'react-icons/io5';
 import { AiOutlineDelete } from 'react-icons/ai';
 import FormInvoice from '@/components/forms/FormInvoice';
 import useUiContext from '@/hooks/useUiContext';
-import { UI_TYPES } from '@/context/ui/uiActions';
 import {
 	cancelReceipt,
 	getPurchaseOrderByNumber,
 } from '@/services/purchaseOrderServices';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
-import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
-
-const { SHOW_MODAL_FORM } = UI_TYPES;
-const { GET_ONE_PURCHASE_ORDER, UPDATE_PURCHASE_ORDER, UPDATE_RECEIPT } =
-	PO_TYPES;
 
 const ActionsHistoryReceipts = ({ record }) => {
+	const { showModalConfirm, showModalNotification, showModalForm } =
+		useUiContext();
 	const {
-		showModalConfirm,
-		showModalNotification,
-		dispatch: uiDispatch,
-	} = useUiContext();
-	const { purchaseOrder, dispatch: poDispatch } = usePurchaseOrderContext();
+		purchaseOrder,
+		setPurchaseOrder,
+		updatePurchaseOrder,
+		updateReceipt,
+	} = usePurchaseOrderContext();
 	const isEditable = !record?.invoice_number && record?.status !== 'Anulada';
 
 	const handleCancelReceipt = () => {
@@ -30,26 +26,17 @@ const ActionsHistoryReceipts = ({ record }) => {
 			async () => {
 				const data = await cancelReceipt(record?.id);
 				if (data) {
-					poDispatch({
-						type: UPDATE_RECEIPT,
-						payload: {
-							...record,
-							status: 'Anulada',
-						},
+					updateReceipt({
+						...record,
+						status: 'Anulada',
 					});
 					const { oeuvre_id, number } = purchaseOrder;
 					const updatedPo = await getPurchaseOrderByNumber({
 						oeuvreId: oeuvre_id,
 						poNumber: number,
 					});
-					poDispatch({
-						type: GET_ONE_PURCHASE_ORDER,
-						payload: updatedPo,
-					});
-					poDispatch({
-						type: UPDATE_PURCHASE_ORDER,
-						payload: updatedPo,
-					});
+					setPurchaseOrder(updatedPo);
+					updatePurchaseOrder(updatedPo);
 					showModalNotification({
 						notificationText: data.message,
 					});
@@ -76,12 +63,9 @@ const ActionsHistoryReceipts = ({ record }) => {
 						/>
 					}
 					onClick={() =>
-						uiDispatch({
-							type: SHOW_MODAL_FORM,
-							payload: {
-								title: 'Ingresar N° Factura',
-								children: <FormInvoice receipt={record} />,
-							},
+						showModalForm({
+							title: 'Ingresar N° Factura',
+							children: <FormInvoice receipt={record} />,
 						})
 					}
 					disabled={!isEditable}

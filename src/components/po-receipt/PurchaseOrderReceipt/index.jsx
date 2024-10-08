@@ -8,18 +8,16 @@ import InfoReceiptPo from '../InfoReceiptPo';
 import TablePoReceipts from '../TablePoReceipts';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
-import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
-
-const { GET_ONE_PURCHASE_ORDER, GET_PURCHASE_ORDER_TO_RECEIVE } = PO_TYPES;
 
 const PurchaseOrderReceipt = ({ oeuvreId }) => {
-	const { purchaseOrder, dispatch } = usePurchaseOrderContext();
+	const { purchaseOrder, setPurchaseOrder, setPurchaseOrderToReceive } =
+		usePurchaseOrderContext();
 	const router = useRouter();
 	const pathname = usePathname();
 
 	useEffect(() => {
-		dispatch({ type: GET_ONE_PURCHASE_ORDER, payload: {} });
-		dispatch({ type: GET_PURCHASE_ORDER_TO_RECEIVE, payload: {} });
+		setPurchaseOrder({});
+		setPurchaseOrderToReceive({});
 	}, []);
 
 	const handleReceiveOc = async () => {
@@ -27,16 +25,13 @@ const PurchaseOrderReceipt = ({ oeuvreId }) => {
 			oeuvreId,
 			poNumber: purchaseOrder?.number,
 		});
-		dispatch({ type: GET_PURCHASE_ORDER_TO_RECEIVE, payload: data });
+		setPurchaseOrderToReceive(data);
 		router.push(`${pathname}/recibir-oc`);
 	};
 
 	return purchaseOrder?.number ? (
 		<>
-			<Toolbar
-				onClick={() => dispatch({ type: GET_ONE_PURCHASE_ORDER, payload: {} })}
-				back={false}
-			>
+			<Toolbar onClick={() => setPurchaseOrder({})} back={false}>
 				<Button
 					type='primary'
 					icon={<GiReceiveMoney size={20} />}

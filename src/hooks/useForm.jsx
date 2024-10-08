@@ -12,20 +12,21 @@ import {
 	receivePurchaseOrder,
 	addInvoice,
 } from '@/services/purchaseOrderServices';
-import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
-import { UI_TYPES } from '@/context/ui/uiActions';
 import { validateItemReceipts, validatePoItems } from '@/utils/purchaseOrder';
 import { generateFormData } from './generateFormData';
-
-const { HIDE_MODAL_FORM, HIDE_DRAWER } = UI_TYPES;
-const { UPDATE_PURCHASE_ORDER, CREATE_GENERAL_ITEM, UPDATE_RECEIPT } = PO_TYPES;
 
 const useForm = () => {
 	const [form] = Form.useForm();
 	const [itemError, setItemError] = useState(false);
 	const router = useRouter();
-	const { showModalNotification, dispatch: uiDispatch } = useUiContext();
-	const { loggedUser, dispatch: poDispatch } = usePurchaseOrderContext();
+	const { showModalNotification, hideDrawer, hideModalForm } = useUiContext();
+	const {
+		loggedUser,
+		generalItems,
+		setGeneralItems,
+		updatePurchaseOrder,
+		updateReceipt,
+	} = usePurchaseOrderContext();
 	const { ITEMS_INPUTS } = useInputs();
 
 	const sendForApproval = async oeuvreId => {
@@ -128,15 +129,12 @@ const useForm = () => {
 			});
 
 			if (data) {
-				poDispatch({
-					type: UPDATE_PURCHASE_ORDER,
-					payload: data.purchaseOrder,
-				});
-				uiDispatch({ type: HIDE_MODAL_FORM });
+				updatePurchaseOrder(data?.purchaseOrder);
+				hideModalForm();
 				showModalNotification({
 					notificationText: data.message,
 				});
-				uiDispatch({ type: HIDE_DRAWER });
+				hideDrawer();
 			}
 		} catch (error) {
 			console.error(error);
@@ -159,15 +157,12 @@ const useForm = () => {
 			const values = await form.getFieldsValue(true);
 			const data = await addInvoice(receipt?.id, values);
 			if (data) {
-				poDispatch({
-					type: UPDATE_RECEIPT,
-					payload: {
-						...receipt,
-						invoice_number: values.invoice_number,
-						status: 'Recepción con factura',
-					},
+				updateReceipt({
+					...receipt,
+					invoice_number: values.invoice_number,
+					status: 'Recepción con factura',
 				});
-				uiDispatch({ type: HIDE_MODAL_FORM });
+				hideModalForm();
 				showModalNotification({
 					notificationText: data?.message,
 				});
@@ -187,8 +182,8 @@ const useForm = () => {
 			const itemToCreate = { ...values, user_create: loggedUser?.id };
 			const data = await createGeneralItem(itemToCreate);
 			if (data) {
-				poDispatch({ type: CREATE_GENERAL_ITEM, payload: data });
-				uiDispatch({ type: HIDE_MODAL_FORM });
+				setGeneralItems([data, ...generalItems]);
+				hideModalForm();
 				showModalNotification({
 					notificationText: 'Artículo agregado exitosamente',
 				});

@@ -10,36 +10,27 @@ import {
 	getPurchaseOrderByNumber,
 	sendPurchaseOrderForApprove,
 } from '@/services/purchaseOrderServices';
-import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
-import styles from './InfoPurchaseOrder.module.css';
-import { UI_TYPES } from '@/context/ui/uiActions';
 import FormRejectPo from '@/components/forms/FormRejectPo';
 import CustomEmpty from '@/components/ui/CustomEmpty';
-
-const { HIDE_DRAWER, SHOW_MODAL_FORM } = UI_TYPES;
-const { GET_ONE_PURCHASE_ORDER, UPDATE_PURCHASE_ORDER } = PO_TYPES;
+import styles from './InfoPurchaseOrder.module.css';
 
 const InfoPurchaseOrder = ({ oeuvreId }) => {
 	const {
 		drawer: { title: poNumber },
 		showModalConfirm,
 		showModalNotification,
-		dispatch: uiDispatch,
+		hideDrawer,
+		showModalForm,
 	} = useUiContext();
-	const {
-		loggedUser,
-		purchaseOrder,
-		dispatch: poDispatch,
-	} = usePurchaseOrderContext();
+	const { loggedUser, purchaseOrder, setPurchaseOrder, updatePurchaseOrder } =
+		usePurchaseOrderContext();
 	const { infoPoColumns } = useTableColumns();
 	const isLastApprover = loggedUser.approver_role === 'approver4';
 
 	const fetchPurchaseOrder = async () => {
 		const data = await getPurchaseOrderByNumber({ oeuvreId, poNumber });
-		poDispatch({
-			type: GET_ONE_PURCHASE_ORDER,
-			payload: data,
-		});
+
+		setPurchaseOrder(data);
 	};
 
 	useEffect(() => {
@@ -55,14 +46,11 @@ const InfoPurchaseOrder = ({ oeuvreId }) => {
 						submittedBy: loggedUser.id,
 					});
 					if (res.status === 200) {
-						poDispatch({
-							type: UPDATE_PURCHASE_ORDER,
-							payload: res.data.purchaseOrder,
-						});
+						updatePurchaseOrder(res?.data?.purchaseOrder);
 						showModalNotification({
 							notificationText: res.data.message,
 						});
-						uiDispatch({ type: HIDE_DRAWER });
+						hideDrawer();
 					}
 				} catch (error) {
 					console.error(error);
@@ -83,12 +71,9 @@ const InfoPurchaseOrder = ({ oeuvreId }) => {
 	};
 
 	const handleRejection = () => {
-		uiDispatch({
-			type: SHOW_MODAL_FORM,
-			payload: {
-				title: 'Rechazar OC',
-				children: <FormRejectPo purchaseOrderId={purchaseOrder.id} />,
-			},
+		showModalForm({
+			title: 'Rechazar OC',
+			children: <FormRejectPo purchaseOrderId={purchaseOrder.id} />,
 		});
 	};
 

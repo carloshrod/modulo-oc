@@ -7,14 +7,12 @@ import LayoutIcon from '@/components/po-receipt/LayoutIcon';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import styles from './ReceivePurchaseOrderPage.module.css';
 import { fetchData } from '@/services/utils';
-import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-const { GET_ALL_PURCHASE_ORDERS } = PO_TYPES;
-
 const ReceivePurchaseOrderPage = () => {
-	const { purchaseOrderToReceive, dispatch } = usePurchaseOrderContext();
+	const { purchaseOrderToReceive, setPurchaseOrders } =
+		usePurchaseOrderContext();
 	const { slug } = useParams();
 	const [oeuvreId, setOeuvreId] = useState(null);
 
@@ -24,10 +22,8 @@ const ReceivePurchaseOrderPage = () => {
 		const data = await fetchData(`/purchase-orders/${oeuvre?.id}`);
 		const approvedOrders =
 			data?.length > 0 && data.filter(po => po.status === 'Aprobada');
-		dispatch({
-			type: GET_ALL_PURCHASE_ORDERS,
-			payload: approvedOrders,
-		});
+
+		setPurchaseOrders(approvedOrders);
 	};
 
 	useEffect(() => {

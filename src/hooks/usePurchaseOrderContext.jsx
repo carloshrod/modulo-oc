@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { PurchaseOrderContext } from '@/context/purchase-order/PurchaseOrderContext';
+import { PurchaseOrderContext } from '@/context/PurchaseOrderContext';
 
 const usePurchaseOrderContext = () => useContext(PurchaseOrderContext);
 

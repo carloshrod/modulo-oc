@@ -1,13 +1,10 @@
-import { UI_TYPES } from '@/context/ui/uiActions';
 import useForm from '@/hooks/useForm';
 import useUiContext from '@/hooks/useUiContext';
 import { Button, Form, Input } from 'antd';
 
-const { HIDE_MODAL_FORM } = UI_TYPES;
-
 const FormInvoice = ({ receipt }) => {
 	const { form, submitInvoice } = useForm();
-	const { dispatch } = useUiContext();
+	const { hideModalForm } = useUiContext();
 
 	return (
 		<Form
@@ -44,7 +41,7 @@ const FormInvoice = ({ receipt }) => {
 					type='primary'
 					size='large'
 					ghost
-					onClick={() => dispatch({ type: HIDE_MODAL_FORM })}
+					onClick={hideModalForm}
 					style={{ width: 130, marginRight: 12 }}
 				>
 					Cancelar

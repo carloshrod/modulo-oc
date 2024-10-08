@@ -4,13 +4,10 @@ import { SearchOutlined } from '@ant-design/icons';
 import usePurchaseOrderContext from '@/hooks/usePurchaseOrderContext';
 import { getPurchaseOrderByNumber } from '@/services/purchaseOrderServices';
 import { generateOcOptions } from '@/utils/selectOptions';
-import { PO_TYPES } from '@/context/purchase-order/purchaseOrderActions';
 import styles from './SearchInput.module.css';
 
-const { GET_PURCHASE_ORDER_TO_RECEIVE } = PO_TYPES;
-
 const SearchInput = ({ oeuvreId }) => {
-	const { purchaseOrders, purchaseOrderToReceive, dispatch } =
+	const { purchaseOrders, purchaseOrderToReceive, setPurchaseOrderToReceive } =
 		usePurchaseOrderContext();
 
 	const onChange = async value => {
@@ -19,9 +16,9 @@ const SearchInput = ({ oeuvreId }) => {
 				oeuvreId,
 				poNumber: value,
 			});
-			dispatch({ type: GET_PURCHASE_ORDER_TO_RECEIVE, payload: data });
+			setPurchaseOrderToReceive(data);
 		} else {
-			dispatch({ type: GET_PURCHASE_ORDER_TO_RECEIVE, payload: {} });
+			setPurchaseOrderToReceive({});
 		}
 	};
 
