@@ -117,8 +117,6 @@ const ItemInputs = ({ inputs, type = '', form, itemError = undefined }) => {
 		const items = form.getFieldValue('items') || [];
 		const discount = form.getFieldValue('discount') || 0;
 
-		console.log(exchangeRate);
-
 		const netTotal =
 			items.reduce(
 				(total, item) =>
