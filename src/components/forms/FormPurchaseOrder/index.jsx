@@ -26,6 +26,9 @@ const FormPurchaseOrder = ({ oeuvre = undefined, poNumber = undefined }) => {
 	const { GEN_INFO_INPUTS, ITEMS_INPUTS } = useInputs(oeuvre);
 	const [purchaseOrderToEdit, setpurchaseOrderToEdit] = useState({});
 	const isLastApprover = loggedUser?.approver_role === 'approver4';
+	const canApprove =
+		!purchaseOrderToEdit?.current_approver ||
+		purchaseOrderToEdit?.current_approver === loggedUser?.id;
 
 	const setPurchaseOrderToEdit = async () => {
 		const data = await getPurchaseOrderByNumber({
@@ -99,13 +102,16 @@ const FormPurchaseOrder = ({ oeuvre = undefined, poNumber = undefined }) => {
 							iconPosition='end'
 							onClick={() =>
 								showModalConfirm(() => form.submit(), {
-									title: `${isLastApprover ? '¿Deseas aprobar esta OC?' : '¿Deseas enviar OC a aprobación?'}`,
+									title: isLastApprover
+										? '¿Deseas aprobar esta OC?'
+										: '¿Deseas enviar OC a aprobación?',
 									subtitle: `${isLastApprover ? 'La OC podrá comenzar a ser recepcionada.' : 'Se enviará un correo a los aprobadores responsables para revisar tu OC.'}`,
 									okText: 'Aceptar',
 								})
 							}
+							disabled={!canApprove}
 						>
-							Enviar a aprobación
+							{isLastApprover ? 'Aprobar' : 'Enviar a aprobación'}
 						</Button>
 					</section>
 				</Form.Item>
